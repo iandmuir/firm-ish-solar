@@ -1,0 +1,7 @@
+{
+  "Gas CCGT": 0.07,
+  "Coal": 0.085,
+  "Nuclear": 0.07,
+  "Diesel": 0.15,
+  "Custom": 0.07
+}
