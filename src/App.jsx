@@ -44,60 +44,68 @@ export default function App() {
   }, [inputs])
 
   return (
-    <div style={{
-      display: 'flex',
-      flexDirection: 'column',
-      height: '100vh',
-      background: 'var(--navy-950)',
-      overflow: 'hidden',
-    }}>
-      <Header />
-
-      <div style={{
-        display: 'flex',
-        flex: 1,
-        overflow: 'hidden',
-        gap: 0,
-      }}>
-        {/* Input Panel — 40% */}
-        <div style={{
-          width: '40%',
-          minWidth: 320,
-          borderRight: '1px solid rgba(255,255,255,0.07)',
-          display: 'flex',
-          flexDirection: 'column',
-          overflow: 'hidden',
-        }}>
-          <InputPanel inputs={inputs} onChange={setInputs} results={results} />
-        </div>
-
-        {/* Results Panel — 60% */}
-        <div style={{
-          flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          overflow: 'hidden',
-        }}>
-          <ResultsPanel results={results} inputs={inputs} />
-        </div>
-      </div>
-
+    <>
       <style>{`
-        @media (max-width: 1023px) {
-          .app-layout {
-            flex-direction: column !important;
+        .app-root {
+          display: flex;
+          flex-direction: column;
+          height: 100vh;
+          background: var(--navy-950);
+          overflow: hidden;
+        }
+        .app-body {
+          display: flex;
+          flex-direction: row;
+          flex: 1;
+          overflow: hidden;
+          min-height: 0;
+        }
+        .app-input {
+          width: 40%;
+          min-width: 300px;
+          border-right: 1px solid rgba(255,255,255,0.07);
+          display: flex;
+          flex-direction: column;
+          overflow: hidden;
+        }
+        .app-results {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          overflow: hidden;
+          min-width: 0;
+        }
+
+        /* Portrait mobile: stack vertically, 50/50 split */
+        @media (max-width: 768px), (orientation: portrait) and (max-width: 1024px) {
+          .app-body {
+            flex-direction: column;
           }
-          .input-panel {
-            width: 100% !important;
-            border-right: none !important;
-            border-bottom: 1px solid rgba(255,255,255,0.07) !important;
-            max-height: 55vh;
+          .app-input {
+            width: 100%;
+            min-width: unset;
+            height: 50%;
+            border-right: none;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
           }
-          .results-panel {
-            flex: 1;
+          .app-results {
+            height: 50%;
+            flex: unset;
           }
         }
       `}</style>
-    </div>
+
+      <div className="app-root">
+        <Header />
+        <div className="app-body">
+          <div className="app-input">
+            <InputPanel inputs={inputs} onChange={setInputs} results={results} />
+          </div>
+          <div className="app-results">
+            <ResultsPanel results={results} inputs={inputs} />
+          </div>
+        </div>
+      </div>
+    </>
   )
 }
