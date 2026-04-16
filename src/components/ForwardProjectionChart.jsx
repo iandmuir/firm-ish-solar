@@ -91,14 +91,14 @@ export default function ForwardProjectionChart({ projectionData, benchmarkLcoe, 
           <CartesianGrid stroke="rgba(255,255,255,0.05)" strokeDasharray="3 3" />
           <XAxis
             dataKey="year"
-            tick={{ fontSize: 10, fill: '#475569', fontFamily: '"JetBrains Mono", monospace' }}
+            tick={{ fontSize: 10, fill: '#94a3b8', fontFamily: '"JetBrains Mono", monospace' }}
             axisLine={false}
             tickLine={false}
-            label={{ value: 'Years from now', position: 'insideBottom', offset: -4, fontSize: 10, fill: '#334155' }}
+            label={{ value: 'Years from now', position: 'insideBottom', offset: -4, fontSize: 10, fill: '#64748b' }}
           />
           <YAxis
             tickFormatter={v => `$${(v * 1000).toFixed(0)}`}
-            tick={{ fontSize: 10, fill: '#475569', fontFamily: '"JetBrains Mono", monospace' }}
+            tick={{ fontSize: 10, fill: '#94a3b8', fontFamily: '"JetBrains Mono", monospace' }}
             axisLine={false}
             tickLine={false}
             domain={[yMin, yMax]}
@@ -140,11 +140,11 @@ export default function ForwardProjectionChart({ projectionData, benchmarkLcoe, 
       <div style={{ display: 'flex', gap: 16, marginTop: 6 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
           <div style={{ width: 16, height: 2, background: '#10b981', borderRadius: 1 }} />
-          <span style={{ fontSize: 11, color: '#475569' }}>Firm Solar+Storage</span>
+          <span style={{ fontSize: 11, color: '#94a3b8' }}>Firm Solar+Storage</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
           <div style={{ width: 16, height: 0, border: '1px dashed #f59e0b' }} />
-          <span style={{ fontSize: 11, color: '#475569' }}>{benchmarkSource} benchmark</span>
+          <span style={{ fontSize: 11, color: '#94a3b8' }}>{benchmarkSource} benchmark</span>
         </div>
       </div>
     </div>

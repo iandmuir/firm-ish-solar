@@ -39,7 +39,7 @@ export default function Header() {
         <p style={{
           margin: '2px 0 0',
           fontSize: 12,
-          color: '#475569',
+          color: '#94a3b8',
           fontFamily: '"DM Sans", sans-serif',
         }}>
           Utility-scale firm renewables — delivers consistent 24/7 power averaging the monthly capacity target
@@ -47,7 +47,7 @@ export default function Header() {
       </div>
       <div style={{
         fontSize: 11,
-        color: '#334155',
+        color: '#64748b',
         fontFamily: '"JetBrains Mono", monospace',
         textAlign: 'right',
       }}>

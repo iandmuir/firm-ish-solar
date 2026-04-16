@@ -63,7 +63,7 @@ export default function AugmentationTimeline({ solarRepowerEvents, batteryAugEve
             width: 10,
             height: 10,
             borderRadius: '50%',
-            background: '#475569',
+            background: '#94a3b8',
             border: '2px solid #060d1a',
           }} />
 
@@ -118,8 +118,8 @@ export default function AugmentationTimeline({ solarRepowerEvents, batteryAugEve
         </div>
         {/* Year labels */}
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }}>
-          <span style={{ fontSize: 9, color: '#334155', fontFamily: '"JetBrains Mono"' }}>Y0</span>
-          <span style={{ fontSize: 9, color: '#334155', fontFamily: '"JetBrains Mono"' }}>Y{projectLifetime}</span>
+          <span style={{ fontSize: 9, color: '#64748b', fontFamily: '"JetBrains Mono"' }}>Y0</span>
+          <span style={{ fontSize: 9, color: '#64748b', fontFamily: '"JetBrains Mono"' }}>Y{projectLifetime}</span>
         </div>
       </div>
 
@@ -153,7 +153,7 @@ export default function AugmentationTimeline({ solarRepowerEvents, batteryAugEve
             width: 10,
             height: 10,
             borderRadius: '50%',
-            background: '#475569',
+            background: '#94a3b8',
             border: '2px solid #060d1a',
           }} />
           {batteryAugEvents.map(evt => (
@@ -203,19 +203,19 @@ export default function AugmentationTimeline({ solarRepowerEvents, batteryAugEve
           ))}
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }}>
-          <span style={{ fontSize: 9, color: '#334155', fontFamily: '"JetBrains Mono"' }}>Y0</span>
-          <span style={{ fontSize: 9, color: '#334155', fontFamily: '"JetBrains Mono"' }}>Y{projectLifetime}</span>
+          <span style={{ fontSize: 9, color: '#64748b', fontFamily: '"JetBrains Mono"' }}>Y0</span>
+          <span style={{ fontSize: 9, color: '#64748b', fontFamily: '"JetBrains Mono"' }}>Y{projectLifetime}</span>
         </div>
       </div>
 
       <div style={{ display: 'flex', gap: 14, marginTop: 4 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
           <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#10b981' }} />
-          <span style={{ fontSize: 10, color: '#475569' }}>Repowering / augmentation event</span>
+          <span style={{ fontSize: 10, color: '#94a3b8' }}>Repowering / augmentation event</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
           <div style={{ width: 8, height: 8, borderRadius: '50%', border: '1.5px dashed #334155' }} />
-          <span style={{ fontSize: 10, color: '#475569' }}>Skipped (within 3yr of end)</span>
+          <span style={{ fontSize: 10, color: '#94a3b8' }}>Skipped (within 3yr of end)</span>
         </div>
       </div>
     </div>

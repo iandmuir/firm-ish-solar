@@ -57,7 +57,7 @@ export default function ComparisonIndicator({ lcoeKwh, benchmarkLcoe, benchmarkS
           {label}
         </span>
       </div>
-      <span style={{ fontSize: 11, color: '#475569' }}>
+      <span style={{ fontSize: 11, color: '#94a3b8' }}>
         benchmark: ${benchmarkLcoe.toFixed(3)}/kWh
       </span>
     </div>

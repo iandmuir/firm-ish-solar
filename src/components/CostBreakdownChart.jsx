@@ -98,7 +98,7 @@ export default function CostBreakdownChart({ costBreakdown, benchmarkLcoe, bench
           <XAxis
             type="number"
             tickFormatter={v => `$${(v * 1000).toFixed(0)}`}
-            tick={{ fontSize: 10, fill: '#475569', fontFamily: '"JetBrains Mono", monospace' }}
+            tick={{ fontSize: 10, fill: '#94a3b8', fontFamily: '"JetBrains Mono", monospace' }}
             axisLine={false}
             tickLine={false}
             unit=""
@@ -125,7 +125,7 @@ export default function CostBreakdownChart({ costBreakdown, benchmarkLcoe, bench
           />
         </BarChart>
       </ResponsiveContainer>
-      <div style={{ fontSize: 11, color: '#334155', marginTop: -4 }}>
+      <div style={{ fontSize: 11, color: '#64748b', marginTop: -4 }}>
         Values in $/MWh · dashed line = {benchmarkSource} benchmark
       </div>
     </div>

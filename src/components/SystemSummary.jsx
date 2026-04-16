@@ -8,7 +8,7 @@ function Metric({ label, value, sub }) {
       borderRadius: 8,
       padding: '10px 14px',
     }}>
-      <div style={{ fontSize: 11, color: '#475569', marginBottom: 4, fontFamily: '"DM Sans", sans-serif' }}>
+      <div style={{ fontSize: 11, color: '#94a3b8', marginBottom: 4, fontFamily: '"DM Sans", sans-serif' }}>
         {label}
       </div>
       <div style={{
@@ -21,7 +21,7 @@ function Metric({ label, value, sub }) {
         {value}
       </div>
       {sub && (
-        <div style={{ fontSize: 11, color: '#475569', marginTop: 2 }}>{sub}</div>
+        <div style={{ fontSize: 11, color: '#94a3b8', marginTop: 2 }}>{sub}</div>
       )}
     </div>
   )
@@ -71,7 +71,7 @@ export default function SystemSummary({ results, firmCapacityMW }) {
         borderRadius: 8,
         padding: '10px 14px',
       }}>
-        <div style={{ fontSize: 11, color: '#475569', marginBottom: 6 }}>Initial CAPEX Breakdown</div>
+        <div style={{ fontSize: 11, color: '#94a3b8', marginBottom: 6 }}>Initial CAPEX Breakdown</div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div style={{ display: 'flex', gap: 16 }}>
             <div>
@@ -104,8 +104,8 @@ export default function SystemSummary({ results, firmCapacityMW }) {
           }} />
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 3 }}>
-          <span style={{ fontSize: 10, color: '#475569' }}>Solar {((solarCapex / totalInitialCapex) * 100).toFixed(0)}%</span>
-          <span style={{ fontSize: 10, color: '#475569' }}>Battery {((batteryCapex / totalInitialCapex) * 100).toFixed(0)}%</span>
+          <span style={{ fontSize: 10, color: '#94a3b8' }}>Solar {((solarCapex / totalInitialCapex) * 100).toFixed(0)}%</span>
+          <span style={{ fontSize: 10, color: '#94a3b8' }}>Battery {((batteryCapex / totalInitialCapex) * 100).toFixed(0)}%</span>
         </div>
       </div>
     </div>

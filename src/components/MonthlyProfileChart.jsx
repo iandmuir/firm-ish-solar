@@ -43,7 +43,7 @@ export default function MonthlyProfileChart({ countryData, worstMonthIdx }) {
         }}>
           Monthly Solar Resource (kWh/kWp/day)
         </h3>
-        <span style={{ fontSize: 11, color: '#475569', fontFamily: '"DM Sans", sans-serif' }}>
+        <span style={{ fontSize: 11, color: '#94a3b8', fontFamily: '"DM Sans", sans-serif' }}>
           {countryData.name}
         </span>
       </div>
@@ -52,12 +52,12 @@ export default function MonthlyProfileChart({ countryData, worstMonthIdx }) {
           <CartesianGrid vertical={false} strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
           <XAxis
             dataKey="month"
-            tick={{ fontSize: 10, fill: '#475569', fontFamily: '"JetBrains Mono", monospace' }}
+            tick={{ fontSize: 10, fill: '#94a3b8', fontFamily: '"JetBrains Mono", monospace' }}
             axisLine={false}
             tickLine={false}
           />
           <YAxis
-            tick={{ fontSize: 10, fill: '#475569', fontFamily: '"JetBrains Mono", monospace' }}
+            tick={{ fontSize: 10, fill: '#94a3b8', fontFamily: '"JetBrains Mono", monospace' }}
             axisLine={false}
             tickLine={false}
             domain={[0, 'auto']}
@@ -77,11 +77,11 @@ export default function MonthlyProfileChart({ countryData, worstMonthIdx }) {
       <div style={{ marginTop: 4, display: 'flex', alignItems: 'center', gap: 16 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
           <span style={{ width: 8, height: 8, background: '#f59e0b', borderRadius: 2, display: 'inline-block' }} />
-          <span style={{ fontSize: 11, color: '#475569' }}>Binding month (system sized to this)</span>
+          <span style={{ fontSize: 11, color: '#94a3b8' }}>Binding month (system sized to this)</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
           <span style={{ width: 8, height: 8, background: '#10b981', borderRadius: 2, display: 'inline-block', opacity: 0.55 }} />
-          <span style={{ fontSize: 11, color: '#475569' }}>Other months</span>
+          <span style={{ fontSize: 11, color: '#94a3b8' }}>Other months</span>
         </div>
       </div>
     </div>

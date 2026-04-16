@@ -29,7 +29,7 @@ function SectionHeader({ title, collapsible, open, onToggle }) {
         {title}
       </span>
       {collapsible && (
-        <span style={{ fontSize: 10, color: '#334155' }}>{open ? '▲' : '▼'}</span>
+        <span style={{ fontSize: 10, color: '#64748b' }}>{open ? '▲' : '▼'}</span>
       )}
     </div>
   )
@@ -113,7 +113,7 @@ export default function InputPanel({ inputs, onChange, results }) {
             tooltip="Average daily energy the system must deliver each month. Equivalent to Firm Capacity × 24."
           />
         )}
-        <div style={{ fontSize: 11, color: '#334155', marginTop: -4, marginBottom: 6 }}>
+        <div style={{ fontSize: 11, color: '#64748b', marginTop: -4, marginBottom: 6 }}>
           = {inputs.targetMode === 'mw'
             ? `${(firmMWhDay).toLocaleString('en-US', { maximumFractionDigits: 0 })} MWh/day average`
             : `${inputs.firmCapacityMW.toFixed(1)} MW firm capacity`}
@@ -302,7 +302,7 @@ export default function InputPanel({ inputs, onChange, results }) {
         onChange={set('annualBatteryCostDeclinePct')}
         tooltip="Expected annual reduction in battery storage costs. Also used to price augmentation events within each scenario."
       />
-      <div style={{ fontSize: 11, color: '#334155', marginTop: -4 }}>
+      <div style={{ fontSize: 11, color: '#64748b', marginTop: -4 }}>
         Projection horizon: 10 years
       </div>
     </div>

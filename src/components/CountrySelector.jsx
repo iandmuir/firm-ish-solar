@@ -78,7 +78,7 @@ export default function CountrySelector({ value, onChange, worstMonthIdx, worstM
           }}
         >
           <span>{selectedCountry?.name || 'Select country'}</span>
-          <span style={{ color: '#475569', fontSize: 10 }}>▼</span>
+          <span style={{ color: '#94a3b8', fontSize: 10 }}>▼</span>
         </div>
 
         {open && (
@@ -133,7 +133,7 @@ export default function CountrySelector({ value, onChange, worstMonthIdx, worstM
                   onMouseLeave={e => { if (c.iso !== value) e.currentTarget.style.background = 'transparent' }}
                 >
                   <span>{c.name}</span>
-                  <span style={{ fontSize: 10, color: '#475569', fontFamily: '"JetBrains Mono", monospace' }}>
+                  <span style={{ fontSize: 10, color: '#94a3b8', fontFamily: '"JetBrains Mono", monospace' }}>
                     {c.iso}
                   </span>
                 </div>
@@ -151,7 +151,7 @@ export default function CountrySelector({ value, onChange, worstMonthIdx, worstM
               <div key={m} style={{
                 flex: 1,
                 textAlign: 'center',
-                color: i === worstMonthIdx ? '#f59e0b' : '#475569',
+                color: i === worstMonthIdx ? '#f59e0b' : '#94a3b8',
                 fontSize: 9,
                 fontFamily: '"JetBrains Mono", monospace',
               }}>
@@ -171,7 +171,7 @@ export default function CountrySelector({ value, onChange, worstMonthIdx, worstM
             }}>
               ↓ {MONTHS[worstMonthIdx]}: {worstMonthYield?.toFixed(2)} kWh/kWp/day
             </span>
-            <span style={{ fontSize: 10, color: '#475569' }}>binding month</span>
+            <span style={{ fontSize: 10, color: '#94a3b8' }}>binding month</span>
           </div>
         </div>
       )}

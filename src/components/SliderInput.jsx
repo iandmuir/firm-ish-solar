@@ -11,8 +11,8 @@ function InfoIcon({ tooltip }) {
           width: 14,
           height: 14,
           borderRadius: '50%',
-          border: '1px solid #475569',
-          color: '#475569',
+          border: '1px solid #94a3b8',
+          color: '#94a3b8',
           fontSize: 9,
           fontFamily: '"Space Grotesk", sans-serif',
           fontWeight: 600,
@@ -107,7 +107,7 @@ export default function SliderInput({
             }}
           />
           {unit && (
-            <span style={{ fontSize: 11, color: '#475569', minWidth: 40 }}>{unit}</span>
+            <span style={{ fontSize: 11, color: '#94a3b8', minWidth: 40 }}>{unit}</span>
           )}
         </div>
       </div>

@@ -13,7 +13,7 @@ function Divider() {
 
 export default function ResultsPanel({ results, inputs }) {
   if (!results) return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#334155' }}>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#64748b' }}>
       Calculating…
     </div>
   )
@@ -42,7 +42,7 @@ export default function ResultsPanel({ results, inputs }) {
       <div style={{ display: 'flex', alignItems: 'stretch', gap: 16, flexWrap: 'wrap' }}>
         {/* LCOE block */}
         <div style={{ flex: '1 1 300px', minWidth: 0 }}>
-          <div style={{ fontSize: 11, color: '#475569', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.07em', fontFamily: '"Space Grotesk", sans-serif' }}>
+          <div style={{ fontSize: 11, color: '#94a3b8', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.07em', fontFamily: '"Space Grotesk", sans-serif' }}>
             Levelized Cost of Energy
           </div>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 16, flexWrap: 'wrap' }}>
@@ -57,7 +57,7 @@ export default function ResultsPanel({ results, inputs }) {
               }}>
                 ${lcoeKwh.toFixed(3)}
               </span>
-              <span style={{ fontSize: 18, color: '#475569', marginLeft: 4 }}>/kWh</span>
+              <span style={{ fontSize: 18, color: '#94a3b8', marginLeft: 4 }}>/kWh</span>
             </div>
             <div style={{
               background: 'rgba(255,255,255,0.04)',
@@ -73,7 +73,7 @@ export default function ResultsPanel({ results, inputs }) {
               }}>
                 ${lcoeMWh.toFixed(1)}
               </span>
-              <span style={{ fontSize: 13, color: '#475569', marginLeft: 4 }}>/MWh</span>
+              <span style={{ fontSize: 13, color: '#94a3b8', marginLeft: 4 }}>/MWh</span>
             </div>
           </div>
           <ComparisonIndicator
@@ -96,7 +96,7 @@ export default function ResultsPanel({ results, inputs }) {
           justifyContent: 'space-between',
           gap: 8,
         }}>
-          <div style={{ fontSize: 11, color: '#475569', textTransform: 'uppercase', letterSpacing: '0.07em', fontFamily: '"Space Grotesk", sans-serif' }}>
+          <div style={{ fontSize: 11, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.07em', fontFamily: '"Space Grotesk", sans-serif' }}>
             Excess Power
           </div>
           <div>
@@ -111,9 +111,9 @@ export default function ResultsPanel({ results, inputs }) {
               }}>
                 {excessDisplay.value}
               </span>
-              <span style={{ fontSize: 13, color: '#475569', marginLeft: 4 }}>{excessDisplay.unit}</span>
+              <span style={{ fontSize: 13, color: '#94a3b8', marginLeft: 4 }}>{excessDisplay.unit}</span>
             </div>
-            <div style={{ fontSize: 11, color: '#475569', marginTop: 2 }}>
+            <div style={{ fontSize: 11, color: '#94a3b8', marginTop: 2 }}>
               avg annual surplus generation
             </div>
           </div>
@@ -130,9 +130,9 @@ export default function ResultsPanel({ results, inputs }) {
               }}>
                 ${annualExcessValueMM.toFixed(2)}
               </span>
-              <span style={{ fontSize: 12, color: '#475569', marginLeft: 4 }}>M/yr</span>
+              <span style={{ fontSize: 12, color: '#94a3b8', marginLeft: 4 }}>M/yr</span>
             </div>
-            <div style={{ fontSize: 11, color: '#475569', marginTop: 2 }}>
+            <div style={{ fontSize: 11, color: '#94a3b8', marginTop: 2 }}>
               @ ${inputs.excessPowerValuePerKwh.toFixed(3)}/kWh
             </div>
           </div>
