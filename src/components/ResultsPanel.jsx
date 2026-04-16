@@ -26,7 +26,7 @@ export default function ResultsPanel({ results, inputs }) {
   const lcoeColor = ratio <= 1 ? '#10b981' : ratio <= 1.2 ? '#f59e0b' : '#ef4444'
 
   // Excess power metrics
-  const excessDisplay = { value: (avgAnnualExcessMWh / 365).toFixed(1), unit: 'MWh/day' }
+  const excessDisplay = { value: Math.round(avgAnnualExcessMWh / 365).toLocaleString('en-US'), unit: 'MWh/day' }
   const annualExcessValueUSD = avgAnnualExcessMWh * 1000 * inputs.excessPowerValuePerKwh
   const annualExcessValueMM = annualExcessValueUSD / 1e6
 
