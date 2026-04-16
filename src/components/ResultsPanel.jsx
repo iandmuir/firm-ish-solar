@@ -26,9 +26,7 @@ export default function ResultsPanel({ results, inputs }) {
   const lcoeColor = ratio <= 1 ? '#10b981' : ratio <= 1.2 ? '#f59e0b' : '#ef4444'
 
   // Excess power metrics
-  const excessDisplay = avgAnnualExcessMWh >= 1000
-    ? { value: (avgAnnualExcessMWh / 1000).toFixed(1), unit: 'GWh/yr' }
-    : { value: avgAnnualExcessMWh.toFixed(0), unit: 'MWh/yr' }
+  const excessDisplay = { value: (avgAnnualExcessMWh / 365).toFixed(1), unit: 'MWh/day' }
   const annualExcessValueUSD = avgAnnualExcessMWh * 1000 * inputs.excessPowerValuePerKwh
   const annualExcessValueMM = annualExcessValueUSD / 1e6
 
@@ -114,7 +112,7 @@ export default function ResultsPanel({ results, inputs }) {
               <span style={{ fontSize: 13, color: '#94a3b8', marginLeft: 4 }}>{excessDisplay.unit}</span>
             </div>
             <div style={{ fontSize: 11, color: '#94a3b8', marginTop: 2 }}>
-              avg annual surplus generation
+              avg daily surplus generation
             </div>
           </div>
           <div style={{
