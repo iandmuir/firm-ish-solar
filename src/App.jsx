@@ -23,6 +23,7 @@ const initialInputs = {
   batteryOmPerKwhYear: DEFAULTS.batteryOmPerKwhYear,
   waccPct: DEFAULTS.waccPct,
   projectLifetime: DEFAULTS.projectLifetime,
+  excessPowerValuePerKwh: DEFAULTS.excessPowerValuePerKwh,
   benchmarkSource: DEFAULTS.benchmarkSource,
   benchmarkLcoe: DEFAULTS.benchmarkLcoe,
   annualSolarCostDeclinePct: DEFAULTS.annualSolarCostDeclinePct,

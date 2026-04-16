@@ -22,7 +22,7 @@ export default function AugmentationTimeline({ solarRepowerEvents, batteryAugEve
         textTransform: 'uppercase',
         letterSpacing: '0.06em',
       }}>
-        Augmentation Schedule
+        Repowering & Augmentation Schedule
       </h3>
 
       {/* Solar row */}
@@ -125,7 +125,7 @@ export default function AugmentationTimeline({ solarRepowerEvents, batteryAugEve
 
       {/* Battery row */}
       <div style={{ marginBottom: 10 }}>
-        <div style={{ fontSize: 11, color: '#3b82f6', marginBottom: 6, fontWeight: 500 }}>Battery Storage</div>
+        <div style={{ fontSize: 11, color: '#3b82f6', marginBottom: 6, fontWeight: 500 }}>Battery Storage – Augmentation Events</div>
         <div style={{ position: 'relative', height: 36 }}>
           <div style={{
             position: 'absolute',

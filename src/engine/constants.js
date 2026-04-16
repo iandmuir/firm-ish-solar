@@ -22,6 +22,7 @@ export const DEFAULTS = {
   // Project Finance
   waccPct: 8,
   projectLifetime: 25,
+  excessPowerValuePerKwh: 0.02,
 
   // Market Comparison
   benchmarkSource: 'Gas CCGT',

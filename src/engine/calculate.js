@@ -130,6 +130,30 @@ export function calculateResults(inputs) {
     totalDiscountedEnergy += (firmCapacityMW * 8760) / Math.pow(1 + wacc, y)
   }
 
+  // --- Step 8b: Excess energy calculation ---
+  // Compute average annual excess solar generation beyond firm-delivery need.
+  // effectiveDailyDemand is the daily solar output required to serve firm load
+  // directly + charge the battery for the non-sun portion.
+  const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+  let totalLifetimeExcessMWh = 0
+  for (let y = 1; y <= projectLifetime; y++) {
+    // Find years since last repower (degradation resets at repower events)
+    let lastRepowerYear = 0
+    for (const rYear of solarSchedule.augmentationYears) {
+      if (rYear < y) lastRepowerYear = rYear
+    }
+    const yearsSinceRepower = y - lastRepowerYear
+    const degFactor = Math.pow(1 - solarDeg, yearsSinceRepower)
+
+    for (let m = 0; m < 12; m++) {
+      // Daily solar output this month/year (MWh/day)
+      const dailySolarMWh = requiredSolarMW * monthly[m] * degFactor
+      const dailyExcess = Math.max(0, dailySolarMWh - effectiveDailyDemand)
+      totalLifetimeExcessMWh += dailyExcess * daysInMonth[m]
+    }
+  }
+  const avgAnnualExcessMWh = totalLifetimeExcessMWh / projectLifetime
+
   // --- Step 9: LCOE ---
   const lcoeMWh = totalLifetimeCost / totalDiscountedEnergy
   const lcoeKwh = lcoeMWh / 1000
@@ -202,6 +226,7 @@ export function calculateResults(inputs) {
     totalInitialCapex,
     lcoeMWh,
     lcoeKwh,
+    avgAnnualExcessMWh,
     costBreakdown: {
       solarCapex:   solarCapexLcoe,
       batteryCapex: batteryCapexLcoe,

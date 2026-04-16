@@ -234,6 +234,14 @@ export default function InputPanel({ inputs, onChange, results }) {
             onChange={set('projectLifetime')}
             tooltip="Total operational life of the project for LCOE calculation."
           />
+          <SliderInput
+            label="Value of Excess Power"
+            unit="$/kWh"
+            min={0} max={0.10} step={0.005}
+            value={inputs.excessPowerValuePerKwh}
+            onChange={set('excessPowerValuePerKwh')}
+            tooltip="Price at which excess solar generation (beyond firm-delivery needs) can be sold. Used to estimate potential annual revenue from surplus energy. Set to 0 to treat excess as curtailed."
+          />
         </>
       )}
 

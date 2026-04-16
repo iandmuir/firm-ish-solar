@@ -18,12 +18,19 @@ export default function ResultsPanel({ results, inputs }) {
     </div>
   )
 
-  const { lcoeKwh, lcoeMWh } = results
+  const { lcoeKwh, lcoeMWh, avgAnnualExcessMWh } = results
   const countryData = solarData[inputs.country]
 
   // Color coding
   const ratio = lcoeKwh / inputs.benchmarkLcoe
   const lcoeColor = ratio <= 1 ? '#10b981' : ratio <= 1.2 ? '#f59e0b' : '#ef4444'
+
+  // Excess power metrics
+  const excessDisplay = avgAnnualExcessMWh >= 1000
+    ? { value: (avgAnnualExcessMWh / 1000).toFixed(1), unit: 'GWh/yr' }
+    : { value: avgAnnualExcessMWh.toFixed(0), unit: 'MWh/yr' }
+  const annualExcessValueUSD = avgAnnualExcessMWh * 1000 * inputs.excessPowerValuePerKwh
+  const annualExcessValueMM = annualExcessValueUSD / 1e6
 
   return (
     <div style={{
@@ -31,47 +38,105 @@ export default function ResultsPanel({ results, inputs }) {
       height: '100%',
       padding: '20px 24px 40px',
     }}>
-      {/* Headline LCOE */}
-      <div>
-        <div style={{ fontSize: 11, color: '#475569', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.07em', fontFamily: '"Space Grotesk", sans-serif' }}>
-          Levelized Cost of Energy
-        </div>
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: 16, flexWrap: 'wrap' }}>
-          <div>
-            <span style={{
-              fontFamily: '"Space Grotesk", sans-serif',
-              fontSize: 52,
-              fontWeight: 700,
-              color: lcoeColor,
-              letterSpacing: '-0.04em',
-              lineHeight: 1,
+      {/* Headline: LCOE + Excess Power side-by-side */}
+      <div style={{ display: 'flex', alignItems: 'stretch', gap: 16, flexWrap: 'wrap' }}>
+        {/* LCOE block */}
+        <div style={{ flex: '1 1 300px', minWidth: 0 }}>
+          <div style={{ fontSize: 11, color: '#475569', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.07em', fontFamily: '"Space Grotesk", sans-serif' }}>
+            Levelized Cost of Energy
+          </div>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 16, flexWrap: 'wrap' }}>
+            <div>
+              <span style={{
+                fontFamily: '"Space Grotesk", sans-serif',
+                fontSize: 52,
+                fontWeight: 700,
+                color: lcoeColor,
+                letterSpacing: '-0.04em',
+                lineHeight: 1,
+              }}>
+                ${lcoeKwh.toFixed(3)}
+              </span>
+              <span style={{ fontSize: 18, color: '#475569', marginLeft: 4 }}>/kWh</span>
+            </div>
+            <div style={{
+              background: 'rgba(255,255,255,0.04)',
+              border: '1px solid rgba(255,255,255,0.08)',
+              borderRadius: 8,
+              padding: '6px 14px',
             }}>
-              ${lcoeKwh.toFixed(3)}
-            </span>
-            <span style={{ fontSize: 18, color: '#475569', marginLeft: 4 }}>/kWh</span>
+              <span style={{
+                fontFamily: '"JetBrains Mono", monospace',
+                fontSize: 20,
+                color: lcoeColor,
+                fontWeight: 500,
+              }}>
+                ${lcoeMWh.toFixed(1)}
+              </span>
+              <span style={{ fontSize: 13, color: '#475569', marginLeft: 4 }}>/MWh</span>
+            </div>
+          </div>
+          <ComparisonIndicator
+            lcoeKwh={lcoeKwh}
+            benchmarkLcoe={inputs.benchmarkLcoe}
+            benchmarkSource={inputs.benchmarkSource}
+          />
+        </div>
+
+        {/* Excess Power block */}
+        <div style={{
+          flex: '0 1 240px',
+          minWidth: 200,
+          background: 'rgba(16,185,129,0.05)',
+          border: '1px solid rgba(16,185,129,0.18)',
+          borderRadius: 8,
+          padding: '12px 16px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          gap: 8,
+        }}>
+          <div style={{ fontSize: 11, color: '#475569', textTransform: 'uppercase', letterSpacing: '0.07em', fontFamily: '"Space Grotesk", sans-serif' }}>
+            Excess Power
+          </div>
+          <div>
+            <div>
+              <span style={{
+                fontFamily: '"Space Grotesk", sans-serif',
+                fontSize: 26,
+                fontWeight: 600,
+                color: '#34d399',
+                letterSpacing: '-0.02em',
+                lineHeight: 1.1,
+              }}>
+                {excessDisplay.value}
+              </span>
+              <span style={{ fontSize: 13, color: '#475569', marginLeft: 4 }}>{excessDisplay.unit}</span>
+            </div>
+            <div style={{ fontSize: 11, color: '#475569', marginTop: 2 }}>
+              avg annual surplus generation
+            </div>
           </div>
           <div style={{
-            background: 'rgba(255,255,255,0.04)',
-            border: '1px solid rgba(255,255,255,0.08)',
-            borderRadius: 8,
-            padding: '6px 14px',
+            borderTop: '1px solid rgba(255,255,255,0.06)',
+            paddingTop: 8,
           }}>
-            <span style={{
-              fontFamily: '"JetBrains Mono", monospace',
-              fontSize: 20,
-              color: lcoeColor,
-              fontWeight: 500,
-            }}>
-              ${lcoeMWh.toFixed(1)}
-            </span>
-            <span style={{ fontSize: 13, color: '#475569', marginLeft: 4 }}>/MWh</span>
+            <div>
+              <span style={{
+                fontFamily: '"JetBrains Mono", monospace',
+                fontSize: 18,
+                fontWeight: 500,
+                color: '#e2e8f0',
+              }}>
+                ${annualExcessValueMM.toFixed(2)}
+              </span>
+              <span style={{ fontSize: 12, color: '#475569', marginLeft: 4 }}>M/yr</span>
+            </div>
+            <div style={{ fontSize: 11, color: '#475569', marginTop: 2 }}>
+              @ ${inputs.excessPowerValuePerKwh.toFixed(3)}/kWh
+            </div>
           </div>
         </div>
-        <ComparisonIndicator
-          lcoeKwh={lcoeKwh}
-          benchmarkLcoe={inputs.benchmarkLcoe}
-          benchmarkSource={inputs.benchmarkSource}
-        />
       </div>
 
       <Divider />
