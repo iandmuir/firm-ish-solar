@@ -25,8 +25,8 @@ export const DEFAULTS = {
   excessPowerValuePerKwh: 0.02,
 
   // Market Comparison
-  benchmarkSource: 'Gas CCGT',
-  benchmarkLcoe: 0.07,
+  benchmarkSource: 'Gas CCGT – Local',
+  benchmarkLcoe: 0.08,
 
   // Future Cost Projections
   annualSolarCostDeclinePct: 1.5,
