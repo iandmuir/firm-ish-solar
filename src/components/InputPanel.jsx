@@ -36,8 +36,8 @@ function SectionHeader({ title, collapsible, open, onToggle }) {
 }
 
 export default function InputPanel({ inputs, onChange, results }) {
-  const [financeOpen, setFinanceOpen] = useState(false)
-  const [marketOpen, setMarketOpen] = useState(false)
+  const [financeOpen, setFinanceOpen] = useState(true)
+  const [marketOpen, setMarketOpen] = useState(true)
 
   const set = (key) => (val) => onChange({ ...inputs, [key]: val })
 
