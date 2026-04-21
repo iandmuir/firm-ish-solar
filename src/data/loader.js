@@ -29,13 +29,22 @@ export function decodeCityData(raw) {
   }
 }
 
+/**
+ * Fetch a gzipped JSON resource and parse it. Uses DecompressionStream
+ * (Node 18+, Chrome 80+, Firefox 113+, Safari 16.4+).
+ */
+async function fetchGzippedJson(url) {
+  const res = await fetch(url)
+  if (!res.ok) throw new Error(`Failed to load ${url}: ${res.status}`)
+  const decompressed = res.body.pipeThrough(new DecompressionStream('gzip'))
+  return new Response(decompressed).json()
+}
+
 /** Lazy-load a city's data by slug (e.g. 'KEN-nairobi'). Cached in-memory. */
 export function loadCityData(slug) {
   if (cache.has(slug)) return cache.get(slug)
   const promise = (async () => {
-    const res = await fetch(`/data/pvgis/${slug}.json`)
-    if (!res.ok) throw new Error(`Failed to load ${slug}: ${res.status}`)
-    const raw = await res.json()
+    const raw = await fetchGzippedJson(`/data/pvgis/${slug}.json.gz`)
     return decodeCityData(raw)
   })()
   cache.set(slug, promise)

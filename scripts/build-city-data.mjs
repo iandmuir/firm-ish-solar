@@ -1,10 +1,11 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import zlib from 'node:zlib'
 import { pathToFileURL } from 'node:url'
 import cities from '../src/data/cities.json' with { type: 'json' }
 
 const CACHE_DIR = path.resolve('scripts/.cache')
-const OUT_DIR = path.resolve('src/data/pvgis')
+const OUT_DIR = path.resolve('public/data/pvgis')
 const SCALE = 0.1  // 1 int16 unit = 0.1 W/kWp; max ≈ 3276 W (plenty of headroom)
 
 /**
@@ -83,12 +84,20 @@ function outputFilename(city) {
   return `${city.iso3}-${slug}.json`
 }
 
+function cacheFilename(city) {
+  return outputFilename(city) // raw PVGIS cache is still uncompressed .json
+}
+
+function compressedFilename(city) {
+  return `${outputFilename(city)}.gz`
+}
+
 async function main() {
   fs.mkdirSync(OUT_DIR, { recursive: true })
   let done = 0, skipped = 0
 
   for (const city of cities) {
-    const cacheFile = path.join(CACHE_DIR, outputFilename(city))
+    const cacheFile = path.join(CACHE_DIR, cacheFilename(city))
     if (!fs.existsSync(cacheFile)) {
       skipped++
       continue
@@ -107,8 +116,12 @@ async function main() {
       hourly: Array.from(encoded),  // JSON-serialisable
     }
 
-    const outPath = path.join(OUT_DIR, outputFilename(city))
-    fs.writeFileSync(outPath, JSON.stringify(out))
+    // Gzip at level 9: ~3× smaller, loader decompresses via DecompressionStream.
+    const gzipped = zlib.gzipSync(JSON.stringify(out), { level: 9 })
+    const outPath = path.join(OUT_DIR, compressedFilename(city))
+    const tmpPath = `${outPath}.tmp`
+    fs.writeFileSync(tmpPath, gzipped)
+    fs.renameSync(tmpPath, outPath)
     done++
   }
 

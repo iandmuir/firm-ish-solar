@@ -1,5 +1,20 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
+import zlib from 'node:zlib'
+import { Readable } from 'node:stream'
 import { decodeCityData, loadCityData, __resetLoaderCache } from './loader.js'
+
+/** Build a minimal mock Response whose body is a gzipped JSON stream. */
+function gzippedJsonResponse(obj) {
+  const gzipped = zlib.gzipSync(JSON.stringify(obj))
+  // Web ReadableStream from a Node Buffer
+  const body = new ReadableStream({
+    start(controller) {
+      controller.enqueue(gzipped)
+      controller.close()
+    },
+  })
+  return { ok: true, body }
+}
 
 describe('decodeCityData', () => {
   it('returns a Float32Array of the expected length', () => {
@@ -67,10 +82,7 @@ describe('loadCityData', () => {
       startYear: 2020, endYear: 2020, hoursPerYear: [3],
       scale: 0.1, hourly: [0, 100, 200],
     }
-    const fetchMock = vi.fn().mockResolvedValue({
-      ok: true,
-      json: async () => fakeRaw,
-    })
+    const fetchMock = vi.fn().mockImplementation(async () => gzippedJsonResponse(fakeRaw))
     globalThis.fetch = fetchMock
 
     const a = await loadCityData('FAK-fake')
@@ -78,6 +90,7 @@ describe('loadCityData', () => {
     expect(fetchMock).toHaveBeenCalledTimes(1)
     expect(a).toBe(b)
     expect(a.hourly[1]).toBeCloseTo(10, 5)
+    expect(fetchMock).toHaveBeenCalledWith('/data/pvgis/FAK-fake.json.gz')
   })
 
   it('throws a useful error on fetch failure', async () => {
