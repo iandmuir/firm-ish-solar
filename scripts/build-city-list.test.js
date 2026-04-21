@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { pickMostPopulousPerCountry, ISO2_TO_3 } from './build-city-list.mjs'
+import { pickMostPopulousPerCountry, ISO2_TO_3, parseGeoNamesTsv } from './build-city-list.mjs'
 
 describe('pickMostPopulousPerCountry', () => {
   it('returns one entry per country', () => {
@@ -58,5 +58,37 @@ describe('pickMostPopulousPerCountry', () => {
 describe('ISO2_TO_3', () => {
   it('covers at least 200 countries', () => {
     expect(Object.keys(ISO2_TO_3).length).toBeGreaterThanOrEqual(200)
+  })
+})
+
+describe('parseGeoNamesTsv', () => {
+  it('parses a single line correctly', () => {
+    const line = [
+      '1275339',                  // geonameid
+      'Mumbai',                   // name
+      'Mumbai',                   // asciiname
+      '',                         // alt names
+      '19.07283', '72.88261',     // lat, lon
+      'P', 'PPL',                 // feature class, code
+      'IN', '',                   // country code, cc2
+      '16', '', '', '',           // admin codes
+      '12691836',                 // population
+      '',                         // elevation
+      '14', 'Asia/Kolkata',       // dem, timezone
+      '2024-01-01',               // mod date
+    ].join('\t')
+    const [city] = parseGeoNamesTsv(line)
+    expect(city).toEqual({
+      iso2: 'IN', name: 'Mumbai', lat: 19.07283, lon: 72.88261, pop: 12691836,
+    })
+  })
+
+  it('skips entries with no population', () => {
+    const line = [
+      '1', 'Nowhere', 'Nowhere', '',
+      '0', '0', 'P', 'PPL', 'XX', '',
+      '', '', '', '', '0', '', '', '', '',
+    ].join('\t')
+    expect(parseGeoNamesTsv(line)).toHaveLength(0)
   })
 })

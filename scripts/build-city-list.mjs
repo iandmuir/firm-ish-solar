@@ -54,3 +54,56 @@ export function pickMostPopulousPerCountry(cities) {
     .filter(c => c.iso3)
     .sort((a, b) => a.iso3.localeCompare(b.iso3))
 }
+
+import fs from 'node:fs'
+import path from 'node:path'
+import { pathToFileURL } from 'node:url'
+import AdmZip from 'adm-zip'
+
+const GEONAMES_URL = 'http://download.geonames.org/export/dump/cities15000.zip'
+
+/** Parse a tab-separated GeoNames cities file into city records. */
+export function parseGeoNamesTsv(tsv) {
+  const out = []
+  for (const line of tsv.split('\n')) {
+    if (!line) continue
+    const f = line.split('\t')
+    const pop = parseInt(f[14], 10)
+    if (!pop) continue
+    out.push({
+      iso2: f[8],
+      name: f[1],
+      lat: parseFloat(f[4]),
+      lon: parseFloat(f[5]),
+      pop,
+    })
+  }
+  return out
+}
+
+async function fetchGeoNames() {
+  const res = await fetch(GEONAMES_URL)
+  if (!res.ok) throw new Error(`GeoNames fetch failed: ${res.status}`)
+  const buf = Buffer.from(await res.arrayBuffer())
+  const zip = new AdmZip(buf)
+  return zip.readAsText('cities15000.txt')
+}
+
+async function main() {
+  console.log('Fetching GeoNames cities15000...')
+  const tsv = await fetchGeoNames()
+  const raw = parseGeoNamesTsv(tsv)
+  console.log(`Parsed ${raw.length} cities`)
+
+  const picked = pickMostPopulousPerCountry(raw)
+  console.log(`Picked ${picked.length} (one per country)`)
+
+  const outPath = path.resolve('src/data/cities.json')
+  fs.mkdirSync(path.dirname(outPath), { recursive: true })
+  fs.writeFileSync(outPath, JSON.stringify(picked, null, 2) + '\n')
+  console.log(`Wrote ${outPath}`)
+}
+
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch(e => { console.error(e); process.exit(1) })
+}
