@@ -14,7 +14,7 @@ const INPUTS = {
   solarRepowerCycle: 12,
   solarRepowerFraction: 35,
   solarOmPerKwdcYear: 12.5,
-  batteryCostPerKwh: 0.165,
+  batteryCostPerWh: 0.165,
   pvToBatteryEffPct: 98.2,
   inverterEffPct: 96.24,
   batteryDodPct: 90,

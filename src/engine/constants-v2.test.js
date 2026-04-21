@@ -10,7 +10,7 @@ describe('V2_DEFAULTS', () => {
 
   it('has solar, storage, grid and inverter costs per Ember', () => {
     expect(V2_DEFAULTS.solarCostPerWdc).toBe(0.388)
-    expect(V2_DEFAULTS.batteryCostPerKwh).toBe(0.165)
+    expect(V2_DEFAULTS.batteryCostPerWh).toBe(0.165)
     expect(V2_DEFAULTS.gridCostPerWac).toBe(0.076)
     expect(V2_DEFAULTS.inverterCostPerWac).toBe(0.048)
     expect(V2_DEFAULTS.softCostPct).toBe(10)

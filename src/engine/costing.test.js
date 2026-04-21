@@ -6,7 +6,7 @@ const BASE = {
   deliveredByYear: Array(19).fill(800_000),
   unmetByYear: Array(19).fill(76_000),
   solarCostPerWdc: 0.388,
-  batteryCostPerKwh: 0.165,
+  batteryCostPerWh: 0.165,
   gridCostPerWac: 0.076,
   inverterCostPerWac: 0.048,
   softCostPct: 10,

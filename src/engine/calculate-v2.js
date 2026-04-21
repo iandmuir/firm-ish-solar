@@ -11,7 +11,7 @@ export function calculateV2(inputs, opts = {}) {
     backupCostPerMWh,
     solarCostPerWdc, solarDegradationPct, solarRepowerCycle,
     solarRepowerFraction, solarOmPerKwdcYear,
-    batteryCostPerKwh, pvToBatteryEffPct, inverterEffPct,
+    batteryCostPerWh, pvToBatteryEffPct, inverterEffPct,
     batteryDodPct, batteryDegradationPct, batteryAugCycle, batteryOmPerKwhYear,
     gridCostPerWac, inverterCostPerWac, softCostPct,
     waccPct, projectLifetime, opexEscalationPct,
@@ -43,7 +43,7 @@ export function calculateV2(inputs, opts = {}) {
     ...dispatchCommon,
     thresholds,
     capexPerMWSolar: solarCostPerWdc * 1e6,
-    capexPerMWhBattery: batteryCostPerKwh * 1e6,
+    capexPerMWhBattery: batteryCostPerWh * 1e6,
     solarMWMin: 1.5 * firmMW,
     solarMWMax: 8 * firmMW,
     solarSteps: solverSteps,
@@ -55,7 +55,7 @@ export function calculateV2(inputs, opts = {}) {
 
   const costingBase = {
     firmMW,
-    solarCostPerWdc, batteryCostPerKwh, gridCostPerWac, inverterCostPerWac, softCostPct,
+    solarCostPerWdc, batteryCostPerWh, gridCostPerWac, inverterCostPerWac, softCostPct,
     solarOmPerKwdcYear, batteryOmPerKwhYear, opexEscalationPct,
     solarRepowerCycle, solarRepowerFraction, batteryAugCycle, batteryDegradationPct,
     annualSolarCostDeclinePct, annualBatteryCostDeclinePct,

@@ -4,7 +4,7 @@ export function computeCosts(opts) {
   const {
     solarMW, batteryMWh, firmMW,
     deliveredByYear, unmetByYear,
-    solarCostPerWdc, batteryCostPerKwh, gridCostPerWac, inverterCostPerWac, softCostPct,
+    solarCostPerWdc, batteryCostPerWh, gridCostPerWac, inverterCostPerWac, softCostPct,
     solarOmPerKwdcYear, batteryOmPerKwhYear, opexEscalationPct,
     solarRepowerCycle, solarRepowerFraction, batteryAugCycle, batteryDegradationPct,
     annualSolarCostDeclinePct, annualBatteryCostDeclinePct,
@@ -21,7 +21,7 @@ export function computeCosts(opts) {
 
   // --- CAPEX ---
   const solar = solarMW * 1e6 * solarCostPerWdc
-  const battery = batteryMWh * 1e6 * batteryCostPerKwh
+  const battery = batteryMWh * 1e6 * batteryCostPerWh
   const grid = firmMW * 1e6 * gridCostPerWac
   const inverter = firmMW * 1e6 * inverterCostPerWac
   const subtotal = solar + battery + grid + inverter
@@ -48,7 +48,7 @@ export function computeCosts(opts) {
     let prev = 0
     for (const y of batterySchedule.augmentationYears) {
       const lost = 1 - Math.pow(1 - batteryDeg, y - prev)
-      const costAtYear = batteryCostPerKwh * Math.pow(1 - batteryDecline, y)
+      const costAtYear = batteryCostPerWh * Math.pow(1 - batteryDecline, y)
       const capex = lost * batteryMWh * 1e6 * costAtYear * softMult
       batteryAugEvents.push({ year: y, capex })
       prev = y
@@ -140,7 +140,7 @@ export function projectForward({ baseInputs, yearsOut = 10 }) {
       ...baseInputs,
       solarCostPerWdc: baseInputs.solarCostPerWdc
         * Math.pow(1 - baseInputs.annualSolarCostDeclinePct / 100, p),
-      batteryCostPerKwh: baseInputs.batteryCostPerKwh
+      batteryCostPerWh: baseInputs.batteryCostPerWh
         * Math.pow(1 - baseInputs.annualBatteryCostDeclinePct / 100, p),
     }
     const c = computeCosts(scaled)

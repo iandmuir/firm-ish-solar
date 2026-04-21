@@ -16,7 +16,7 @@ export const V2_DEFAULTS = {
   solarOmPerKwdcYear: 12.5,
 
   // Storage
-  batteryCostPerKwh: 0.165,
+  batteryCostPerWh: 0.165,
   pvToBatteryEffPct: 98.2,
   inverterEffPct: 96.24,
   batteryDodPct: 90,
