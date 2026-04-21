@@ -39,12 +39,24 @@ async function fetchOne(city) {
     throw new Error(`${city.iso3}/${city.city} → ${res.status}: ${body.slice(0, 200)}`)
   }
   const json = await res.text()  // keep as text to preserve byte-for-byte
-  fs.writeFileSync(cachePath, json)
+  const tmp = cachePath + '.tmp'
+  fs.writeFileSync(tmp, json)
+  fs.renameSync(tmp, cachePath)
   return { city, cached: false }
 }
 
 async function main() {
   fs.mkdirSync(CACHE_DIR, { recursive: true })
+
+  const seen = new Map()
+  for (const city of cities) {
+    const key = cacheKey(city)
+    if (seen.has(key)) {
+      throw new Error(`Cache key collision: "${key}" for ${city.iso3}/${city.city} and ${seen.get(key).iso3}/${seen.get(key).city}`)
+    }
+    seen.set(key, city)
+  }
+
   let done = 0, failed = 0
   const failures = []
 
