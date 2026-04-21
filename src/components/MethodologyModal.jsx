@@ -138,8 +138,17 @@ export default function MethodologyModal({ open, onClose }) {
             Inspired by Ember
           </div>
           This tool is inspired by <b>Ember's</b> analysis{' '}
-          <i>Solar electricity every hour of every day is here and it changes everything</i>{' '}
-          — specifically their framing of "firm(ish)" capacity, their use of
+          <a
+            href="https://ember-energy.org/latest-insights/solar-electricity-every-hour-of-every-day-is-here-and-it-changes-everything/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: '#7dd3fc', textDecoration: 'none' }}
+            onMouseEnter={(e) => { e.currentTarget.style.textDecoration = 'underline' }}
+            onMouseLeave={(e) => { e.currentTarget.style.textDecoration = 'none' }}
+          >
+            <i>Solar electricity every hour of every day is here and it changes everything</i>
+          </a>
+          {' '}— specifically their framing of "firm(ish)" capacity, their use of
           hourly irradiance data, and their decomposition of the efficiency chain
           and cost stack. Firm(ish) adds a multi-year stochastic weather solve,
           a user-tunable firmness threshold, and forward LCOE projection.
@@ -164,7 +173,7 @@ export default function MethodologyModal({ open, onClose }) {
         </Section>
 
         <Section title="Sizing solver">
-          <p>For each firmness threshold in {'{70, 80, 85, 90, 93, 95, 97, 99}'} %:</p>
+          <p>For each firmness threshold in {'{70, 80, 85, 90, 95, 97, 98, 99}'} %:</p>
           <ol>
             <li><b>Outer sweep</b> — 15 log-spaced solar sizes from 1.5× to 12× the firm capacity target (MW).</li>
             <li><b>Inner bisection</b> — at each solar size, bisect over battery capacity (0 to 72× firm MW·hours) to find the minimum battery that clears the firmness threshold across all 19 years.</li>
@@ -344,10 +353,20 @@ export default function MethodologyModal({ open, onClose }) {
         <Section title="References">
           <ul>
             <li>
-              <b>Ember</b> — <i>Solar electricity every hour of every day is here
-              and it changes everything</i> (June 2025). Methodological inspiration for
-              firm renewables analysis, efficiency-chain decomposition, and the
-              2024–25 cost benchmarks for inverter and grid interconnection.
+              <b>Ember</b> —{' '}
+              <a
+                href="https://ember-energy.org/latest-insights/solar-electricity-every-hour-of-every-day-is-here-and-it-changes-everything/"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: '#7dd3fc', textDecoration: 'none' }}
+                onMouseEnter={(e) => { e.currentTarget.style.textDecoration = 'underline' }}
+                onMouseLeave={(e) => { e.currentTarget.style.textDecoration = 'none' }}
+              >
+                <i>Solar electricity every hour of every day is here and it changes everything</i>
+              </a>
+              {' '}(June 2025). Methodological inspiration for firm renewables
+              analysis, efficiency-chain decomposition, and the 2024–25 cost
+              benchmarks for inverter and grid interconnection.
             </li>
             <li>
               <b>PVGIS</b> — European Commission Joint Research Centre, SARAH-3 hourly

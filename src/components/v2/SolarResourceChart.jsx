@@ -29,9 +29,9 @@ export default function SolarResourceChart({ cityData }) {
   const fmt = (v) => Math.round(v).toLocaleString('en-US')
 
   return (
-    <div style={{ width: '100%', height: 180 }}>
+    <div style={{ width: '100%', height: 155 }}>
       <ResponsiveContainer>
-        <ComposedChart data={data} margin={{ top: 8, right: 16, bottom: 4, left: 8 }}>
+        <ComposedChart data={data} margin={{ top: 8, right: 16, bottom: 0, left: 8 }}>
           <CartesianGrid stroke="rgba(255,255,255,0.08)" strokeDasharray="3 3" />
           <XAxis
             dataKey="doy"
@@ -73,7 +73,7 @@ export default function SolarResourceChart({ cityData }) {
             height={0}
             wrapperStyle={{
               position: 'absolute',
-              left: 50,
+              left: 62,
               right: 'auto',
               top: 4,
               bottom: 'auto',
@@ -89,8 +89,8 @@ export default function SolarResourceChart({ cityData }) {
             dataKey="band"
             name="P10–P90 across years"
             stroke="none"
-            fill="#fbbf24"
-            fillOpacity={0.18}
+            fill="rgba(251,191,36,0.18)"
+            legendType="square"
             isAnimationActive={false}
           />
           <Line
@@ -100,6 +100,7 @@ export default function SolarResourceChart({ cityData }) {
             stroke="#fbbf24"
             strokeWidth={2}
             dot={false}
+            legendType="plainline"
             isAnimationActive={false}
           />
         </ComposedChart>

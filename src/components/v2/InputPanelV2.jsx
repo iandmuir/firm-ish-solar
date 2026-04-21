@@ -112,7 +112,7 @@ export default function InputPanelV2({ inputs, citySlug, setCitySlug, onChange }
         min={0.10} max={1.50} step={0.01}
         value={inputs.solarCostPerWdc}
         onChange={set('solarCostPerWdc')}
-        tooltip="Fully installed EPC cost per watt DC, including modules, racking, wiring, and installation labor. Inverters are priced separately."
+        tooltip="Fully installed EPC cost per watt DC, including modules, racking, wiring, installation labor, and the field-side DC-DC optimizers that scale one-to-one with PV capacity. The central DC-AC inverter scales with firm AC capacity and is priced separately."
       />
       <SliderInput
         label="Fixed O&M"

@@ -57,11 +57,42 @@ export default function ProjectionChartV2({ curve, benchmarkLcoe, benchmarkSourc
               y={benchmarkKwh}
               stroke="#ef4444"
               strokeDasharray="6 4"
-              label={{
-                value: `${benchmarkSource ?? 'Benchmark'}: $${benchmarkKwh.toFixed(3)}/kWh`,
-                position: 'insideTopRight',
-                fill: '#fca5a5',
-                fontSize: 11,
+              ifOverflow="extendDomain"
+              isFront={true}
+              label={(props) => {
+                const { viewBox } = props
+                const text = `${benchmarkSource ?? 'Benchmark'}: $${benchmarkKwh.toFixed(3)}/kWh`
+                const padX = 6
+                const padY = 3
+                const approxCharW = 6.2
+                const textW = text.length * approxCharW
+                const boxW = textW + padX * 2
+                const boxH = 18
+                const x = viewBox.x + viewBox.width - boxW - 4
+                const y = viewBox.y + 4
+                return (
+                  <g>
+                    <rect
+                      x={x}
+                      y={y}
+                      width={boxW}
+                      height={boxH}
+                      fill="rgba(15,23,42,0.85)"
+                      stroke="rgba(239,68,68,0.5)"
+                      strokeWidth={1}
+                      rx={3}
+                    />
+                    <text
+                      x={x + padX}
+                      y={y + boxH / 2}
+                      fill="#fca5a5"
+                      fontSize={11}
+                      dominantBaseline="middle"
+                    >
+                      {text}
+                    </text>
+                  </g>
+                )
               }}
             />
           )}

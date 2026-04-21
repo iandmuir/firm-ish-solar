@@ -31,6 +31,6 @@ describe('V2_DEFAULTS', () => {
   })
 
   it('threshold sweep points span 70-99%', () => {
-    expect(V2_DEFAULTS.thresholdSweepPoints).toEqual([70, 80, 85, 90, 93, 95, 97, 99])
+    expect(V2_DEFAULTS.thresholdSweepPoints).toEqual([70, 80, 85, 90, 95, 97, 98, 99])
   })
 })

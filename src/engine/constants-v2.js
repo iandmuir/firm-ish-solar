@@ -43,5 +43,5 @@ export const V2_DEFAULTS = {
   benchmarkLcoe: 0.08, // $/kWh
 
   // Solver
-  thresholdSweepPoints: [70, 80, 85, 90, 93, 95, 97, 99],
+  thresholdSweepPoints: [70, 80, 85, 90, 95, 97, 98, 99],
 }
