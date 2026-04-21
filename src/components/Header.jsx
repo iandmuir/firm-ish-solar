@@ -37,7 +37,7 @@ export default function Header() {
             background: '#10b981',
             boxShadow: '0 0 8px #10b981',
           }} />
-          Firm(ish) Solar+Storage Sizing & LCOE Calculator
+          Firm(ish) — How Close Can Solar + Storage Get to Firm?
         </h1>
         <p style={{
           margin: '2px 0 0',
