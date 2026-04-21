@@ -17,36 +17,34 @@ export default function Header() {
       top: 0,
       zIndex: 10,
     }}>
-      <div>
-        <h1 style={{
-          fontFamily: '"Space Grotesk", sans-serif',
-          fontSize: 18,
-          fontWeight: 700,
-          color: '#e2e8f0',
-          margin: 0,
-          letterSpacing: '-0.02em',
-          display: 'flex',
-          alignItems: 'center',
-          gap: 10,
-        }}>
-          <span style={{
-            display: 'inline-block',
-            width: 8,
-            height: 8,
-            borderRadius: '50%',
-            background: '#10b981',
-            boxShadow: '0 0 8px #10b981',
-          }} />
-          Firm(ish) — How Close Can Solar + Storage Get to Firm?
-        </h1>
-        <p style={{
-          margin: '2px 0 0',
-          fontSize: 12,
-          color: '#94a3b8',
-          fontFamily: '"DM Sans", sans-serif',
-        }}>
-          Solve for the cheapest solar + battery build that holds a 24/7 capacity target at your chosen reliability threshold — across 19 years of hourly insolation data.
-        </p>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+        <img
+          src="/favicon.svg"
+          alt=""
+          width={48}
+          height={48}
+          style={{ flexShrink: 0, display: 'block' }}
+        />
+        <div>
+          <h1 style={{
+            fontFamily: '"Space Grotesk", sans-serif',
+            fontSize: 18,
+            fontWeight: 700,
+            color: '#e2e8f0',
+            margin: 0,
+            letterSpacing: '-0.02em',
+          }}>
+            Firm(ish) — How Close Can Solar + Storage Get to Firm?
+          </h1>
+          <p style={{
+            margin: '2px 0 0',
+            fontSize: 12,
+            color: '#94a3b8',
+            fontFamily: '"DM Sans", sans-serif',
+          }}>
+            Solve for the cheapest solar + battery build that holds a 24/7 capacity target at your chosen reliability threshold — across 19 years of hourly insolation data.
+          </p>
+        </div>
       </div>
       <button
         onClick={() => setMethodologyOpen(true)}

@@ -69,9 +69,13 @@ export default function LcoeHeadline({
           <span>Achieved</span>
           <span className="fg-value">{firmnessAchieved != null ? `${firmnessAchieved.toFixed(2)}%` : '—'}</span>
         </div>
-        {short && (
+        {short ? (
           <div className="fg-warning">
             Best feasible within solver bounds; consider a lower target or a sunnier site.
+          </div>
+        ) : (
+          <div className="fg-success">
+            System design successfully meets or exceeds the target firmness threshold.
           </div>
         )}
         {best && worst && (
@@ -133,6 +137,7 @@ export default function LcoeHeadline({
         .hr-box.firmness.met .fg-value { color: #4ade80; }
         .hr-box.firmness.short .fg-value { color: #eab308; }
         .fg-warning { margin-top: 6px; font-size: 11px; color: #fde68a; line-height: 1.35; }
+        .fg-success { margin-top: 6px; font-size: 11px; color: #94a3b8; line-height: 1.35; }
         .fg-extremes {
           margin-top: 8px;
           display: grid;
