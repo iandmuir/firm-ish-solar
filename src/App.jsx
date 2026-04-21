@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react'
 import Header from './components/Header.jsx'
 import InputPanel from './components/InputPanel.jsx'
 import ResultsPanel from './components/ResultsPanel.jsx'
+import AppV2 from './AppV2.jsx'
 import { DEFAULTS } from './engine/constants.js'
 import { calculateResults } from './engine/calculate.js'
 import solarData from './data/solar-data.json'
@@ -30,10 +31,18 @@ const initialInputs = {
   annualBatteryCostDeclinePct: DEFAULTS.annualBatteryCostDeclinePct,
 }
 
+function readInitialMode() {
+  const params = new URLSearchParams(globalThis.location?.search ?? '')
+  if (params.get('v') === '2') return 'v2'
+  return 'v1'
+}
+
 export default function App() {
+  const [mode, setMode] = useState(readInitialMode)
   const [inputs, setInputs] = useState(initialInputs)
 
   const results = useMemo(() => {
+    if (mode !== 'v1') return null
     const countryData = solarData[inputs.country]
     if (!countryData) return null
     try {
@@ -42,60 +51,30 @@ export default function App() {
       console.error('Calculation error:', e)
       return null
     }
-  }, [inputs])
+  }, [inputs, mode])
+
+  const toggle = (
+    <button
+      onClick={() => setMode(m => (m === 'v1' ? 'v2' : 'v1'))}
+      style={{
+        position: 'fixed', top: 12, right: 12, zIndex: 50,
+        background: 'rgba(255,255,255,0.08)', color: '#fff',
+        border: '1px solid rgba(255,255,255,0.15)', padding: '4px 10px',
+        borderRadius: 4, cursor: 'pointer', fontSize: '0.8rem',
+      }}
+      title="Toggle v1/v2 UI"
+    >
+      {mode === 'v1' ? '→ v2 (city-based, threshold)' : '→ v1 (country-based)'}
+    </button>
+  )
+
+  if (mode === 'v2') {
+    return <>{toggle}<AppV2 /></>
+  }
 
   return (
     <>
-      <style>{`
-        .app-root {
-          display: flex;
-          flex-direction: column;
-          height: 100vh;
-          background: var(--navy-950);
-          overflow: hidden;
-        }
-        .app-body {
-          display: flex;
-          flex-direction: row;
-          flex: 1;
-          overflow: hidden;
-          min-height: 0;
-        }
-        .app-input {
-          width: 40%;
-          min-width: 300px;
-          border-right: 1px solid rgba(255,255,255,0.07);
-          display: flex;
-          flex-direction: column;
-          overflow: hidden;
-        }
-        .app-results {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          overflow: hidden;
-          min-width: 0;
-        }
-
-        /* Portrait mobile: stack vertically, 50/50 split */
-        @media (max-width: 768px), (orientation: portrait) and (max-width: 1024px) {
-          .app-body {
-            flex-direction: column;
-          }
-          .app-input {
-            width: 100%;
-            min-width: unset;
-            height: 50%;
-            border-right: none;
-            border-bottom: 1px solid rgba(255,255,255,0.07);
-          }
-          .app-results {
-            height: 50%;
-            flex: unset;
-          }
-        }
-      `}</style>
-
+      {toggle}
       <div className="app-root">
         <Header />
         <div className="app-body">
