@@ -140,4 +140,46 @@ describe('simulateDispatch — degradation', () => {
     })
     expect(Math.abs(r.deliveredByYear[0] - r.deliveredByYear[1])).toBeLessThan(100)
   })
+
+  it('battery augmentation at year 1 resets battery degradation', () => {
+    const { hourly, hoursPerYear } = multiYearProfile({ daysPerYear: [365, 365], peak: 1000 })
+    // Need battery in the loop so deg matters. Oversize PV so surplus always charges.
+    const common = {
+      hourly, hoursPerYear,
+      solarMW: 500, batteryMWh: 500, firmMW: 100,
+      pvToBattEff: 0.982, invEff: 0.9624, dodPct: 90,
+      solarDegPerYear: 0, batteryDegPerYear: 0.1, // heavy batt deg for signal
+      solarRepowerYears: new Set(),
+    }
+    const noAug = simulateDispatch({ ...common, batteryAugYears: new Set() })
+    const withAug = simulateDispatch({ ...common, batteryAugYears: new Set([1]) })
+    // With aug at y=1, year 1 should deliver at least as much as without (deg reset helps)
+    expect(withAug.deliveredByYear[1]).toBeGreaterThanOrEqual(noAug.deliveredByYear[1] - 1)
+    // And by a non-trivial margin given 10% deg
+    expect(withAug.deliveredByYear[1] - noAug.deliveredByYear[1]).toBeGreaterThan(0)
+  })
+})
+
+describe('simulateDispatch — leap year month tables', () => {
+  it('uses 366-day month starts for 8784-hour year', () => {
+    // Generate 8784 hours of constant-zero profile
+    const hourly = new Float32Array(8784)
+    const hoursPerYear = [8784]
+    const r = simulateDispatch({
+      hourly, hoursPerYear,
+      solarMW: 0, batteryMWh: 0, firmMW: 100,
+      pvToBattEff: 0.982, invEff: 0.9624, dodPct: 90,
+      solarDegPerYear: 0, batteryDegPerYear: 0,
+      solarRepowerYears: new Set(), batteryAugYears: new Set(),
+    })
+    // Jan is hours [0, 744): 744h × 100 MW = 74,400 MWh unmet
+    expect(r.unmetByMonth[0]).toBeCloseTo(74_400, 0)
+    // Feb in leap year is hours [744, 1440): 696h × 100 MW = 69,600 MWh
+    expect(r.unmetByMonth[1]).toBeCloseTo(69_600, 0)
+    // Dec (leap) is hours [8040, 8784): 744h × 100 MW = 74,400 MWh
+    expect(r.unmetByMonth[11]).toBeCloseTo(74_400, 0)
+    // Sum still equals total unmet
+    const sum = r.unmetByMonth.reduce((a, b) => a + b, 0)
+    expect(sum).toBeCloseTo(r.unmetByYear[0], 2)
+  })
 })

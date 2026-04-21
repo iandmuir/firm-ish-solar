@@ -1,13 +1,8 @@
 const MONTH_START_365 = [0, 744, 1416, 2160, 2880, 3624, 4344, 5088, 5832, 6552, 7296, 8016]
 const MONTH_START_366 = [0, 744, 1440, 2184, 2904, 3648, 4368, 5112, 5856, 6576, 7320, 8040]
 
-function monthOfHour(hourInYear, hoursInYear) {
-  const table = hoursInYear === 8784 ? MONTH_START_366 : MONTH_START_365
-  for (let m = 11; m >= 0; m--) {
-    if (hourInYear >= table[m]) return m
-  }
-  return 0
-}
+/** Numerical noise floor for "delivered meets firm" check. Firm targets are ≥ 1e8 W. */
+const FIRM_MET_EPS_W = 1e-6
 
 export function simulateDispatch({
   hourly, hoursPerYear,
@@ -16,6 +11,7 @@ export function simulateDispatch({
   solarDegPerYear, batteryDegPerYear,
   solarRepowerYears, batteryAugYears,
 }) {
+  if (pvToBattEff <= 0) throw new Error('pvToBattEff must be > 0')
   const totalHours = hourly.length
   const years = hoursPerYear.length
   const firmW = firmMW * 1e6
@@ -43,7 +39,11 @@ export function simulateDispatch({
     if (y === 0) soc = usableBatteryWh
 
     const hoursThisYear = hoursPerYear[y]
+    const table = hoursThisYear === 8784 ? MONTH_START_366 : MONTH_START_365
+    let currentMonth = 0
     for (let h = 0; h < hoursThisYear; h++) {
+      while (currentMonth < 11 && h >= table[currentMonth + 1]) currentMonth++
+
       const pvDc = hourly[hourCursor] * solarKwp * solarDegFactor
 
       const directAcMax = pvDc * invEff
@@ -54,7 +54,7 @@ export function simulateDispatch({
       const headroom = usableBatteryWh - soc
       const potentialChargeAtBatt = pvRemainingDc * pvToBattEff
       const actualCharge = potentialChargeAtBatt < headroom ? potentialChargeAtBatt : headroom
-      const chargeDcUsed = pvToBattEff > 0 ? actualCharge / pvToBattEff : 0
+      const chargeDcUsed = actualCharge / pvToBattEff
       const pvCurtailedDc = pvRemainingDc - chargeDcUsed
       soc += actualCharge
 
@@ -72,8 +72,8 @@ export function simulateDispatch({
       deliveredByYear[y] += deliveredAc
       unmetByYear[y] += unmetAc
       excessByYear[y] += pvCurtailedDc
-      unmetByMonth[monthOfHour(h, hoursThisYear)] += unmetAc
-      if (deliveredAc >= firmW - 1e-6) metHours++
+      unmetByMonth[currentMonth] += unmetAc
+      if (deliveredAc >= firmW - FIRM_MET_EPS_W) metHours++
 
       hourCursor++
     }
