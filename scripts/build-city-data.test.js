@@ -58,3 +58,38 @@ describe('encodeToInt16 / decodeFromInt16', () => {
     expect(encoded).toBeInstanceOf(Int16Array)
   })
 })
+
+describe('extractHourlyFromPvgis validation', () => {
+  it('throws on missing outputs.hourly', () => {
+    expect(() => extractHourlyFromPvgis({ inputs: { meteo_data: {}, location: {} } }))
+      .toThrow(/outputs\.hourly/)
+  })
+
+  it('throws on missing meteo_data', () => {
+    expect(() => extractHourlyFromPvgis({ outputs: { hourly: [] }, inputs: { location: {} } }))
+      .toThrow(/meteo_data/)
+  })
+
+  it('throws on missing location', () => {
+    expect(() => extractHourlyFromPvgis({ outputs: { hourly: [] }, inputs: { meteo_data: {} } }))
+      .toThrow(/location/)
+  })
+
+  it('throws on non-monotonic years', () => {
+    const bad = {
+      inputs: { location: {}, meteo_data: {} },
+      outputs: { hourly: [
+        { time: '20060101:0010', P: 0 },
+        { time: '20050101:0010', P: 0 },
+      ]},
+    }
+    expect(() => extractHourlyFromPvgis(bad)).toThrow(/Non-monotonic/)
+  })
+})
+
+describe('encodeToInt16 saturation', () => {
+  it('clamps values above Int16 max to 32767', () => {
+    const encoded = encodeToInt16([4000], 0.1)  // 4000/0.1 = 40000 > 32767
+    expect(encoded[0]).toBe(32767)
+  })
+})

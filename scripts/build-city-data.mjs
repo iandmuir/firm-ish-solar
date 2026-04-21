@@ -12,6 +12,15 @@ const SCALE = 0.1  // 1 int16 unit = 0.1 W/kWp; max ≈ 3276 W (plenty of headro
  * Returns { hourly: number[], hoursPerYear: number[], startYear, endYear, lat, lon, elevation }.
  */
 export function extractHourlyFromPvgis(raw) {
+  if (!raw?.outputs?.hourly || !Array.isArray(raw.outputs.hourly)) {
+    throw new Error('Invalid PVGIS response: missing outputs.hourly array')
+  }
+  if (!raw?.inputs?.meteo_data) {
+    throw new Error('Invalid PVGIS response: missing inputs.meteo_data')
+  }
+  if (!raw?.inputs?.location) {
+    throw new Error('Invalid PVGIS response: missing inputs.location')
+  }
   const hourly = raw.outputs.hourly.map(h => h.P)
   const hoursPerYear = []
   let prevYear = null
@@ -20,6 +29,9 @@ export function extractHourlyFromPvgis(raw) {
     const y = parseInt(h.time.slice(0, 4), 10)
     if (prevYear === null) prevYear = y
     if (y !== prevYear) {
+      if (y < prevYear) {
+        throw new Error(`Non-monotonic year in PVGIS hourly series: ${y} after ${prevYear}`)
+      }
       hoursPerYear.push(count)
       count = 0
       prevYear = y
@@ -42,10 +54,19 @@ export function extractHourlyFromPvgis(raw) {
 /** Encode float array → Int16Array (clamped non-negative). */
 export function encodeToInt16(values, scale) {
   const out = new Int16Array(values.length)
+  let overflowCount = 0
   for (let i = 0; i < values.length; i++) {
     const v = values[i]
     const clamped = v < 0 ? 0 : v
-    out[i] = Math.round(clamped / scale)
+    let scaled = Math.round(clamped / scale)
+    if (scaled > 32767) {
+      overflowCount++
+      scaled = 32767
+    }
+    out[i] = scaled
+  }
+  if (overflowCount > 0) {
+    console.warn(`encodeToInt16: ${overflowCount} value(s) exceeded Int16 max (scale=${scale}); clamped to 32767`)
   }
   return out
 }
