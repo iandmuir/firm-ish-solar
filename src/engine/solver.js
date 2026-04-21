@@ -42,10 +42,10 @@ export function solveSizing(opts) {
     capexPerMWSolar, capexPerMWhBattery,
     firmMW,
     solarMWMin = 1.5 * firmMW,
-    solarMWMax = 8 * firmMW,
+    solarMWMax = 12 * firmMW,
     solarSteps = 15,
     batteryMWhMin = 0,
-    batteryMWhMax = 36 * firmMW,
+    batteryMWhMax = 72 * firmMW,
     bisectTolerance = 1,
     maxInnerIter = 10,
     ...dispatchCommon

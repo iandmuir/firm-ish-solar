@@ -25,12 +25,7 @@ export default function ComparisonIndicator({ lcoeKwh, benchmarkLcoe, benchmarkS
   }
 
   return (
-    <div style={{
-      display: 'flex',
-      alignItems: 'center',
-      gap: 10,
-      marginTop: 8,
-    }}>
+    <div style={{ display: 'flex', alignItems: 'center', marginTop: 8 }}>
       <div style={{
         background: bg,
         border: `1px solid ${color}40`,
@@ -54,12 +49,9 @@ export default function ComparisonIndicator({ lcoeKwh, benchmarkLcoe, benchmarkS
           fontFamily: '"DM Sans", sans-serif',
           fontWeight: 500,
         }}>
-          {label}
+          {label} @ ${benchmarkLcoe.toFixed(3)}/kWh
         </span>
       </div>
-      <span style={{ fontSize: 11, color: '#94a3b8' }}>
-        benchmark: ${benchmarkLcoe.toFixed(3)}/kWh
-      </span>
     </div>
   )
 }

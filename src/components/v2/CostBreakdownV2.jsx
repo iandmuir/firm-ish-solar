@@ -6,8 +6,7 @@ const LABELS = {
   batteryCapex: 'Battery CAPEX',
   gridCapex: 'Grid',
   invCapex: 'Inverter',
-  softCost: 'Soft cost',
-  solarRepower: 'Solar repower',
+  inverterReplacement: 'Inverter replacement',
   batteryAug: 'Battery aug',
   solarOm: 'Solar O&M',
   batteryOm: 'Battery O&M',
@@ -26,10 +25,14 @@ export default function CostBreakdownV2({ breakdown }) {
   return (
     <div style={{ width: '100%', height: 200 }}>
       <ResponsiveContainer>
-        <BarChart data={data} layout="vertical" stackOffset="expand">
+        <BarChart data={data} layout="vertical" stackOffset="expand" margin={{ top: 0, right: 8, bottom: 0, left: 0 }}>
           <XAxis type="number" tick={{ fill: 'rgba(255,255,255,0.6)' }} />
-          <YAxis type="category" dataKey="name" tick={{ fill: 'rgba(255,255,255,0.6)' }} width={100} />
-          <Tooltip formatter={(v) => `$${v.toFixed(2)}/MWh`} />
+          <YAxis type="category" dataKey="name" hide />
+          <Tooltip
+            formatter={(v) => `$${v.toFixed(2)}/MWh`}
+            allowEscapeViewBox={{ x: true, y: true }}
+            wrapperStyle={{ zIndex: 1000, pointerEvents: 'none' }}
+          />
           <Legend />
           {keys.map((k, i) => (
             <Bar key={k} dataKey={k} name={LABELS[k]} stackId="a" fill={palette[i % palette.length]} />

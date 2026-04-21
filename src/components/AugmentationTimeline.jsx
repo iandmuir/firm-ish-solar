@@ -5,8 +5,8 @@ function fmtM(n) {
   return '$' + (n / 1e3).toFixed(0) + 'K'
 }
 
-export default function AugmentationTimeline({ solarRepowerEvents, batteryAugEvents, solarSkipped, batterySkipped, projectLifetime }) {
-  if (!solarRepowerEvents) return null
+export default function AugmentationTimeline({ inverterReplacementEvents, batteryAugEvents, inverterSkipped, batterySkipped, projectLifetime }) {
+  if (!inverterReplacementEvents) return null
 
   const allYears = projectLifetime
   const pct = y => (y / allYears) * 100
@@ -15,19 +15,19 @@ export default function AugmentationTimeline({ solarRepowerEvents, batteryAugEve
     <div>
       <h3 style={{
         fontFamily: '"Space Grotesk", sans-serif',
-        fontSize: 13,
+        fontSize: 11,
         fontWeight: 600,
-        color: '#cbd5e1',
-        margin: '0 0 12px',
+        color: '#94a3b8',
+        margin: '0 0 10px',
         textTransform: 'uppercase',
         letterSpacing: '0.06em',
       }}>
-        Repowering & Augmentation Schedule
+        Replacement & Augmentation Schedule
       </h3>
 
       {/* Solar row */}
       <div style={{ marginBottom: 18 }}>
-        <div style={{ fontSize: 11, color: '#10b981', marginBottom: 6, fontWeight: 500 }}>Solar Array — Repowering Events</div>
+        <div style={{ fontSize: 11, color: '#fbbf24', marginBottom: 6, fontWeight: 500 }}>Inverter — Replacement Events</div>
         <div style={{ position: 'relative', height: 36 }}>
           {/* Track */}
           <div style={{
@@ -40,7 +40,7 @@ export default function AugmentationTimeline({ solarRepowerEvents, batteryAugEve
             borderRadius: 2,
           }}>
             {/* Filled lifetime */}
-            <div style={{ width: '100%', height: '100%', background: 'rgba(16,185,129,0.2)', borderRadius: 2 }} />
+            <div style={{ width: '100%', height: '100%', background: 'rgba(251,191,36,0.2)', borderRadius: 2 }} />
           </div>
 
           {/* Year 0 dot */}
@@ -51,7 +51,7 @@ export default function AugmentationTimeline({ solarRepowerEvents, batteryAugEve
             width: 10,
             height: 10,
             borderRadius: '50%',
-            background: '#10b981',
+            background: '#fbbf24',
             border: '2px solid #060d1a',
           }} />
 
@@ -67,8 +67,8 @@ export default function AugmentationTimeline({ solarRepowerEvents, batteryAugEve
             border: '2px solid #060d1a',
           }} />
 
-          {/* Repowering events */}
-          {solarRepowerEvents.map(evt => (
+          {/* Replacement events */}
+          {inverterReplacementEvents.map(evt => (
             <div key={evt.year} style={{
               position: 'absolute',
               left: `${pct(evt.year)}%`,
@@ -80,7 +80,7 @@ export default function AugmentationTimeline({ solarRepowerEvents, batteryAugEve
             }}>
               <div style={{
                 fontSize: 9,
-                color: '#10b981',
+                color: '#fbbf24',
                 fontFamily: '"JetBrains Mono", monospace',
                 marginBottom: 2,
                 whiteSpace: 'nowrap',
@@ -91,7 +91,7 @@ export default function AugmentationTimeline({ solarRepowerEvents, batteryAugEve
                 width: 10,
                 height: 10,
                 borderRadius: '50%',
-                background: '#10b981',
+                background: '#fbbf24',
                 border: '2px solid #060d1a',
                 marginTop: 9,
               }} />
@@ -99,7 +99,7 @@ export default function AugmentationTimeline({ solarRepowerEvents, batteryAugEve
           ))}
 
           {/* Skipped events */}
-          {solarSkipped.map(yr => (
+          {inverterSkipped.map(yr => (
             <div key={yr} style={{
               position: 'absolute',
               left: `${pct(yr)}%`,
@@ -210,8 +210,8 @@ export default function AugmentationTimeline({ solarRepowerEvents, batteryAugEve
 
       <div style={{ display: 'flex', gap: 14, marginTop: 4 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-          <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#10b981' }} />
-          <span style={{ fontSize: 10, color: '#94a3b8' }}>Repowering / augmentation event</span>
+          <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#fbbf24' }} />
+          <span style={{ fontSize: 10, color: '#94a3b8' }}>Replacement / augmentation event</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
           <div style={{ width: 8, height: 8, borderRadius: '50%', border: '1.5px dashed #334155' }} />

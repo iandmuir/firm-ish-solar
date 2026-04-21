@@ -36,6 +36,12 @@ export function decodeCityData(raw) {
 async function fetchGzippedJson(url) {
   const res = await fetch(url)
   if (!res.ok) throw new Error(`Failed to load ${url}: ${res.status}`)
+  // Some dev servers (e.g. Vite) set Content-Encoding: gzip on .gz files, in
+  // which case the browser has already decompressed the body. Static hosts
+  // (GitHub Pages) serve .gz as opaque bytes, so we decompress manually.
+  if (res.headers.get('content-encoding') === 'gzip') {
+    return res.json()
+  }
   const decompressed = res.body.pipeThrough(new DecompressionStream('gzip'))
   return new Response(decompressed).json()
 }
@@ -44,7 +50,9 @@ async function fetchGzippedJson(url) {
 export function loadCityData(slug) {
   if (cache.has(slug)) return cache.get(slug)
   const promise = (async () => {
-    const raw = await fetchGzippedJson(`/data/pvgis/${slug}.json.gz`)
+    const base = import.meta.env?.BASE_URL ?? '/'
+    const baseNormalized = base.endsWith('/') ? base : `${base}/`
+    const raw = await fetchGzippedJson(`${baseNormalized}data/pvgis/${slug}.json.gz`)
     return decodeCityData(raw)
   })()
   cache.set(slug, promise)

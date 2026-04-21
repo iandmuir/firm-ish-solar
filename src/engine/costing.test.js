@@ -6,15 +6,14 @@ const BASE = {
   deliveredByYear: Array(19).fill(800_000),
   unmetByYear: Array(19).fill(76_000),
   solarCostPerWdc: 0.388,
-  batteryCostPerWh: 0.165,
+  batteryCostPerKwh: 165,
   gridCostPerWac: 0.076,
   inverterCostPerWac: 0.048,
-  softCostPct: 10,
   solarOmPerKwdcYear: 12.5,
   batteryOmPerKwhYear: 5.9,
   opexEscalationPct: 2.5,
-  solarRepowerCycle: 12,
-  solarRepowerFraction: 35,
+  inverterReplacementCycle: 15,
+  inverterReplacementFraction: 100,
   batteryAugCycle: 8,
   batteryDegradationPct: 2.6,
   annualSolarCostDeclinePct: 3,
@@ -28,12 +27,11 @@ describe('computeCosts — CAPEX', () => {
   it('4-part CAPEX matches formulas', () => {
     const r = computeCosts(BASE)
     expect(r.initialCapex.solar).toBeCloseTo(300 * 1e6 * 0.388, 0)
-    expect(r.initialCapex.battery).toBeCloseTo(1000 * 1e6 * 0.165, 0)
+    expect(r.initialCapex.battery).toBeCloseTo(1000 * 1e3 * 165, 0)
     expect(r.initialCapex.grid).toBeCloseTo(100 * 1e6 * 0.076, 0)
     expect(r.initialCapex.inverter).toBeCloseTo(100 * 1e6 * 0.048, 0)
     const subtotal = 116_400_000 + 165_000_000 + 7_600_000 + 4_800_000
-    expect(r.initialCapex.softCost).toBeCloseTo(subtotal * 0.1, 0)
-    expect(r.initialCapex.total).toBeCloseTo(subtotal * 1.1, 0)
+    expect(r.initialCapex.total).toBeCloseTo(subtotal, 0)
   })
 })
 

@@ -1,6 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
+import MethodologyModal from './MethodologyModal.jsx'
 
 export default function Header() {
+  const [methodologyOpen, setMethodologyOpen] = useState(false)
+
   return (
     <header style={{
       borderBottom: '1px solid rgba(255,255,255,0.08)',
@@ -34,7 +37,7 @@ export default function Header() {
             background: '#10b981',
             boxShadow: '0 0 8px #10b981',
           }} />
-          Firm(ish) Solar+Storage Sizing and LCOE Calculator
+          Firm(ish) Solar+Storage Sizing & LCOE Calculator
         </h1>
         <p style={{
           margin: '2px 0 0',
@@ -42,18 +45,39 @@ export default function Header() {
           color: '#94a3b8',
           fontFamily: '"DM Sans", sans-serif',
         }}>
-          Utility-scale firm renewables — delivers consistent 24/7 power averaging the monthly capacity target
+          Solve for the cheapest solar + battery build that holds a 24/7 capacity target at your chosen reliability threshold — across 19 years of hourly insolation data.
         </p>
       </div>
-      <div style={{
-        fontSize: 11,
-        color: '#64748b',
-        fontFamily: '"JetBrains Mono", monospace',
-        textAlign: 'right',
-      }}>
-        <div>PVOUT Level 1 data</div>
-        <div>Solargis © 2024</div>
-      </div>
+      <button
+        onClick={() => setMethodologyOpen(true)}
+        style={{
+          fontFamily: '"DM Sans", sans-serif',
+          fontSize: 12,
+          color: '#94a3b8',
+          background: 'rgba(255,255,255,0.03)',
+          border: '1px solid rgba(255,255,255,0.1)',
+          borderRadius: 6,
+          padding: '6px 12px',
+          cursor: 'pointer',
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 6,
+          transition: 'all 0.15s',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.background = 'rgba(255,255,255,0.07)'
+          e.currentTarget.style.color = '#e2e8f0'
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = 'rgba(255,255,255,0.03)'
+          e.currentTarget.style.color = '#94a3b8'
+        }}
+      >
+        <span style={{ fontSize: 14, lineHeight: 1 }}>ⓘ</span>
+        Methodology
+      </button>
+
+      <MethodologyModal open={methodologyOpen} onClose={() => setMethodologyOpen(false)} />
     </header>
   )
 }

@@ -124,8 +124,8 @@ select {
   position: absolute;
   z-index: 50;
   bottom: calc(100% + 6px);
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
+  transform: translateX(-7px);
   background: var(--navy-700);
   color: var(--text-primary);
   border: 1px solid var(--border);

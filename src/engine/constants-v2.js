@@ -9,34 +9,38 @@ export const V2_DEFAULTS = {
   backupCostPerMWh: 150,
 
   // Solar
-  solarCostPerWdc: 0.388,
+  solarCostPerWdc: 0.5,
   solarDegradationPct: 0.5,
-  solarRepowerCycle: 12,
-  solarRepowerFraction: 35,
-  solarOmPerKwdcYear: 12.5,
+  solarOmPerKwdcYear: 10,
 
   // Storage
-  batteryCostPerWh: 0.165,
-  pvToBatteryEffPct: 98.2,
-  inverterEffPct: 96.24,
-  batteryDodPct: 90,
-  batteryDegradationPct: 2.6,
+  batteryCostPerKwh: 125,
+  pvToBatteryEffPct: 98.2,  // DC-DC conversion stage (Dufo-López). Also reused on grid path.
+  inverterEffPct: 98,       // Pure DC-AC inverter stage (Sungrow). Composed with DC-DC on grid paths.
+  batteryDodPct: 95,
+  batteryChemicalRtePct: 95, // Li-ion chemical round-trip (heat loss in cells). Applied √RTE symmetrically per leg, separate from power-electronics losses.
+  batteryDegradationPct: 2.5,
   batteryAugCycle: 8,
-  batteryOmPerKwhYear: 5.9,
+  batteryOmPerKwhYear: 5,
 
   // Grid + inverter (scale on firm MW, not solar MW)
-  gridCostPerWac: 0.076,
-  inverterCostPerWac: 0.048,
-  softCostPct: 10,
+  gridCostPerWac: 0.085,
+  inverterCostPerWac: 0.053,
+  inverterReplacementCycle: 15,    // years between inverter skid replacements
+  inverterReplacementFraction: 100, // % of turnkey inverter cost per replacement
 
   // Finance
-  waccPct: 7.7,
+  waccPct: 8,
   projectLifetime: 25,
   opexEscalationPct: 2.5,
 
   // Forward projection declines (carry from v1 defaults)
-  annualSolarCostDeclinePct: 3,
-  annualBatteryCostDeclinePct: 5,
+  annualSolarCostDeclinePct: 1.5,
+  annualBatteryCostDeclinePct: 4,
+
+  // Conventional-plant benchmark (for comparison UI only; not fed to engine)
+  benchmarkSource: 'Gas CCGT – Local',
+  benchmarkLcoe: 0.08, // $/kWh
 
   // Solver
   thresholdSweepPoints: [70, 80, 85, 90, 93, 95, 97, 99],

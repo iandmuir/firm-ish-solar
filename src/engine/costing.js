@@ -4,9 +4,10 @@ export function computeCosts(opts) {
   const {
     solarMW, batteryMWh, firmMW,
     deliveredByYear, unmetByYear,
-    solarCostPerWdc, batteryCostPerWh, gridCostPerWac, inverterCostPerWac, softCostPct,
+    solarCostPerWdc, batteryCostPerKwh, gridCostPerWac, inverterCostPerWac,
     solarOmPerKwdcYear, batteryOmPerKwhYear, opexEscalationPct,
-    solarRepowerCycle, solarRepowerFraction, batteryAugCycle, batteryDegradationPct,
+    inverterReplacementCycle, inverterReplacementFraction,
+    batteryAugCycle, batteryDegradationPct,
     annualSolarCostDeclinePct, annualBatteryCostDeclinePct,
     waccPct, projectLifetime, backupCostPerMWh,
   } = opts
@@ -15,31 +16,30 @@ export function computeCosts(opts) {
   const escalation = opexEscalationPct / 100
   const solarDecline = annualSolarCostDeclinePct / 100
   const batteryDecline = annualBatteryCostDeclinePct / 100
-  const softMult = 1 + softCostPct / 100
   const batteryDeg = batteryDegradationPct / 100
-  const repowerFrac = solarRepowerFraction / 100
+  const invReplaceFrac = inverterReplacementFraction / 100
 
   // --- CAPEX ---
   const solar = solarMW * 1e6 * solarCostPerWdc
-  const battery = batteryMWh * 1e6 * batteryCostPerWh
+  const battery = batteryMWh * 1e3 * batteryCostPerKwh
   const grid = firmMW * 1e6 * gridCostPerWac
   const inverter = firmMW * 1e6 * inverterCostPerWac
-  const subtotal = solar + battery + grid + inverter
-  const softCost = subtotal * softCostPct / 100
-  const totalInitial = subtotal + softCost
+  const totalInitial = solar + battery + grid + inverter
 
   // --- OPEX (year-0 nominal) ---
   const annualSolarOm = solarMW * 1000 * solarOmPerKwdcYear
   const annualBatteryOm = batteryMWh * 1000 * batteryOmPerKwhYear
 
-  // --- Repower & augmentation schedules ---
-  const solarSchedule = buildAugmentationSchedule(solarRepowerCycle, projectLifetime)
+  // --- Replacement & augmentation schedules ---
+  const inverterSchedule = buildAugmentationSchedule(inverterReplacementCycle, projectLifetime)
   const batterySchedule = buildAugmentationSchedule(batteryAugCycle, projectLifetime)
 
   // --- Event capex (nominal, at event year) ---
-  const solarRepowerEvents = solarSchedule.augmentationYears.map(y => {
-    const costAtYear = solarCostPerWdc * Math.pow(1 - solarDecline, y)
-    const capex = repowerFrac * costAtYear * solarMW * 1e6 * softMult
+  // Inverter replacement: full skid swap priced as (inverter $/Wac × firm Wac) × replacement %,
+  // with future pricing declining at the solar-cost decline rate (inverter costs track solar).
+  const inverterReplacementEvents = inverterSchedule.augmentationYears.map(y => {
+    const costPerWacAtYear = inverterCostPerWac * Math.pow(1 - solarDecline, y)
+    const capex = invReplaceFrac * costPerWacAtYear * firmMW * 1e6
     return { year: y, capex }
   })
 
@@ -48,15 +48,15 @@ export function computeCosts(opts) {
     let prev = 0
     for (const y of batterySchedule.augmentationYears) {
       const lost = 1 - Math.pow(1 - batteryDeg, y - prev)
-      const costAtYear = batteryCostPerWh * Math.pow(1 - batteryDecline, y)
-      const capex = lost * batteryMWh * 1e6 * costAtYear * softMult
+      const costAtYear = batteryCostPerKwh * Math.pow(1 - batteryDecline, y)
+      const capex = lost * batteryMWh * 1e3 * costAtYear
       batteryAugEvents.push({ year: y, capex })
       prev = y
     }
   }
 
   // --- NPV discounted streams ---
-  let npvOpex = 0, npvRepower = 0, npvAug = 0, npvBackup = 0, npvEnergy = 0
+  let npvOpex = 0, npvInvReplace = 0, npvAug = 0, npvBackup = 0, npvEnergy = 0
   const dispatchYears = deliveredByYear.length
   for (let y = 1; y <= projectLifetime; y++) {
     const df = Math.pow(1 + wacc, y)
@@ -73,14 +73,14 @@ export function computeCosts(opts) {
 
     npvEnergy += (firmMW * 8760) / df
   }
-  for (const ev of solarRepowerEvents) {
-    npvRepower += ev.capex / Math.pow(1 + wacc, ev.year)
+  for (const ev of inverterReplacementEvents) {
+    npvInvReplace += ev.capex / Math.pow(1 + wacc, ev.year)
   }
   for (const ev of batteryAugEvents) {
     npvAug += ev.capex / Math.pow(1 + wacc, ev.year)
   }
 
-  const npvSystem = totalInitial + npvOpex + npvRepower + npvAug
+  const npvSystem = totalInitial + npvOpex + npvInvReplace + npvAug
 
   const systemLcoePerMWh = npvSystem / npvEnergy
   const blendedLcoePerMWh = (npvSystem + npvBackup) / npvEnergy
@@ -92,8 +92,7 @@ export function computeCosts(opts) {
     batteryCapex: perKWh(battery),
     gridCapex: perKWh(grid),
     invCapex: perKWh(inverter),
-    softCost: perKWh(softCost),
-    solarRepower: perKWh(npvRepower),
+    inverterReplacement: perKWh(npvInvReplace),
     batteryAug: perKWh(npvAug),
     solarOm: perKWh(discountedSingleStream(annualSolarOm, escalation, wacc, projectLifetime)),
     batteryOm: perKWh(discountedSingleStream(annualBatteryOm, escalation, wacc, projectLifetime)),
@@ -101,14 +100,14 @@ export function computeCosts(opts) {
   }
 
   return {
-    initialCapex: { solar, battery, grid, inverter, softCost, total: totalInitial },
+    initialCapex: { solar, battery, grid, inverter, total: totalInitial },
     annualOm: { solar: annualSolarOm, battery: annualBatteryOm, total: annualSolarOm + annualBatteryOm },
-    solarRepowerEvents,
+    inverterReplacementEvents,
     batteryAugEvents,
     lifetimeNpv: {
       capex: totalInitial,
       opex: npvOpex,
-      repower: npvRepower,
+      inverterReplacement: npvInvReplace,
       augmentation: npvAug,
       backup: npvBackup,
       total: npvSystem,
@@ -117,7 +116,7 @@ export function computeCosts(opts) {
     systemLcoePerMWh,
     blendedLcoePerMWh,
     costBreakdownPerKWh,
-    solarSchedule,
+    inverterSchedule,
     batterySchedule,
   }
 }
@@ -140,7 +139,7 @@ export function projectForward({ baseInputs, yearsOut = 10 }) {
       ...baseInputs,
       solarCostPerWdc: baseInputs.solarCostPerWdc
         * Math.pow(1 - baseInputs.annualSolarCostDeclinePct / 100, p),
-      batteryCostPerWh: baseInputs.batteryCostPerWh
+      batteryCostPerKwh: baseInputs.batteryCostPerKwh
         * Math.pow(1 - baseInputs.annualBatteryCostDeclinePct / 100, p),
     }
     const c = computeCosts(scaled)

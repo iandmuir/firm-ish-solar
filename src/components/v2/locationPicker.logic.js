@@ -4,16 +4,18 @@
  * equivalent to a country list; when multiple cities per country arrive we'll
  * group on top of this same structure.
  */
+import { countryName } from '../../data/iso-countries.js'
+
 export function buildOptions(cities) {
   const opts = cities.map(c => ({
     iso3: c.iso3,
-    country: c.country,
+    country: c.country ?? countryName(c.iso3),
     city: c.city,
     lat: c.lat,
     lon: c.lon,
     slug: citySlug(c),
   }))
-  opts.sort((a, b) => a.country.localeCompare(b.country))
+  opts.sort((a, b) => String(a.country).localeCompare(String(b.country)))
   return opts
 }
 

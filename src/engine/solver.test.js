@@ -3,9 +3,9 @@ import { solveSizing, solveSizingSweep } from './solver.js'
 import { multiYearProfile } from './test-helpers.js'
 
 const effs = {
-  pvToBattEff: 0.982, invEff: 0.9624, dodPct: 90,
+  pvToBattEff: 0.982, pvToGridEff: 0.98, battToGridEff: 0.9624, dodPct: 90,
   solarDegPerYear: 0, batteryDegPerYear: 0,
-  solarRepowerYears: new Set(), batteryAugYears: new Set(),
+  batteryAugYears: new Set(),
 }
 
 describe('solveSizing', () => {

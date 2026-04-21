@@ -13,7 +13,7 @@ function gzippedJsonResponse(obj) {
       controller.close()
     },
   })
-  return { ok: true, body }
+  return { ok: true, body, headers: { get: () => null } }
 }
 
 describe('decodeCityData', () => {

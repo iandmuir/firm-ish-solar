@@ -9,11 +9,11 @@ export function calculateV2(inputs, opts = {}) {
     firmCapacityMW: firmMW,
     firmnessThresholdPct,
     backupCostPerMWh,
-    solarCostPerWdc, solarDegradationPct, solarRepowerCycle,
-    solarRepowerFraction, solarOmPerKwdcYear,
-    batteryCostPerWh, pvToBatteryEffPct, inverterEffPct,
-    batteryDodPct, batteryDegradationPct, batteryAugCycle, batteryOmPerKwhYear,
-    gridCostPerWac, inverterCostPerWac, softCostPct,
+    solarCostPerWdc, solarDegradationPct, solarOmPerKwdcYear,
+    batteryCostPerKwh, pvToBatteryEffPct, inverterEffPct,
+    batteryDodPct, batteryChemicalRtePct, batteryDegradationPct, batteryAugCycle, batteryOmPerKwhYear,
+    gridCostPerWac, inverterCostPerWac,
+    inverterReplacementCycle, inverterReplacementFraction,
     waccPct, projectLifetime, opexEscalationPct,
     annualSolarCostDeclinePct, annualBatteryCostDeclinePct,
   } = inputs
@@ -23,19 +23,25 @@ export function calculateV2(inputs, opts = {}) {
   const maxInnerIter = opts.maxInnerIter ?? 10
   const bisectTolerance = opts.bisectTolerance ?? 1
 
-  const solarSched = buildAugmentationSchedule(solarRepowerCycle, projectLifetime)
   const batterySched = buildAugmentationSchedule(batteryAugCycle, projectLifetime)
 
   const dispatchCommon = {
     hourly: cityData.hourly,
     hoursPerYear: cityData.hoursPerYear,
     firmMW,
+    // PV-centric DC coupling (required for extreme overbuilds used here): PV strings feed
+    // field-side DC-DC optimizers that regulate the DC bus, so every PV electron pays the
+    // DC-DC hit. The battery then sits on the regulated bus and only pays DC-AC on the way
+    // out. So: PV→Battery = DC-DC; PV→Grid = DC-DC × DC-AC; Battery→Grid = DC-AC only.
     pvToBattEff: pvToBatteryEffPct / 100,
-    invEff: inverterEffPct / 100,
+    pvToGridEff: (pvToBatteryEffPct / 100) * (inverterEffPct / 100),
+    battToGridEff: inverterEffPct / 100,
+    // Chemical RTE is split symmetrically — one-way = √RTE — applied separately on
+    // charge and discharge, independent of the silicon power-electronics losses.
+    chemOneWayEff: Math.sqrt((batteryChemicalRtePct ?? 100) / 100),
     dodPct: batteryDodPct,
     solarDegPerYear: solarDegradationPct / 100,
     batteryDegPerYear: batteryDegradationPct / 100,
-    solarRepowerYears: new Set(solarSched.augmentationYears),
     batteryAugYears: new Set(batterySched.augmentationYears),
   }
 
@@ -43,21 +49,22 @@ export function calculateV2(inputs, opts = {}) {
     ...dispatchCommon,
     thresholds,
     capexPerMWSolar: solarCostPerWdc * 1e6,
-    capexPerMWhBattery: batteryCostPerWh * 1e6,
+    capexPerMWhBattery: batteryCostPerKwh * 1e3,
     solarMWMin: 1.5 * firmMW,
-    solarMWMax: 8 * firmMW,
+    solarMWMax: 12 * firmMW,
     solarSteps: solverSteps,
     batteryMWhMin: 0,
-    batteryMWhMax: 36 * firmMW,
+    batteryMWhMax: 72 * firmMW,
     bisectTolerance,
     maxInnerIter,
   })
 
   const costingBase = {
     firmMW,
-    solarCostPerWdc, batteryCostPerWh, gridCostPerWac, inverterCostPerWac, softCostPct,
+    solarCostPerWdc, batteryCostPerKwh, gridCostPerWac, inverterCostPerWac,
     solarOmPerKwdcYear, batteryOmPerKwhYear, opexEscalationPct,
-    solarRepowerCycle, solarRepowerFraction, batteryAugCycle, batteryDegradationPct,
+    inverterReplacementCycle, inverterReplacementFraction,
+    batteryAugCycle, batteryDegradationPct,
     annualSolarCostDeclinePct, annualBatteryCostDeclinePct,
     waccPct, projectLifetime, backupCostPerMWh,
   }

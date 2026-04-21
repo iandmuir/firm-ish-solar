@@ -42,12 +42,20 @@ export default function SliderInput({
   const displayVal = typeof value === 'number' ? value : parseFloat(value)
 
   const [inputText, setInputText] = useState(null)
+  // Local "while dragging" value — commit to parent only on release so
+  // expensive recalcs don't fire on every pixel of movement.
+  const [dragValue, setDragValue] = useState(null)
 
-  const handleSlider = useCallback((e) => {
-    const v = parseFloat(e.target.value)
-    onChange(v)
+  const handleSliderInput = useCallback((e) => {
+    setDragValue(parseFloat(e.target.value))
+  }, [])
+
+  const commitSlider = useCallback(() => {
+    if (dragValue === null) return
+    onChange(dragValue)
+    setDragValue(null)
     setInputText(null)
-  }, [onChange])
+  }, [dragValue, onChange])
 
   const handleNumberInput = useCallback((e) => {
     setInputText(e.target.value)
@@ -67,7 +75,8 @@ export default function SliderInput({
     if (e.key === 'Enter') e.target.blur()
   }, [])
 
-  const pct = ((displayVal - min) / (max - min)) * 100
+  const sliderVal = dragValue !== null ? dragValue : displayVal
+  const pct = ((sliderVal - min) / (max - min)) * 100
 
   return (
     <div style={{ marginBottom: 12 }}>
@@ -87,7 +96,7 @@ export default function SliderInput({
         <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
           <input
             type="number"
-            value={inputText !== null ? inputText : displayVal}
+            value={inputText !== null ? inputText : sliderVal}
             onChange={handleNumberInput}
             onBlur={handleNumberBlur}
             onKeyDown={handleNumberKeyDown}
@@ -117,8 +126,12 @@ export default function SliderInput({
           min={min}
           max={max}
           step={step}
-          value={displayVal}
-          onChange={handleSlider}
+          value={sliderVal}
+          onChange={handleSliderInput}
+          onMouseUp={commitSlider}
+          onTouchEnd={commitSlider}
+          onKeyUp={commitSlider}
+          onBlur={commitSlider}
           style={{
             width: '100%',
             background: `linear-gradient(to right, #10b981 ${pct}%, #162d58 ${pct}%)`,

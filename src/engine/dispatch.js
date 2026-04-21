@@ -7,11 +7,15 @@ const FIRM_MET_EPS_W = 1e-6
 export function simulateDispatch({
   hourly, hoursPerYear,
   solarMW, batteryMWh, firmMW,
-  pvToBattEff, invEff, dodPct,
+  pvToBattEff, pvToGridEff, battToGridEff, dodPct,
+  chemOneWayEff = 1,
   solarDegPerYear, batteryDegPerYear,
-  solarRepowerYears, batteryAugYears,
+  batteryAugYears,
 }) {
   if (pvToBattEff <= 0) throw new Error('pvToBattEff must be > 0')
+  if (pvToGridEff <= 0) throw new Error('pvToGridEff must be > 0')
+  if (battToGridEff <= 0) throw new Error('battToGridEff must be > 0')
+  if (chemOneWayEff <= 0) throw new Error('chemOneWayEff must be > 0')
   const totalHours = hourly.length
   const years = hoursPerYear.length
   const firmW = firmMW * 1e6
@@ -22,18 +26,18 @@ export function simulateDispatch({
   const deliveredByYear = new Array(years).fill(0)
   const unmetByYear = new Array(years).fill(0)
   const excessByYear = new Array(years).fill(0)
+  const metHoursByYear = new Array(years).fill(0)
   const unmetByMonth = new Array(12).fill(0)
   let metHours = 0
 
   let soc = 0
-  let solarYearsSinceReset = 0
   let batteryYearsSinceReset = 0
   let hourCursor = 0
 
   for (let y = 0; y < years; y++) {
-    if (y === 0 || solarRepowerYears.has(y)) solarYearsSinceReset = 0
     if (y === 0 || batteryAugYears.has(y)) batteryYearsSinceReset = 0
-    const solarDegFactor = Math.pow(1 - solarDegPerYear, solarYearsSinceReset)
+    // Solar degrades continuously over project life — no repowering reset.
+    const solarDegFactor = Math.pow(1 - solarDegPerYear, y)
     const batteryDegFactor = Math.pow(1 - batteryDegPerYear, batteryYearsSinceReset)
     const usableBatteryWh = batteryWhNameplate * dod * batteryDegFactor
     if (y === 0) soc = usableBatteryWh
@@ -46,24 +50,30 @@ export function simulateDispatch({
 
       const pvDc = hourly[hourCursor] * solarKwp * solarDegFactor
 
-      const directAcMax = pvDc * invEff
+      const directAcMax = pvDc * pvToGridEff
       const directAc = directAcMax < firmW ? directAcMax : firmW
-      const pvUsedForDirect = directAc / invEff
+      const pvUsedForDirect = directAc / pvToGridEff
       const pvRemainingDc = pvDc - pvUsedForDirect
 
+      // Charging: PV surplus pays DC-DC (silicon) and one-way chemical (heat in cells)
+      // before landing in the SoC bucket. chargeDcUsed inverts both to find raw PV used.
       const headroom = usableBatteryWh - soc
-      const potentialChargeAtBatt = pvRemainingDc * pvToBattEff
-      const actualCharge = potentialChargeAtBatt < headroom ? potentialChargeAtBatt : headroom
-      const chargeDcUsed = actualCharge / pvToBattEff
+      const chargeCombinedEff = pvToBattEff * chemOneWayEff
+      const potentialChargeAtSoc = pvRemainingDc * chargeCombinedEff
+      const actualCharge = potentialChargeAtSoc < headroom ? potentialChargeAtSoc : headroom
+      const chargeDcUsed = actualCharge / chargeCombinedEff
       const pvCurtailedDc = pvRemainingDc - chargeDcUsed
       soc += actualCharge
 
+      // Discharging: energy drained from SoC pays one-way chemical and DC-AC inverter
+      // before reaching the grid. PV-side DC-DC is bypassed (battery sits on regulated bus).
       const deficitAc = firmW - directAc
       let batteryAc = 0
       if (deficitAc > 0) {
-        const batteryWhNeeded = deficitAc / invEff
+        const dischargeCombinedEff = battToGridEff * chemOneWayEff
+        const batteryWhNeeded = deficitAc / dischargeCombinedEff
         const actualDischarge = batteryWhNeeded < soc ? batteryWhNeeded : soc
-        batteryAc = actualDischarge * invEff
+        batteryAc = actualDischarge * dischargeCombinedEff
         soc -= actualDischarge
       }
 
@@ -73,12 +83,14 @@ export function simulateDispatch({
       unmetByYear[y] += unmetAc
       excessByYear[y] += pvCurtailedDc
       unmetByMonth[currentMonth] += unmetAc
-      if (deliveredAc >= firmW - FIRM_MET_EPS_W) metHours++
+      if (deliveredAc >= firmW - FIRM_MET_EPS_W) {
+        metHours++
+        metHoursByYear[y]++
+      }
 
       hourCursor++
     }
 
-    solarYearsSinceReset++
     batteryYearsSinceReset++
   }
 
@@ -90,12 +102,16 @@ export function simulateDispatch({
   }
   for (let m = 0; m < 12; m++) unmetByMonth[m] *= whToMwh
 
+  const firmnessByYear = metHoursByYear.map((m, y) => m / hoursPerYear[y])
+
   return {
     deliveredByYear,
     unmetByYear,
     excessByYear,
     unmetByMonth,
     metHours,
+    metHoursByYear,
+    firmnessByYear,
     totalHours,
     firmnessAchieved: metHours / totalHours,
   }

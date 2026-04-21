@@ -9,20 +9,23 @@ describe('V2_DEFAULTS', () => {
   })
 
   it('has solar, storage, grid and inverter costs per Ember', () => {
-    expect(V2_DEFAULTS.solarCostPerWdc).toBe(0.388)
-    expect(V2_DEFAULTS.batteryCostPerWh).toBe(0.165)
-    expect(V2_DEFAULTS.gridCostPerWac).toBe(0.076)
-    expect(V2_DEFAULTS.inverterCostPerWac).toBe(0.048)
-    expect(V2_DEFAULTS.softCostPct).toBe(10)
+    expect(V2_DEFAULTS.solarCostPerWdc).toBe(0.5)
+    expect(V2_DEFAULTS.batteryCostPerKwh).toBe(125)
+    expect(V2_DEFAULTS.gridCostPerWac).toBe(0.085)
+    expect(V2_DEFAULTS.inverterCostPerWac).toBe(0.053)
   })
 
   it('has DC-coupled efficiencies', () => {
     expect(V2_DEFAULTS.pvToBatteryEffPct).toBe(98.2)
-    expect(V2_DEFAULTS.inverterEffPct).toBe(96.24)
+    expect(V2_DEFAULTS.inverterEffPct).toBe(98)
+  })
+
+  it('has battery chemical round-trip efficiency', () => {
+    expect(V2_DEFAULTS.batteryChemicalRtePct).toBe(95)
   })
 
   it('has finance defaults', () => {
-    expect(V2_DEFAULTS.waccPct).toBe(7.7)
+    expect(V2_DEFAULTS.waccPct).toBe(8)
     expect(V2_DEFAULTS.projectLifetime).toBe(25)
     expect(V2_DEFAULTS.opexEscalationPct).toBe(2.5)
   })
