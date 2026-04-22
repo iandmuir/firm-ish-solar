@@ -14,11 +14,39 @@
     "pop": 4434550
   },
   {
+    "iso3": "AFG",
+    "city": "Herāt",
+    "lat": 34.34817,
+    "lon": 62.19967,
+    "pop": 574300
+  },
+  {
+    "iso3": "AFG",
+    "city": "Mazār-e Sharīf",
+    "lat": 36.70904,
+    "lon": 67.11087,
+    "pop": 523300
+  },
+  {
     "iso3": "AGO",
     "city": "Luanda",
     "lat": -8.83682,
     "lon": 13.23432,
     "pop": 2776168
+  },
+  {
+    "iso3": "AGO",
+    "city": "Lubango",
+    "lat": -14.91717,
+    "lon": 13.4925,
+    "pop": 600751
+  },
+  {
+    "iso3": "AGO",
+    "city": "Huambo",
+    "lat": -12.77611,
+    "lon": 15.73917,
+    "pop": 595304
   },
   {
     "iso3": "AIA",
@@ -63,6 +91,20 @@
     "pop": 2891082
   },
   {
+    "iso3": "ARG",
+    "city": "Córdoba",
+    "lat": -31.40648,
+    "lon": -64.18853,
+    "pop": 2106734
+  },
+  {
+    "iso3": "ARG",
+    "city": "Rosario",
+    "lat": -32.94682,
+    "lon": -60.63932,
+    "pop": 948312
+  },
+  {
     "iso3": "ARM",
     "city": "Yerevan",
     "lat": 40.17765,
@@ -96,6 +138,20 @@
     "lat": -33.86785,
     "lon": 151.20732,
     "pop": 5557233
+  },
+  {
+    "iso3": "AUS",
+    "city": "Melbourne",
+    "lat": -37.814,
+    "lon": 144.96332,
+    "pop": 5350705
+  },
+  {
+    "iso3": "AUS",
+    "city": "Brisbane",
+    "lat": -27.46794,
+    "lon": 153.02809,
+    "pop": 2780063
   },
   {
     "iso3": "AUT",
@@ -217,11 +273,39 @@
     "pop": 2004652
   },
   {
+    "iso3": "BOL",
+    "city": "Santa Cruz de la Sierra",
+    "lat": -17.78629,
+    "lon": -63.18117,
+    "pop": 1831434
+  },
+  {
+    "iso3": "BOL",
+    "city": "Cochabamba",
+    "lat": -17.38195,
+    "lon": -66.15995,
+    "pop": 841276
+  },
+  {
     "iso3": "BRA",
     "city": "São Paulo",
     "lat": -23.5475,
     "lon": -46.63611,
     "pop": 12400232
+  },
+  {
+    "iso3": "BRA",
+    "city": "Rio de Janeiro",
+    "lat": -22.90642,
+    "lon": -43.18223,
+    "pop": 6747815
+  },
+  {
+    "iso3": "BRA",
+    "city": "Belo Horizonte",
+    "lat": -19.92083,
+    "lon": -43.93778,
+    "pop": 2721564
   },
   {
     "iso3": "BRB",
@@ -252,6 +336,20 @@
     "pop": 246325
   },
   {
+    "iso3": "BWA",
+    "city": "Francistown",
+    "lat": -21.17,
+    "lon": 27.50778,
+    "pop": 103417
+  },
+  {
+    "iso3": "BWA",
+    "city": "Mogoditshane",
+    "lat": -24.62694,
+    "lon": 25.86556,
+    "pop": 88004
+  },
+  {
     "iso3": "CAF",
     "city": "Bangui",
     "lat": 4.36122,
@@ -259,11 +357,39 @@
     "pop": 812407
   },
   {
+    "iso3": "CAF",
+    "city": "Bimbo",
+    "lat": 4.25671,
+    "lon": 18.41583,
+    "pop": 348802
+  },
+  {
+    "iso3": "CAF",
+    "city": "Bégoua",
+    "lat": 4.45437,
+    "lon": 18.53475,
+    "pop": 264067
+  },
+  {
     "iso3": "CAN",
     "city": "Toronto",
     "lat": 43.70643,
     "lon": -79.39864,
     "pop": 2794356
+  },
+  {
+    "iso3": "CAN",
+    "city": "Montréal",
+    "lat": 45.50884,
+    "lon": -73.58781,
+    "pop": 1762949
+  },
+  {
+    "iso3": "CAN",
+    "city": "Calgary",
+    "lat": 51.05011,
+    "lon": -114.08529,
+    "pop": 1306784
   },
   {
     "iso3": "CCK",
@@ -287,11 +413,39 @@
     "pop": 4837295
   },
   {
+    "iso3": "CHL",
+    "city": "Puente Alto",
+    "lat": -33.61169,
+    "lon": -70.57577,
+    "pop": 568106
+  },
+  {
+    "iso3": "CHL",
+    "city": "Maipú",
+    "lat": -33.51421,
+    "lon": -70.7651,
+    "pop": 503635
+  },
+  {
     "iso3": "CHN",
     "city": "Shanghai",
     "lat": 31.22222,
     "lon": 121.45806,
     "pop": 24874500
+  },
+  {
+    "iso3": "CHN",
+    "city": "Beijing",
+    "lat": 39.9075,
+    "lon": 116.39723,
+    "pop": 18960744
+  },
+  {
+    "iso3": "CHN",
+    "city": "Shenzhen",
+    "lat": 22.54554,
+    "lon": 114.0683,
+    "pop": 17494398
   },
   {
     "iso3": "CIV",
@@ -301,11 +455,39 @@
     "pop": 6321017
   },
   {
+    "iso3": "CIV",
+    "city": "Abobo",
+    "lat": 5.41613,
+    "lon": -4.0159,
+    "pop": 1340083
+  },
+  {
+    "iso3": "CIV",
+    "city": "Bouaké",
+    "lat": 7.69385,
+    "lon": -5.03031,
+    "pop": 832371
+  },
+  {
     "iso3": "CMR",
     "city": "Douala",
     "lat": 4.04827,
     "lon": 9.70428,
     "pop": 1338082
+  },
+  {
+    "iso3": "CMR",
+    "city": "Yaoundé",
+    "lat": 3.86667,
+    "lon": 11.51667,
+    "pop": 1299369
+  },
+  {
+    "iso3": "CMR",
+    "city": "Bamenda",
+    "lat": 5.9597,
+    "lon": 10.14597,
+    "pop": 420445
   },
   {
     "iso3": "COD",
@@ -315,11 +497,39 @@
     "pop": 16000000
   },
   {
+    "iso3": "COD",
+    "city": "Lubumbashi",
+    "lat": -11.66089,
+    "lon": 27.47938,
+    "pop": 2221925
+  },
+  {
+    "iso3": "COD",
+    "city": "Mbuji-Mayi",
+    "lat": -6.13603,
+    "lon": 23.58979,
+    "pop": 2101332
+  },
+  {
     "iso3": "COG",
     "city": "Brazzaville",
     "lat": -4.26613,
     "lon": 15.28318,
     "pop": 1982000
+  },
+  {
+    "iso3": "COG",
+    "city": "Pointe-Noire",
+    "lat": -4.77609,
+    "lon": 11.86352,
+    "pop": 1032000
+  },
+  {
+    "iso3": "COG",
+    "city": "Dolisie",
+    "lat": -4.19834,
+    "lon": 12.66664,
+    "pop": 121000
   },
   {
     "iso3": "COK",
@@ -334,6 +544,20 @@
     "lat": 4.60971,
     "lon": -74.08175,
     "pop": 7674366
+  },
+  {
+    "iso3": "COL",
+    "city": "Cali",
+    "lat": 3.43054,
+    "lon": -76.5199,
+    "pop": 2392877
+  },
+  {
+    "iso3": "COL",
+    "city": "Medellín",
+    "lat": 6.245,
+    "lon": -75.57151,
+    "pop": 1999979
   },
   {
     "iso3": "COM",
@@ -406,6 +630,20 @@
     "pop": 3426354
   },
   {
+    "iso3": "DEU",
+    "city": "Hamburg",
+    "lat": 53.55073,
+    "lon": 9.99302,
+    "pop": 1845229
+  },
+  {
+    "iso3": "DEU",
+    "city": "Munich",
+    "lat": 48.13743,
+    "lon": 11.57549,
+    "pop": 1260391
+  },
+  {
     "iso3": "DJI",
     "city": "Djibouti",
     "lat": 11.58901,
@@ -441,6 +679,20 @@
     "pop": 2364230
   },
   {
+    "iso3": "DZA",
+    "city": "Oran",
+    "lat": 35.69906,
+    "lon": -0.63588,
+    "pop": 803329
+  },
+  {
+    "iso3": "DZA",
+    "city": "Constantine",
+    "lat": 36.365,
+    "lon": 6.61472,
+    "pop": 448028
+  },
+  {
     "iso3": "ECU",
     "city": "Quito",
     "lat": -0.22985,
@@ -453,6 +705,20 @@
     "lat": 30.06263,
     "lon": 31.24967,
     "pop": 9606916
+  },
+  {
+    "iso3": "EGY",
+    "city": "Alexandria",
+    "lat": 31.20176,
+    "lon": 29.91582,
+    "pop": 5263542
+  },
+  {
+    "iso3": "EGY",
+    "city": "Giza",
+    "lat": 30.00944,
+    "lon": 31.20861,
+    "pop": 4367343
   },
   {
     "iso3": "ERI",
@@ -476,6 +742,20 @@
     "pop": 3255944
   },
   {
+    "iso3": "ESP",
+    "city": "Barcelona",
+    "lat": 41.38879,
+    "lon": 2.15899,
+    "pop": 1686208
+  },
+  {
+    "iso3": "ESP",
+    "city": "Valencia",
+    "lat": 39.47391,
+    "lon": -0.37966,
+    "pop": 824340
+  },
+  {
     "iso3": "EST",
     "city": "Tallinn",
     "lat": 59.43696,
@@ -490,11 +770,39 @@
     "pop": 3860000
   },
   {
+    "iso3": "ETH",
+    "city": "Jijiga",
+    "lat": 9.35,
+    "lon": 42.8,
+    "pop": 483000
+  },
+  {
+    "iso3": "ETH",
+    "city": "Gonder",
+    "lat": 12.6,
+    "lon": 37.46667,
+    "pop": 466000
+  },
+  {
     "iso3": "FIN",
     "city": "Helsinki",
     "lat": 60.16952,
     "lon": 24.93545,
     "pop": 658864
+  },
+  {
+    "iso3": "FIN",
+    "city": "Espoo",
+    "lat": 60.2052,
+    "lon": 24.6522,
+    "pop": 323910
+  },
+  {
+    "iso3": "FIN",
+    "city": "Tampere",
+    "lat": 61.49911,
+    "lon": 23.78712,
+    "pop": 260646
   },
   {
     "iso3": "FJI",
@@ -516,6 +824,20 @@
     "lat": 48.85341,
     "lon": 2.3488,
     "pop": 2138551
+  },
+  {
+    "iso3": "FRA",
+    "city": "Marseille",
+    "lat": 43.29695,
+    "lon": 5.38107,
+    "pop": 877215
+  },
+  {
+    "iso3": "FRA",
+    "city": "Lyon",
+    "lat": 45.74906,
+    "lon": 4.84789,
+    "pop": 520774
   },
   {
     "iso3": "FRO",
@@ -700,6 +1022,20 @@
     "pop": 8540121
   },
   {
+    "iso3": "IDN",
+    "city": "Surabaya",
+    "lat": -7.24917,
+    "lon": 112.75083,
+    "pop": 2874314
+  },
+  {
+    "iso3": "IDN",
+    "city": "Bekasi",
+    "lat": -6.2349,
+    "lon": 106.9896,
+    "pop": 2564940
+  },
+  {
     "iso3": "IMN",
     "city": "Douglas",
     "lat": 54.15,
@@ -712,6 +1048,20 @@
     "lat": 19.07283,
     "lon": 72.88261,
     "pop": 12691836
+  },
+  {
+    "iso3": "IND",
+    "city": "Delhi",
+    "lat": 28.65195,
+    "lon": 77.23149,
+    "pop": 11034555
+  },
+  {
+    "iso3": "IND",
+    "city": "Bengaluru",
+    "lat": 12.97194,
+    "lon": 77.59369,
+    "pop": 8495492
   },
   {
     "iso3": "IRL",
@@ -728,11 +1078,39 @@
     "pop": 7153309
   },
   {
+    "iso3": "IRN",
+    "city": "Mashhad",
+    "lat": 36.29807,
+    "lon": 59.60567,
+    "pop": 2307177
+  },
+  {
+    "iso3": "IRN",
+    "city": "Isfahan",
+    "lat": 32.65246,
+    "lon": 51.67462,
+    "pop": 1547164
+  },
+  {
     "iso3": "IRQ",
     "city": "Baghdad",
     "lat": 33.34058,
     "lon": 44.40088,
     "pop": 7216000
+  },
+  {
+    "iso3": "IRQ",
+    "city": "Al Mawşil al Jadīdah",
+    "lat": 36.33271,
+    "lon": 43.10555,
+    "pop": 2065597
+  },
+  {
+    "iso3": "IRQ",
+    "city": "Al Başrah al Qadīmah",
+    "lat": 30.50316,
+    "lon": 47.81507,
+    "pop": 2015483
   },
   {
     "iso3": "ISL",
@@ -754,6 +1132,20 @@
     "lat": 41.89193,
     "lon": 12.51133,
     "pop": 2318895
+  },
+  {
+    "iso3": "ITA",
+    "city": "Milan",
+    "lat": 45.46427,
+    "lon": 9.18951,
+    "pop": 1371498
+  },
+  {
+    "iso3": "ITA",
+    "city": "Naples",
+    "lat": 40.85216,
+    "lon": 14.26811,
+    "pop": 909048
   },
   {
     "iso3": "JAM",
@@ -784,6 +1176,20 @@
     "pop": 9733276
   },
   {
+    "iso3": "JPN",
+    "city": "Yokohama",
+    "lat": 35.43333,
+    "lon": 139.65,
+    "pop": 3777491
+  },
+  {
+    "iso3": "JPN",
+    "city": "Osaka",
+    "lat": 34.69379,
+    "lon": 135.50107,
+    "pop": 2753862
+  },
+  {
     "iso3": "KAZ",
     "city": "Almaty",
     "lat": 43.25249,
@@ -791,11 +1197,39 @@
     "pop": 1977011
   },
   {
+    "iso3": "KAZ",
+    "city": "Shymkent",
+    "lat": 42.30988,
+    "lon": 69.60042,
+    "pop": 1200000
+  },
+  {
+    "iso3": "KAZ",
+    "city": "Aktobe",
+    "lat": 50.27969,
+    "lon": 57.20718,
+    "pop": 500757
+  },
+  {
     "iso3": "KEN",
     "city": "Nairobi",
     "lat": -1.28333,
     "lon": 36.81667,
     "pop": 4397073
+  },
+  {
+    "iso3": "KEN",
+    "city": "Kakamega",
+    "lat": 0.28422,
+    "lon": 34.75229,
+    "pop": 1867579
+  },
+  {
+    "iso3": "KEN",
+    "city": "Mombasa",
+    "lat": -4.05466,
+    "lon": 39.66359,
+    "pop": 1208333
   },
   {
     "iso3": "KGZ",
@@ -868,6 +1302,20 @@
     "pop": 1302947
   },
   {
+    "iso3": "LBY",
+    "city": "Benghazi",
+    "lat": 32.11486,
+    "lon": 20.06859,
+    "pop": 757490
+  },
+  {
+    "iso3": "LBY",
+    "city": "Misratah",
+    "lat": 32.37535,
+    "lon": 15.09254,
+    "pop": 355657
+  },
+  {
     "iso3": "LCA",
     "city": "Gros Islet",
     "lat": 14.06667,
@@ -938,6 +1386,20 @@
     "pop": 3665954
   },
   {
+    "iso3": "MAR",
+    "city": "Rabat",
+    "lat": 34.01325,
+    "lon": -6.83255,
+    "pop": 1655753
+  },
+  {
+    "iso3": "MAR",
+    "city": "Fes",
+    "lat": 34.03313,
+    "lon": -5.00028,
+    "pop": 1191905
+  },
+  {
     "iso3": "MCO",
     "city": "Monaco",
     "lat": 43.73718,
@@ -959,6 +1421,20 @@
     "pop": 1349501
   },
   {
+    "iso3": "MDG",
+    "city": "Toamasina",
+    "lat": -18.1492,
+    "lon": 49.40234,
+    "pop": 345107
+  },
+  {
+    "iso3": "MDG",
+    "city": "Antsirabe",
+    "lat": -19.86586,
+    "lon": 47.03333,
+    "pop": 260907
+  },
+  {
     "iso3": "MDV",
     "city": "Male",
     "lat": 4.17521,
@@ -971,6 +1447,20 @@
     "lat": 19.42847,
     "lon": -99.12766,
     "pop": 12294193
+  },
+  {
+    "iso3": "MEX",
+    "city": "Tijuana",
+    "lat": 32.5027,
+    "lon": -117.00371,
+    "pop": 1922523
+  },
+  {
+    "iso3": "MEX",
+    "city": "Iztapalapa",
+    "lat": 19.35529,
+    "lon": -99.06224,
+    "pop": 1835486
   },
   {
     "iso3": "MHL",
@@ -994,6 +1484,20 @@
     "pop": 4227569
   },
   {
+    "iso3": "MLI",
+    "city": "Sikasso",
+    "lat": 11.31755,
+    "lon": -5.66654,
+    "pop": 349324
+  },
+  {
+    "iso3": "MLI",
+    "city": "Koutiala",
+    "lat": 12.38723,
+    "lon": -5.46507,
+    "pop": 218031
+  },
+  {
     "iso3": "MLT",
     "city": "San Pawl il-Baħar",
     "lat": 35.95064,
@@ -1006,6 +1510,20 @@
     "lat": 16.80528,
     "lon": 96.15611,
     "pop": 4477638
+  },
+  {
+    "iso3": "MMR",
+    "city": "Mandalay",
+    "lat": 21.97473,
+    "lon": 96.08359,
+    "pop": 1208099
+  },
+  {
+    "iso3": "MMR",
+    "city": "Nay Pyi Taw",
+    "lat": 19.745,
+    "lon": 96.12972,
+    "pop": 925000
   },
   {
     "iso3": "MNE",
@@ -1022,6 +1540,20 @@
     "pop": 844818
   },
   {
+    "iso3": "MNG",
+    "city": "Erdenet",
+    "lat": 49.03333,
+    "lon": 104.08333,
+    "pop": 97814
+  },
+  {
+    "iso3": "MNG",
+    "city": "Darhan",
+    "lat": 49.48667,
+    "lon": 105.92278,
+    "pop": 83883
+  },
+  {
     "iso3": "MNP",
     "city": "Saipan",
     "lat": 15.21233,
@@ -1036,11 +1568,39 @@
     "pop": 1254837
   },
   {
+    "iso3": "MOZ",
+    "city": "Matola",
+    "lat": -25.96222,
+    "lon": 32.45889,
+    "pop": 1198988
+  },
+  {
+    "iso3": "MOZ",
+    "city": "Nampula",
+    "lat": -15.11646,
+    "lon": 39.2666,
+    "pop": 770379
+  },
+  {
     "iso3": "MRT",
     "city": "Nouakchott",
     "lat": 18.08581,
     "lon": -15.9785,
     "pop": 1184530
+  },
+  {
+    "iso3": "MRT",
+    "city": "Nouadhibou",
+    "lat": 20.94188,
+    "lon": -17.03842,
+    "pop": 146048
+  },
+  {
+    "iso3": "MRT",
+    "city": "Kiffa",
+    "lat": 16.62073,
+    "lon": -11.40208,
+    "pop": 62051
   },
   {
     "iso3": "MSR",
@@ -1078,6 +1638,20 @@
     "pop": 1453975
   },
   {
+    "iso3": "MYS",
+    "city": "Johor Bahru",
+    "lat": 1.4655,
+    "lon": 103.7578,
+    "pop": 858118
+  },
+  {
+    "iso3": "MYS",
+    "city": "Kampung Baru Subang",
+    "lat": 3.15,
+    "lon": 101.53333,
+    "pop": 833571
+  },
+  {
     "iso3": "MYT",
     "city": "Mamoudzou",
     "lat": -12.78234,
@@ -1090,6 +1664,20 @@
     "lat": -22.55941,
     "lon": 17.08323,
     "pop": 386219
+  },
+  {
+    "iso3": "NAM",
+    "city": "Rundu",
+    "lat": -17.91796,
+    "lon": 19.77314,
+    "pop": 75180
+  },
+  {
+    "iso3": "NAM",
+    "city": "Walvis Bay",
+    "lat": -22.9575,
+    "lon": 14.50528,
+    "pop": 73598
   },
   {
     "iso3": "NCL",
@@ -1106,11 +1694,39 @@
     "pop": 1323691
   },
   {
+    "iso3": "NER",
+    "city": "Maradi",
+    "lat": 13.5,
+    "lon": 7.10174,
+    "pop": 361702
+  },
+  {
+    "iso3": "NER",
+    "city": "Zinder",
+    "lat": 13.80716,
+    "lon": 8.9881,
+    "pop": 318874
+  },
+  {
     "iso3": "NGA",
     "city": "Lagos",
     "lat": 6.45407,
     "lon": 3.39467,
     "pop": 15388000
+  },
+  {
+    "iso3": "NGA",
+    "city": "Kano",
+    "lat": 12.00012,
+    "lon": 8.51672,
+    "pop": 4910000
+  },
+  {
+    "iso3": "NGA",
+    "city": "Ibadan",
+    "lat": 7.37756,
+    "lon": 3.90591,
+    "pop": 3649000
   },
   {
     "iso3": "NIC",
@@ -1141,6 +1757,20 @@
     "pop": 1082575
   },
   {
+    "iso3": "NOR",
+    "city": "Bergen",
+    "lat": 60.39299,
+    "lon": 5.32415,
+    "pop": 294029
+  },
+  {
+    "iso3": "NOR",
+    "city": "Trondheim",
+    "lat": 63.43049,
+    "lon": 10.39506,
+    "pop": 216518
+  },
+  {
     "iso3": "NPL",
     "city": "Kathmandu",
     "lat": 27.70169,
@@ -1162,11 +1792,39 @@
     "pop": 797000
   },
   {
+    "iso3": "OMN",
+    "city": "Seeb",
+    "lat": 23.67027,
+    "lon": 58.18911,
+    "pop": 470878
+  },
+  {
+    "iso3": "OMN",
+    "city": "Bawshar",
+    "lat": 23.57769,
+    "lon": 58.39982,
+    "pop": 383257
+  },
+  {
     "iso3": "PAK",
     "city": "Lahore",
     "lat": 31.558,
     "lon": 74.35071,
     "pop": 13004135
+  },
+  {
+    "iso3": "PAK",
+    "city": "Karachi",
+    "lat": 24.8608,
+    "lon": 67.0104,
+    "pop": 11624219
+  },
+  {
+    "iso3": "PAK",
+    "city": "Peshawar",
+    "lat": 34.008,
+    "lon": 71.57849,
+    "pop": 4758762
   },
   {
     "iso3": "PAN",
@@ -1190,11 +1848,39 @@
     "pop": 7737002
   },
   {
+    "iso3": "PER",
+    "city": "Callao",
+    "lat": -12.05162,
+    "lon": -77.13452,
+    "pop": 1300000
+  },
+  {
+    "iso3": "PER",
+    "city": "Arequipa",
+    "lat": -16.39899,
+    "lon": -71.53747,
+    "pop": 1008290
+  },
+  {
     "iso3": "PHL",
     "city": "Quezon City",
     "lat": 14.6488,
     "lon": 121.0509,
     "pop": 3084270
+  },
+  {
+    "iso3": "PHL",
+    "city": "Davao",
+    "lat": 7.07306,
+    "lon": 125.61278,
+    "pop": 1848947
+  },
+  {
+    "iso3": "PHL",
+    "city": "Caloocan",
+    "lat": 14.64953,
+    "lon": 120.96788,
+    "pop": 1712945
   },
   {
     "iso3": "PLW",
@@ -1211,11 +1897,39 @@
     "pop": 283733
   },
   {
+    "iso3": "PNG",
+    "city": "Lae",
+    "lat": -6.72333,
+    "lon": 146.99611,
+    "pop": 76255
+  },
+  {
+    "iso3": "PNG",
+    "city": "Arawa",
+    "lat": -6.22977,
+    "lon": 155.56598,
+    "pop": 40266
+  },
+  {
     "iso3": "POL",
     "city": "Warsaw",
     "lat": 52.22977,
     "lon": 21.01178,
     "pop": 1702139
+  },
+  {
+    "iso3": "POL",
+    "city": "Kraków",
+    "lat": 50.06143,
+    "lon": 19.93658,
+    "pop": 804237
+  },
+  {
+    "iso3": "POL",
+    "city": "Wrocław",
+    "lat": 51.10286,
+    "lon": 17.03006,
+    "pop": 672545
   },
   {
     "iso3": "PRI",
@@ -1244,6 +1958,20 @@
     "lat": -25.28646,
     "lon": -57.647,
     "pop": 1482200
+  },
+  {
+    "iso3": "PRY",
+    "city": "Ciudad del Este",
+    "lat": -25.5036,
+    "lon": -54.65067,
+    "pop": 301815
+  },
+  {
+    "iso3": "PRY",
+    "city": "San Lorenzo",
+    "lat": -25.33968,
+    "lon": -57.50879,
+    "pop": 227876
   },
   {
     "iso3": "PSE",
@@ -1288,6 +2016,20 @@
     "pop": 10381222
   },
   {
+    "iso3": "RUS",
+    "city": "Saint Petersburg",
+    "lat": 59.93863,
+    "lon": 30.31413,
+    "pop": 5351935
+  },
+  {
+    "iso3": "RUS",
+    "city": "Novosibirsk",
+    "lat": 55.02259,
+    "lon": 82.93175,
+    "pop": 1612833
+  },
+  {
     "iso3": "RWA",
     "city": "Kigali",
     "lat": -1.94995,
@@ -1302,11 +2044,39 @@
     "pop": 4697000
   },
   {
+    "iso3": "SAU",
+    "city": "Riyadh",
+    "lat": 24.68773,
+    "lon": 46.72185,
+    "pop": 4205961
+  },
+  {
+    "iso3": "SAU",
+    "city": "Makkah",
+    "lat": 21.42664,
+    "lon": 39.82563,
+    "pop": 1578722
+  },
+  {
     "iso3": "SDN",
     "city": "Khartoum",
     "lat": 15.55177,
     "lon": 32.53241,
     "pop": 1974647
+  },
+  {
+    "iso3": "SDN",
+    "city": "Omdurman",
+    "lat": 15.64453,
+    "lon": 32.47773,
+    "pop": 1849659
+  },
+  {
+    "iso3": "SDN",
+    "city": "Khartoum North",
+    "lat": 15.64925,
+    "lon": 32.53458,
+    "pop": 1012211
   },
   {
     "iso3": "SEN",
@@ -1372,6 +2142,20 @@
     "pop": 2587183
   },
   {
+    "iso3": "SOM",
+    "city": "Borama",
+    "lat": 9.93611,
+    "lon": 43.18278,
+    "pop": 597842
+  },
+  {
+    "iso3": "SOM",
+    "city": "Hargeysa",
+    "lat": 9.56,
+    "lon": 44.065,
+    "pop": 477876
+  },
+  {
     "iso3": "SPM",
     "city": "Saint-Pierre",
     "lat": 46.77914,
@@ -1391,6 +2175,20 @@
     "lat": 4.85165,
     "lon": 31.58247,
     "pop": 450000
+  },
+  {
+    "iso3": "SSD",
+    "city": "Winejok",
+    "lat": 9.01222,
+    "lon": 27.57081,
+    "pop": 300000
+  },
+  {
+    "iso3": "SSD",
+    "city": "Yei",
+    "lat": 4.09444,
+    "lon": 30.67639,
+    "pop": 260720
   },
   {
     "iso3": "STP",
@@ -1426,6 +2224,20 @@
     "lat": 59.32938,
     "lon": 18.06871,
     "pop": 1515017
+  },
+  {
+    "iso3": "SWE",
+    "city": "Göteborg",
+    "lat": 57.70716,
+    "lon": 11.96679,
+    "pop": 608462
+  },
+  {
+    "iso3": "SWE",
+    "city": "Malmö",
+    "lat": 55.60587,
+    "lon": 13.00073,
+    "pop": 362133
   },
   {
     "iso3": "SWZ",
@@ -1470,6 +2282,20 @@
     "pop": 1359526
   },
   {
+    "iso3": "TCD",
+    "city": "Moundou",
+    "lat": 8.57437,
+    "lon": 16.07722,
+    "pop": 196124
+  },
+  {
+    "iso3": "TCD",
+    "city": "Abéché",
+    "lat": 13.82916,
+    "lon": 20.8324,
+    "pop": 139983
+  },
+  {
     "iso3": "TGO",
     "city": "Lomé",
     "lat": 6.12874,
@@ -1484,6 +2310,20 @@
     "pop": 5104476
   },
   {
+    "iso3": "THA",
+    "city": "Samut Prakan",
+    "lat": 13.5976,
+    "lon": 100.5972,
+    "pop": 388920
+  },
+  {
+    "iso3": "THA",
+    "city": "Mueang Nonthaburi",
+    "lat": 13.86075,
+    "lon": 100.51477,
+    "pop": 254375
+  },
+  {
     "iso3": "TJK",
     "city": "Dushanbe",
     "lat": 38.53575,
@@ -1496,6 +2336,20 @@
     "lat": 37.95,
     "lon": 58.38333,
     "pop": 1030063
+  },
+  {
+    "iso3": "TKM",
+    "city": "Türkmenabat",
+    "lat": 39.07328,
+    "lon": 63.57861,
+    "pop": 230861
+  },
+  {
+    "iso3": "TKM",
+    "city": "Daşoguz",
+    "lat": 41.83625,
+    "lon": 59.96661,
+    "pop": 201142
   },
   {
     "iso3": "TLS",
@@ -1533,6 +2387,20 @@
     "pop": 15701602
   },
   {
+    "iso3": "TUR",
+    "city": "Ankara",
+    "lat": 39.91987,
+    "lon": 32.85427,
+    "pop": 3517182
+  },
+  {
+    "iso3": "TUR",
+    "city": "Bursa",
+    "lat": 40.19559,
+    "lon": 29.06013,
+    "pop": 3101833
+  },
+  {
     "iso3": "TUV",
     "city": "Funafuti",
     "lat": -8.52425,
@@ -1554,6 +2422,20 @@
     "pop": 5383728
   },
   {
+    "iso3": "TZA",
+    "city": "Mwanza",
+    "lat": -2.51667,
+    "lon": 32.9,
+    "pop": 1104521
+  },
+  {
+    "iso3": "TZA",
+    "city": "Dodoma",
+    "lat": -6.17221,
+    "lon": 35.73947,
+    "pop": 765179
+  },
+  {
     "iso3": "UGA",
     "city": "Kampala",
     "lat": 0.31628,
@@ -1566,6 +2448,20 @@
     "lat": 50.45466,
     "lon": 30.5238,
     "pop": 2952301
+  },
+  {
+    "iso3": "UKR",
+    "city": "Kharkiv",
+    "lat": 49.98177,
+    "lon": 36.25475,
+    "pop": 1421125
+  },
+  {
+    "iso3": "UKR",
+    "city": "Odesa",
+    "lat": 46.48572,
+    "lon": 30.74383,
+    "pop": 1010537
   },
   {
     "iso3": "URY",
@@ -1582,11 +2478,32 @@
     "pop": 8804190
   },
   {
+    "iso3": "USA",
+    "city": "Los Angeles",
+    "lat": 34.05223,
+    "lon": -118.24368,
+    "pop": 3820914
+  },
+  {
     "iso3": "UZB",
     "city": "Tashkent",
     "lat": 41.26465,
     "lon": 69.21627,
     "pop": 1978028
+  },
+  {
+    "iso3": "UZB",
+    "city": "Andijon",
+    "lat": 40.78338,
+    "lon": 72.35067,
+    "pop": 747800
+  },
+  {
+    "iso3": "UZB",
+    "city": "Namangan",
+    "lat": 40.9983,
+    "lon": 71.67257,
+    "pop": 713220
   },
   {
     "iso3": "VAT",
@@ -1610,6 +2527,20 @@
     "pop": 3000000
   },
   {
+    "iso3": "VEN",
+    "city": "Maracaibo",
+    "lat": 10.64232,
+    "lon": -71.61089,
+    "pop": 1752602
+  },
+  {
+    "iso3": "VEN",
+    "city": "Valencia",
+    "lat": 10.16153,
+    "lon": -68.00044,
+    "pop": 1619470
+  },
+  {
     "iso3": "VGB",
     "city": "Road Town",
     "lat": 18.42693,
@@ -1629,6 +2560,20 @@
     "lat": 10.82302,
     "lon": 106.62965,
     "pop": 14002598
+  },
+  {
+    "iso3": "VNM",
+    "city": "Hanoi",
+    "lat": 21.0245,
+    "lon": 105.84117,
+    "pop": 8053663
+  },
+  {
+    "iso3": "VNM",
+    "city": "Haiphong",
+    "lat": 20.86481,
+    "lon": 106.68345,
+    "pop": 2625200
   },
   {
     "iso3": "VUT",
@@ -1659,11 +2604,39 @@
     "pop": 1937451
   },
   {
+    "iso3": "YEM",
+    "city": "Aden",
+    "lat": 12.77957,
+    "lon": 45.03852,
+    "pop": 1079670
+  },
+  {
+    "iso3": "YEM",
+    "city": "Taiz",
+    "lat": 13.57952,
+    "lon": 44.02091,
+    "pop": 940600
+  },
+  {
     "iso3": "ZAF",
     "city": "Johannesburg",
     "lat": -26.20227,
     "lon": 28.04363,
     "pop": 9418183
+  },
+  {
+    "iso3": "ZAF",
+    "city": "Cape Town",
+    "lat": -33.92584,
+    "lon": 18.42322,
+    "pop": 4772846
+  },
+  {
+    "iso3": "ZAF",
+    "city": "Durban",
+    "lat": -29.8579,
+    "lon": 31.0292,
+    "pop": 3338026
   },
   {
     "iso3": "ZMB",
@@ -1673,10 +2646,38 @@
     "pop": 2212301
   },
   {
+    "iso3": "ZMB",
+    "city": "Kitwe",
+    "lat": -12.80243,
+    "lon": 28.21323,
+    "pop": 665961
+  },
+  {
+    "iso3": "ZMB",
+    "city": "Ndola",
+    "lat": -12.95867,
+    "lon": 28.63659,
+    "pop": 627503
+  },
+  {
     "iso3": "ZWE",
     "city": "Harare",
     "lat": -17.82772,
     "lon": 31.05337,
     "pop": 1542813
+  },
+  {
+    "iso3": "ZWE",
+    "city": "Bulawayo",
+    "lat": -20.15,
+    "lon": 28.58333,
+    "pop": 665952
+  },
+  {
+    "iso3": "ZWE",
+    "city": "Chitungwiza",
+    "lat": -18.01274,
+    "lon": 31.07555,
+    "pop": 371246
   }
 ]
