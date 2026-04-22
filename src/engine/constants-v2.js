@@ -41,6 +41,7 @@ export const V2_DEFAULTS = {
   // Conventional-plant benchmark (for comparison UI only; not fed to engine)
   benchmarkSource: 'Gas CCGT – Local',
   benchmarkLcoe: 0.08, // $/kWh
+  benchmarkEscalationPct: 0, // %/yr applied to benchmark LCOE in projection chart
 
   // Solver
   thresholdSweepPoints: [70, 80, 85, 90, 95, 97, 98, 99],

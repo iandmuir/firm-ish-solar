@@ -1,17 +1,20 @@
 import React from 'react'
-import { LineChart, Line, XAxis, YAxis, Tooltip, Legend, ReferenceLine, ResponsiveContainer, CartesianGrid } from 'recharts'
+import { LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, CartesianGrid } from 'recharts'
 
-export default function ProjectionChartV2({ curve, benchmarkLcoe, benchmarkSource }) {
+export default function ProjectionChartV2({ curve, benchmarkLcoe, benchmarkSource, benchmarkEscalationPct = 0 }) {
   // Engine reports $/MWh; chart displays $/kWh (÷1000).
+  const escalation = (benchmarkEscalationPct ?? 0) / 100
   const data = curve.map(p => ({
     projectionYear: p.projectionYear,
     systemLcoeKwh: p.systemLcoePerMWh != null ? p.systemLcoePerMWh / 1000 : null,
     blendedLcoeKwh: p.blendedLcoePerMWh != null ? p.blendedLcoePerMWh / 1000 : null,
+    benchmarkKwh: benchmarkLcoe != null ? benchmarkLcoe * Math.pow(1 + escalation, p.projectionYear) : null,
   }))
 
-  const benchmarkKwh = benchmarkLcoe != null ? benchmarkLcoe : null // already $/kWh
+  const benchmarkKwh = benchmarkLcoe != null ? benchmarkLcoe : null // year-0 $/kWh
+  const benchmarkMax = benchmarkKwh != null ? Math.max(...data.map(p => p.benchmarkKwh ?? 0)) : 0
   const systemMax = Math.max(...data.map(p => p.blendedLcoeKwh ?? 0))
-  const rawMax = benchmarkKwh != null ? Math.max(systemMax, benchmarkKwh) * 1.1 : systemMax * 1.1
+  const rawMax = benchmarkKwh != null ? Math.max(systemMax, benchmarkMax) * 1.1 : systemMax * 1.1
   // Round up to nearest $0.01
   const yMax = Math.ceil(rawMax * 100) / 100
 
@@ -50,50 +53,18 @@ export default function ProjectionChartV2({ curve, benchmarkLcoe, benchmarkSourc
               borderRadius: 4,
             }}
           />
-          <Line type="monotone" dataKey="systemLcoeKwh" name="RE-System LCOE" stroke="#7dd3fc" strokeWidth={2} dot={false} />
-          <Line type="monotone" dataKey="blendedLcoeKwh" name="Blended LCOE" stroke="#fbbf24" strokeWidth={2} dot={false} />
+          <Line type="monotone" dataKey="systemLcoeKwh" name="RE-System LCOE" stroke="#7dd3fc" strokeWidth={2} dot={false} isAnimationActive={false} />
+          <Line type="monotone" dataKey="blendedLcoeKwh" name="Blended LCOE" stroke="#fbbf24" strokeWidth={2} dot={false} isAnimationActive={false} />
           {benchmarkKwh != null && (
-            <ReferenceLine
-              y={benchmarkKwh}
+            <Line
+              type="monotone"
+              dataKey="benchmarkKwh"
+              name={benchmarkSource ?? 'Benchmark'}
               stroke="#ef4444"
+              strokeWidth={2}
               strokeDasharray="6 4"
-              ifOverflow="extendDomain"
-              isFront={true}
-              label={(props) => {
-                const { viewBox } = props
-                const text = `${benchmarkSource ?? 'Benchmark'}: $${benchmarkKwh.toFixed(3)}/kWh`
-                const padX = 6
-                const padY = 3
-                const approxCharW = 6.2
-                const textW = text.length * approxCharW
-                const boxW = textW + padX * 2
-                const boxH = 18
-                const x = viewBox.x + viewBox.width - boxW - 4
-                const y = viewBox.y + 4
-                return (
-                  <g>
-                    <rect
-                      x={x}
-                      y={y}
-                      width={boxW}
-                      height={boxH}
-                      fill="rgba(15,23,42,0.85)"
-                      stroke="rgba(239,68,68,0.5)"
-                      strokeWidth={1}
-                      rx={3}
-                    />
-                    <text
-                      x={x + padX}
-                      y={y + boxH / 2}
-                      fill="#fca5a5"
-                      fontSize={11}
-                      dominantBaseline="middle"
-                    >
-                      {text}
-                    </text>
-                  </g>
-                )
-              }}
+              dot={false}
+              isAnimationActive={false}
             />
           )}
         </LineChart>

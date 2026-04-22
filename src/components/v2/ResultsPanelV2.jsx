@@ -14,7 +14,7 @@ function skippedYears(cycle, lifetime, buffer = 3) {
   return skipped
 }
 
-export default function ResultsPanelV2({ cityData, cityLoading, cityError, results, calculating, calcError, firmMW, threshold, benchmarkLcoe, benchmarkSource, projectLifetime, inverterReplacementCycle, batteryAugCycle }) {
+export default function ResultsPanelV2({ cityData, cityLoading, cityError, results, calculating, calcError, firmMW, threshold, benchmarkLcoe, benchmarkSource, benchmarkEscalationPct, projectLifetime, inverterReplacementCycle, batteryAugCycle, waccPct, countryName, cityName, exportRef }) {
   if (cityError) {
     return <Placeholder error>Couldn't load city: {String(cityError.message ?? cityError)}</Placeholder>
   }
@@ -38,8 +38,13 @@ export default function ResultsPanelV2({ cityData, cityLoading, cityError, resul
   }
 
   const { current, projectionCurve, thresholdRequested, thresholdAchieved } = results
+  const locationStr = cityName && countryName ? `${cityName}, ${countryName}` : (countryName ?? cityName ?? '—')
+  const firmSegment = thresholdAchieved != null
+    ? `${firmMW} MW @ ${thresholdAchieved.toFixed(1)}% Firmness`
+    : `${firmMW} MW Firm`
+  const scenarioLine = `Scenario: ${locationStr} | ${firmSegment} | ${waccPct?.toFixed(1) ?? '—'}% WACC | ${projectLifetime} Years`
   return (
-    <div className="v2-results" style={{ padding: 16, overflowY: 'auto', overflowX: 'hidden', opacity: calculating ? 0.6 : 1, transition: 'opacity 150ms', display: 'flex', flexDirection: 'column', gap: 12 }}>
+    <div ref={exportRef} className="v2-results" style={{ padding: 16, overflowY: 'auto', overflowX: 'hidden', opacity: calculating ? 0.6 : 1, transition: 'opacity 150ms', display: 'flex', flexDirection: 'column', gap: 12 }}>
       <LcoeHeadline
         systemLcoe={current.costs.systemLcoePerMWh}
         blendedLcoe={current.costs.blendedLcoePerMWh}
@@ -72,16 +77,21 @@ export default function ResultsPanelV2({ cityData, cityLoading, cityError, resul
         />
       </Card>
       <Card title="Forward LCOE Projection (10-year)">
-        <ProjectionChartV2 curve={projectionCurve} benchmarkLcoe={benchmarkLcoe} benchmarkSource={benchmarkSource} />
+        <ProjectionChartV2 curve={projectionCurve} benchmarkLcoe={benchmarkLcoe} benchmarkSource={benchmarkSource} benchmarkEscalationPct={benchmarkEscalationPct} />
       </Card>
       <div style={{
-        textAlign: 'right',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        gap: 12,
         fontSize: 11,
-        color: '#64748b',
+        color: '#94a3b8',
         fontFamily: '"JetBrains Mono", monospace',
         padding: '4px 2px 0',
+        flexWrap: 'wrap',
       }}>
-        PVGIS hourly irradiance · 2005–2023 · EU JRC
+        <span>{scenarioLine}</span>
+        <span style={{ color: '#64748b' }}>PVGIS hourly irradiance · 2005–2023 · EU JRC</span>
       </div>
     </div>
   )

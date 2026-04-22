@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useRef, useState } from 'react'
 import Header from './components/Header.jsx'
 import InputPanelV2 from './components/v2/InputPanelV2.jsx'
 import ResultsPanelV2 from './components/v2/ResultsPanelV2.jsx'
@@ -7,6 +7,7 @@ import { useCityData } from './hooks/useCityData.js'
 import { useCalculateV2 } from './hooks/useCalculateV2.js'
 import cities from './data/cities.json'
 import { buildOptions } from './components/v2/locationPicker.logic.js'
+import { exportScenarioPdf, buildExportFilename } from './utils/exportPdf.js'
 
 const INITIAL = {
   firmCapacityMW: V2_DEFAULTS.firmCapacityMW,
@@ -35,6 +36,7 @@ const INITIAL = {
   annualBatteryCostDeclinePct: V2_DEFAULTS.annualBatteryCostDeclinePct,
   benchmarkSource: V2_DEFAULTS.benchmarkSource,
   benchmarkLcoe: V2_DEFAULTS.benchmarkLcoe,
+  benchmarkEscalationPct: V2_DEFAULTS.benchmarkEscalationPct,
 }
 
 // Picked fresh on each page load so the user sees a different country each visit.
@@ -46,12 +48,45 @@ function randomCitySlug() {
 export default function AppV2() {
   const [inputs, setInputs] = useState(INITIAL)
   const [citySlug, setCitySlug] = useState(randomCitySlug)
+  const [exporting, setExporting] = useState(false)
+  const resultsRef = useRef(null)
   const { data: cityData, loading: cityLoading, error: cityError } = useCityData(citySlug)
   const { results, calculating, error: calcError } = useCalculateV2(inputs, cityData)
 
+  // Resolve the active city's display metadata (country + city + coords + iso3)
+  // from the picker options, so the export can label & filename correctly.
+  const allOptions = useMemo(() => buildOptions(cities), [])
+  const activeCity = useMemo(
+    () => allOptions.find(o => o.slug === citySlug) ?? null,
+    [allOptions, citySlug]
+  )
+
+  const handleExport = async () => {
+    if (exporting) return
+    setExporting(true)
+    try {
+      await exportScenarioPdf({
+        node: resultsRef.current,
+        inputs,
+        city: activeCity,
+        filename: buildExportFilename({
+          iso3: activeCity?.iso3,
+          cityName: activeCity?.city,
+          firmCapacityMW: inputs.firmCapacityMW,
+          firmnessAchievedPct: results?.thresholdAchieved,
+        }),
+      })
+    } catch (err) {
+      console.error('Export failed:', err)
+      alert('Sorry — couldn\'t generate the PDF. See console for details.')
+    } finally {
+      setExporting(false)
+    }
+  }
+
   return (
     <div className="app-root">
-      <Header />
+      <Header onExport={handleExport} exporting={exporting} />
       <div className="app-body">
         <div className="app-input">
           <InputPanelV2
@@ -73,9 +108,14 @@ export default function AppV2() {
             threshold={inputs.firmnessThresholdPct}
             benchmarkLcoe={inputs.benchmarkLcoe}
             benchmarkSource={inputs.benchmarkSource}
+            benchmarkEscalationPct={inputs.benchmarkEscalationPct}
             projectLifetime={inputs.projectLifetime}
             inverterReplacementCycle={inputs.inverterReplacementCycle}
             batteryAugCycle={inputs.batteryAugCycle}
+            waccPct={inputs.waccPct}
+            countryName={activeCity?.country}
+            cityName={activeCity?.city}
+            exportRef={resultsRef}
           />
         </div>
       </div>

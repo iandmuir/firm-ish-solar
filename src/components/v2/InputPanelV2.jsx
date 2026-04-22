@@ -247,12 +247,12 @@ export default function InputPanelV2({ inputs, citySlug, setCitySlug, onChange }
         tooltip="Annual escalation rate applied to O&M and backup costs over the project lifetime."
       />
       <SliderInput
-        label="Annual Solar Cost Decline"
+        label="Annual Solar & Inverter Cost Decline"
         unit="%/yr"
         min={0} max={10} step={0.1}
         value={inputs.annualSolarCostDeclinePct}
         onChange={set('annualSolarCostDeclinePct')}
-        tooltip="Expected annual reduction in solar module and installation costs. Also used to price repowering events within each scenario."
+        tooltip="Expected annual reduction in solar module, installation, and inverter costs. Applied to future-build CAPEX in the projection chart and to inverter replacement events priced at the year of the event."
       />
       <SliderInput
         label="Annual Battery Cost Decline"
@@ -334,6 +334,14 @@ export default function InputPanelV2({ inputs, citySlug, setCitySlug, onChange }
         value={inputs.benchmarkLcoe}
         onChange={set('benchmarkLcoe')}
         tooltip="Levelized cost of energy for the selected conventional generation source. Used for the comparison badge and projection-chart reference line."
+      />
+      <SliderInput
+        label="Traditional Plant LCOE Trend"
+        unit="%/yr"
+        min={-2} max={5} step={0.1}
+        value={inputs.benchmarkEscalationPct}
+        onChange={set('benchmarkEscalationPct')}
+        tooltip="Year-over-year drift in the LCOE of new-build traditional plants, reflecting fuel price trajectory, O&M inflation, and CAPEX trends rolled into one figure. Applied to the benchmark reference line in the projection chart. 0% holds it flat; positive values tilt it upward as fuel/O&M costs outpace any CAPEX savings."
       />
       </Section>
     </div>

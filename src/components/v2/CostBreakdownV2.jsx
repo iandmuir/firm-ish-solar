@@ -35,7 +35,7 @@ export default function CostBreakdownV2({ breakdown }) {
           />
           <Legend />
           {keys.map((k, i) => (
-            <Bar key={k} dataKey={k} name={LABELS[k]} stackId="a" fill={palette[i % palette.length]} />
+            <Bar key={k} dataKey={k} name={LABELS[k]} stackId="a" fill={palette[i % palette.length]} isAnimationActive={false} />
           ))}
         </BarChart>
       </ResponsiveContainer>
