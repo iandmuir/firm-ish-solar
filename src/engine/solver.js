@@ -41,7 +41,7 @@ export function solveSizing(opts) {
     thresholdPct,
     capexPerMWSolar, capexPerMWhBattery,
     firmMW,
-    solarMWMin = 1.5 * firmMW,
+    solarMWMin = 3 * firmMW,
     solarMWMax = 12 * firmMW,
     solarSteps = 15,
     batteryMWhMin = 0,

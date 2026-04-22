@@ -50,7 +50,7 @@ export function calculateV2(inputs, opts = {}) {
     thresholds,
     capexPerMWSolar: solarCostPerWdc * 1e6,
     capexPerMWhBattery: batteryCostPerKwh * 1e3,
-    solarMWMin: 1.5 * firmMW,
+    solarMWMin: 3 * firmMW,
     solarMWMax: 12 * firmMW,
     solarSteps: solverSteps,
     batteryMWhMin: 0,
