@@ -154,6 +154,37 @@ export default function MethodologyModal({ open, onClose }) {
           a user-tunable firmness threshold, and forward LCOE projection.
         </div>
 
+        <div style={{
+          background: 'rgba(234, 179, 8, 0.06)',
+          border: '1px solid rgba(234, 179, 8, 0.25)',
+          borderRadius: 8,
+          padding: '12px 14px',
+          marginTop: 8,
+          fontSize: 12.5,
+          lineHeight: 1.55,
+        }}>
+          <div style={{
+            fontFamily: '"Space Grotesk", sans-serif',
+            fontSize: 11,
+            fontWeight: 600,
+            color: '#fde68a',
+            textTransform: 'uppercase',
+            letterSpacing: '0.06em',
+            marginBottom: 4,
+          }}>
+            Disclaimer
+          </div>
+          The default inputs here lean toward best-case or near-best-case
+          assumptions, particularly on installed costs, reflecting what's
+          achievable in the most mature, low-friction markets. In
+          higher-friction contexts (higher labor costs, significant risk
+          premia, permitting and interconnection delays, supply-chain premiums,
+          etc.), real-world numbers can land meaningfully above these defaults
+          and LCOE will be meaningfully higher. This tool is designed for users
+          to override the defaults with their own assumptions for a specific
+          geographic and commercial context.
+        </div>
+
         <Section title="Purpose">
           <p>
             Firm(ish) solves for the least-cost utility-scale solar + battery build that meets
@@ -387,33 +418,6 @@ export default function MethodologyModal({ open, onClose }) {
             </li>
           </ul>
         </Section>
-
-        <div style={{
-          background: 'rgba(234, 179, 8, 0.06)',
-          border: '1px solid rgba(234, 179, 8, 0.25)',
-          borderRadius: 8,
-          padding: '12px 14px',
-          marginTop: 22,
-          fontSize: 12.5,
-          lineHeight: 1.55,
-        }}>
-          <div style={{
-            fontFamily: '"Space Grotesk", sans-serif',
-            fontSize: 11,
-            fontWeight: 600,
-            color: '#fde68a',
-            textTransform: 'uppercase',
-            letterSpacing: '0.06em',
-            marginBottom: 4,
-          }}>
-            Disclaimer
-          </div>
-          Many of the input defaults are educated guesses given the fast-moving
-          nature of our industry. This tool is intended for users to input their
-          own assumptions for a particular geographic and commercial context —
-          local actuals may differ significantly from the defaults set here.
-          Treat the outputs as directional, not bankable.
-        </div>
 
         <style>{`
           .methodology-section h3 {
