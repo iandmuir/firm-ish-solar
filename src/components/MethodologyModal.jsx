@@ -207,7 +207,7 @@ export default function MethodologyModal({ open, onClose }) {
           <p>For each firmness threshold in {'{70, 80, 85, 90, 95, 97, 98, 99}'} %:</p>
           <ol>
             <li><b>Outer sweep</b> — 15 log-spaced solar sizes from 3× to 12× the firm capacity target (MW).</li>
-            <li><b>Inner bisection</b> — at each solar size, bisect over battery capacity (0 to 72× firm MW·hours) to find the minimum battery that clears the firmness threshold across all 19 years.</li>
+            <li><b>Inner bisection</b> — at each solar size, bisect over battery capacity (8 to 72× firm MW·hours) to find the minimum battery that clears the firmness threshold across all 19 years.</li>
             <li>Pick the (solar, battery) pair with the lowest combined CAPEX. Points where the firmness target is not achievable even at maximum battery are returned as infeasible.</li>
           </ol>
           <p>

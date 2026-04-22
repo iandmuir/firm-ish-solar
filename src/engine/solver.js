@@ -44,7 +44,7 @@ export function solveSizing(opts) {
     solarMWMin = 3 * firmMW,
     solarMWMax = 12 * firmMW,
     solarSteps = 15,
-    batteryMWhMin = 0,
+    batteryMWhMin = 8 * firmMW,
     batteryMWhMax = 72 * firmMW,
     bisectTolerance = 1,
     maxInnerIter = 10,

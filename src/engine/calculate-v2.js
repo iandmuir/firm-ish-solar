@@ -53,7 +53,7 @@ export function calculateV2(inputs, opts = {}) {
     solarMWMin: 3 * firmMW,
     solarMWMax: 12 * firmMW,
     solarSteps: solverSteps,
-    batteryMWhMin: 0,
+    batteryMWhMin: 8 * firmMW,
     batteryMWhMax: 72 * firmMW,
     bisectTolerance,
     maxInnerIter,
