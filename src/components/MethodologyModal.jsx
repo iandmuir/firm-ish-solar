@@ -180,7 +180,7 @@ export default function MethodologyModal({ open, onClose }) {
           higher-friction contexts (higher labor costs, significant risk
           premia, permitting and interconnection delays, supply-chain premiums,
           etc.), real-world numbers can land meaningfully above these defaults
-          and LCOE will be meaningfully higher. This tool is designed for users
+          and LCOE will be higher. This tool is designed for users
           to override the defaults with their own assumptions for a specific
           geographic and commercial context.
         </div>
