@@ -130,6 +130,8 @@ export default function AppV2() {
             inverterReplacementCycle={inputs.inverterReplacementCycle}
             batteryAugCycle={inputs.batteryAugCycle}
             waccPct={inputs.waccPct}
+            backupType={inputs.backupType}
+            backupCostPerMWh={inputs.backupCostPerMWh}
             countryName={activeCity?.country}
             cityName={activeCity?.city}
             exportRef={resultsRef}

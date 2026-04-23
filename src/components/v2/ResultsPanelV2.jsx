@@ -14,7 +14,7 @@ function skippedYears(cycle, lifetime, buffer = 3) {
   return skipped
 }
 
-export default function ResultsPanelV2({ cityData, cityLoading, cityError, results, calculating, calcError, firmMW, threshold, benchmarkLcoe, benchmarkSource, benchmarkEscalationPct, projectLifetime, inverterReplacementCycle, batteryAugCycle, waccPct, countryName, cityName, exportRef }) {
+export default function ResultsPanelV2({ cityData, cityLoading, cityError, results, calculating, calcError, firmMW, threshold, benchmarkLcoe, benchmarkSource, benchmarkEscalationPct, projectLifetime, inverterReplacementCycle, batteryAugCycle, waccPct, backupType, backupCostPerMWh, countryName, cityName, exportRef }) {
   if (cityError) {
     return <Placeholder error>Couldn't load city: {String(cityError.message ?? cityError)}</Placeholder>
   }
@@ -39,12 +39,24 @@ export default function ResultsPanelV2({ cityData, cityLoading, cityError, resul
 
   const { current, projectionCurve, thresholdRequested, thresholdAchieved } = results
   const locationStr = cityName && countryName ? `${cityName}, ${countryName}` : (countryName ?? cityName ?? '—')
-  const firmSegment = thresholdAchieved != null
-    ? `${firmMW} MW @ ${thresholdAchieved.toFixed(1)}% Firmness`
-    : `${firmMW} MW Firm`
-  const scenarioLine = `Scenario: ${locationStr} | ${firmSegment} | ${waccPct?.toFixed(1) ?? '—'}% WACC | ${projectLifetime} Years`
+  // All-in non-storage $/Wdc = (solar + inverter + grid-interconnect capex) ÷ (solar MW · 1e6).
+  // Scales with firm:solar ratio because inverter/grid are priced per Wac of firm capacity.
+  const nonStorageCapex = current.costs.initialCapex.solar + current.costs.initialCapex.inverter + current.costs.initialCapex.grid
+  const allInPerWdc = nonStorageCapex / (current.solarMW * 1e6)
+  const batteryPerKwh = current.costs.initialCapex.battery / (current.batteryMWh * 1000)
   return (
     <div ref={exportRef} className="v2-results" style={{ padding: 16, overflowY: 'auto', overflowX: 'hidden', opacity: calculating ? 0.6 : 1, transition: 'opacity 150ms', display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <ScenarioStrip
+        location={locationStr}
+        firmMW={firmMW}
+        firmnessAchieved={thresholdAchieved}
+        allInPerWdc={allInPerWdc}
+        batteryPerKwh={batteryPerKwh}
+        backupType={backupType}
+        backupCostPerMWh={backupCostPerMWh}
+        waccPct={waccPct}
+        projectLifetime={projectLifetime}
+      />
       <LcoeHeadline
         systemLcoe={current.costs.systemLcoePerMWh}
         blendedLcoe={current.costs.blendedLcoePerMWh}
@@ -81,18 +93,57 @@ export default function ResultsPanelV2({ cityData, cityLoading, cityError, resul
       </Card>
       <div style={{
         display: 'flex',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-end',
         alignItems: 'center',
-        gap: 12,
         fontSize: 11,
-        color: '#94a3b8',
+        color: '#64748b',
         fontFamily: '"JetBrains Mono", monospace',
         padding: '4px 2px 0',
-        flexWrap: 'wrap',
       }}>
-        <span>{scenarioLine}</span>
-        <span style={{ color: '#64748b' }}>PVGIS hourly irradiance · 2005–2023 · EU JRC</span>
+        <span>PVGIS hourly irradiance · 2005–2023 · EU JRC</span>
       </div>
+    </div>
+  )
+}
+
+function ScenarioStrip({ location, firmMW, firmnessAchieved, allInPerWdc, batteryPerKwh, backupType, backupCostPerMWh, waccPct, projectLifetime }) {
+  return (
+    <div className="scenario-strip">
+      <span className="scenario-dot pulse-slow" aria-hidden="true" />
+      <span className="scenario-location">{location}</span>
+      <span className="scenario-divider" />
+      <span className="scenario-stat">
+        <b className="scenario-val">{firmMW} MW</b>
+        {firmnessAchieved != null && (
+          <>
+            <span className="scenario-lbl"> @ </span>
+            <b className="scenario-val">{firmnessAchieved.toFixed(1)}%</b>
+          </>
+        )}
+      </span>
+      <span className="scenario-divider" />
+      <span
+        className="scenario-stat"
+        title="All-in non-storage CAPEX (solar + inverter + grid interconnect) per Wdc of solar · battery per kWh"
+      >
+        <b className="scenario-cost">${allInPerWdc.toFixed(2)}</b>
+        <span className="scenario-lbl">/Wdc · </span>
+        <b className="scenario-cost">${Math.round(batteryPerKwh)}</b>
+        <span className="scenario-lbl">/kWh</span>
+      </span>
+      <span className="scenario-divider" />
+      <span
+        className="scenario-stat"
+        title="Backup resource filling the firmness gap"
+      >
+        <span className="scenario-lbl">{backupType} </span>
+        <b className="scenario-backup">${Math.round(backupCostPerMWh)}</b>
+        <span className="scenario-lbl">/MWh</span>
+      </span>
+      <span className="scenario-divider" />
+      <span className="scenario-stat-muted">
+        {waccPct?.toFixed(1) ?? '—'}% WACC · {projectLifetime} yr
+      </span>
     </div>
   )
 }

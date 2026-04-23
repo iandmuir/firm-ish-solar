@@ -44,16 +44,25 @@
   font-size: 16px;
   line-height: 1;
   color: #94a3b8;
-  background: rgba(11, 22, 40, 0.7);
-  border: 1px solid rgba(255,255,255,0.1);
+  background: none;
+  border: none;
   border-radius: 4px;
   cursor: pointer;
-  backdrop-filter: blur(6px);
   transition: color 0.15s, background 0.15s;
 }
 .panel-toggle:hover {
   color: #e2e8f0;
-  background: rgba(255,255,255,0.07);
+}
+/* Box styling only on desktop where the button sits flush against the panel edge */
+@media (min-width: 769px) {
+  .panel-toggle {
+    background: rgba(11, 22, 40, 0.7);
+    border: 1px solid rgba(255,255,255,0.1);
+    backdrop-filter: blur(6px);
+  }
+  .panel-toggle:hover {
+    background: rgba(255,255,255,0.07);
+  }
 }
 .panel-toggle-icon {
   display: inline-block;
@@ -74,6 +83,19 @@
   .app-results { height: 50%; flex: unset; }
   .app-body.panel-collapsed .app-input { display: none; }
   .app-body.panel-collapsed .app-results { height: 100%; flex: 1; }
+
+  /* Fade out the bottom of the input panel so card edges don't show behind the toggle button. */
+  .app-input::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 48px;
+    background: linear-gradient(to bottom, transparent, var(--navy-950));
+    pointer-events: none;
+    z-index: 4;
+  }
 
   /* Toggle sits fully inside its panel so overflow:hidden doesn't clip it. */
   .panel-toggle--hide {
