@@ -142,6 +142,17 @@ select {
   visibility: visible;
   opacity: 1;
 }
+/* On narrow viewports the 220px tooltip overflows past the right edge when its
+ * trigger is on the right side of a row. Flip to right-anchored so it grows
+ * leftward from the icon, keeping it inside the viewport. */
+@media (max-width: 768px) {
+  .tooltip-text {
+    left: auto;
+    right: 0;
+    transform: translateX(7px);
+    width: min(220px, calc(100vw - 32px));
+  }
+}
 
 /* Recharts overrides */
 .recharts-cartesian-grid-horizontal line,

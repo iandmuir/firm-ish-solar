@@ -216,8 +216,8 @@ function DesktopNoticeModal({ onClose }) {
           margin: '0 0 18px',
         }}>
           Firm(ish) is designed for desktop use. The charts, input panel, and
-          methodology notes are easier to read — and the solver runs without
-          breaking a sweat — on a larger screen. Continue on mobile if you like;
+          methodology notes are easier to read (and the solver runs without
+          breaking a sweat) on a larger screen. Continue on mobile if you like;
           just know you're getting the pocket version.
         </p>
         <button

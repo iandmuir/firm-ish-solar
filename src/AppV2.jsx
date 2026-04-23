@@ -49,6 +49,7 @@ export default function AppV2() {
   const [inputs, setInputs] = useState(INITIAL)
   const [citySlug, setCitySlug] = useState(randomCitySlug)
   const [exporting, setExporting] = useState(false)
+  const [panelCollapsed, setPanelCollapsed] = useState(false)
   const resultsRef = useRef(null)
   const { data: cityData, loading: cityLoading, error: cityError } = useCityData(citySlug)
   const { results, calculating, error: calcError } = useCalculateV2(inputs, cityData)
@@ -87,8 +88,16 @@ export default function AppV2() {
   return (
     <div className="app-root">
       <Header onExport={handleExport} exporting={exporting} />
-      <div className="app-body">
+      <div className={`app-body${panelCollapsed ? ' panel-collapsed' : ''}`}>
         <div className="app-input">
+          <button
+            className="panel-toggle panel-toggle--hide"
+            onClick={() => setPanelCollapsed(true)}
+            aria-label="Hide inputs panel"
+            title="Hide inputs (more room for charts)"
+          >
+            <span className="panel-toggle-icon">‹</span>
+          </button>
           <InputPanelV2
             inputs={inputs}
             citySlug={citySlug}
@@ -97,6 +106,14 @@ export default function AppV2() {
           />
         </div>
         <div className="app-results">
+          <button
+            className="panel-toggle panel-toggle--show"
+            onClick={() => setPanelCollapsed(false)}
+            aria-label="Show inputs panel"
+            title="Show inputs"
+          >
+            <span className="panel-toggle-icon">›</span>
+          </button>
           <ResultsPanelV2
             cityData={cityData}
             cityLoading={cityLoading}

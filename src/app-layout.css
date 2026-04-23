@@ -20,6 +20,7 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  position: relative;
 }
 .app-results {
   flex: 1;
@@ -27,9 +28,69 @@
   flex-direction: column;
   overflow: hidden;
   min-width: 0;
+  position: relative;
 }
+.panel-toggle {
+  position: absolute;
+  top: 2px;
+  z-index: 5;
+  width: 22px;
+  height: 18px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "DM Sans", sans-serif;
+  font-size: 16px;
+  line-height: 1;
+  color: #94a3b8;
+  background: rgba(11, 22, 40, 0.7);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 4px;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition: color 0.15s, background 0.15s;
+}
+.panel-toggle:hover {
+  color: #e2e8f0;
+  background: rgba(255,255,255,0.07);
+}
+.panel-toggle-icon {
+  display: inline-block;
+  line-height: 1;
+}
+.panel-toggle--hide { right: 8px; }
+.panel-toggle--show { left: 16px; display: none; }
+.app-body.panel-collapsed .panel-toggle--show { display: inline-flex; }
+/* When collapsed, the show-button sits at the top-left of results; nudge the
+ * results content down so its first card doesn't tuck under the button. */
+.app-body.panel-collapsed .v2-results { padding-top: 26px !important; }
+.app-body.panel-collapsed .app-input { display: none; }
+.app-body.panel-collapsed .app-results { flex: 1; height: 100%; }
+
 @media (max-width: 768px), (orientation: portrait) and (max-width: 1024px) {
   .app-body { flex-direction: column; }
   .app-input { width: 100%; min-width: unset; height: 50%; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.07); }
   .app-results { height: 50%; flex: unset; }
+  .app-body.panel-collapsed .app-input { display: none; }
+  .app-body.panel-collapsed .app-results { height: 100%; flex: 1; }
+
+  /* Toggle sits fully inside its panel so overflow:hidden doesn't clip it. */
+  .panel-toggle--hide {
+    top: auto;
+    right: auto;
+    bottom: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .panel-toggle--show {
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  /* Rotate the chevrons so they point along the collapse axis (vertical on mobile).
+     Hide = collapse upward → arrow points up; Show = expand downward → arrow points down. */
+  /* ‹ rotated 90° CW → ∧ (up); › rotated 90° CW → ∨ (down) */
+  .panel-toggle--hide .panel-toggle-icon { transform: rotate(90deg); }
+  .panel-toggle--show .panel-toggle-icon { transform: rotate(90deg); }
 }
