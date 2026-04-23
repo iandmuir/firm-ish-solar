@@ -34,7 +34,7 @@ export default function ResultsPanelV2({ cityData, cityLoading, cityError, resul
     return <Placeholder error>Calculation error: {String(calcError.message ?? calcError)}</Placeholder>
   }
   if (!results.current) {
-    return <Placeholder error>No feasible sizing found. Try a larger firm capacity or lower threshold.</Placeholder>
+    return <Placeholder error>No feasible sizing found. Try a lower threshold or a sunnier site.</Placeholder>
   }
 
   const { current, projectionCurve, thresholdRequested, thresholdAchieved } = results

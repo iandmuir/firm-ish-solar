@@ -6,7 +6,7 @@ import cities from '../src/data/cities.json' with { type: 'json' }
 const CACHE_DIR = path.resolve('scripts/.cache')
 const PVGIS_BASE = 'https://re.jrc.ec.europa.eu/api/v5_3/seriescalc'
 
-export function buildPvgisUrl({ lat, lon, startyear = 2005, endyear = 2023 }) {
+export function buildPvgisUrl({ lat, lon, startyear = 2005, endyear = 2023, angle = null, aspect = null }) {
   const params = new URLSearchParams({
     lat: String(lat),
     lon: String(lon),
@@ -15,11 +15,19 @@ export function buildPvgisUrl({ lat, lon, startyear = 2005, endyear = 2023 }) {
     pvcalculation: '1',
     peakpower: '1',
     loss: '0',
-    optimalangles: '1',
     mountingplace: 'free',
     outputformat: 'json',
     browser: '0',
   })
+  if (angle != null) {
+    // Explicit tilt fallback — used when PVGIS's optimal-angles solver errors
+    // out (happens near the equator). Aspect 0 = south in N hemi, north in S hemi;
+    // PVGIS convention uses negative lat to flip, so aspect=0 is fine either way.
+    params.set('angle', String(angle))
+    params.set('aspect', String(aspect ?? 0))
+  } else {
+    params.set('optimalangles', '1')
+  }
   return `${PVGIS_BASE}?${params}`
 }
 
@@ -32,8 +40,18 @@ async function fetchOne(city) {
   if (fs.existsSync(cachePath)) {
     return { city, cached: true }
   }
-  const url = buildPvgisUrl({ lat: city.lat, lon: city.lon })
-  const res = await fetch(url)
+  // First attempt: optimal-angles. This errors (HTTP 500) at some equatorial
+  // sites where PVGIS's tilt solver can't converge — fall back to an explicit
+  // tilt ≈ |lat| (the standard rule-of-thumb optimum).
+  let url = buildPvgisUrl({ lat: city.lat, lon: city.lon })
+  let res = await fetch(url)
+  let usedFallback = false
+  if (!res.ok && res.status === 500) {
+    usedFallback = true
+    const angle = Math.round(Math.abs(city.lat))
+    url = buildPvgisUrl({ lat: city.lat, lon: city.lon, angle })
+    res = await fetch(url)
+  }
   if (!res.ok) {
     const body = await res.text()
     throw new Error(`${city.iso3}/${city.city} → ${res.status}: ${body.slice(0, 200)}`)
@@ -42,7 +60,7 @@ async function fetchOne(city) {
   const tmp = cachePath + '.tmp'
   fs.writeFileSync(tmp, json)
   fs.renameSync(tmp, cachePath)
-  return { city, cached: false }
+  return { city, cached: false, usedFallback }
 }
 
 async function main() {
