@@ -4,11 +4,11 @@ import LocationPicker from './LocationPicker.jsx'
 import ThresholdSlider from './ThresholdSlider.jsx'
 import conventionalDefaults from '../../data/conventional-defaults.json'
 
-// Backup power type → default $/kWh. User can still slide/type freely after picking.
-const BACKUP_DEFAULTS_PER_KWH = {
-  'Gas Peaker': 0.15,
-  'Virtual Peaker': 0.25,
-  'Diesel Genset': 0.30,
+// Backup power type → default $/MWh. User can still slide/type freely after picking.
+const BACKUP_DEFAULTS_PER_MWH = {
+  'Gas Peaker': 200,
+  'Virtual Peaker': 250,
+  'Diesel Genset': 300,
 }
 
 function Section({ title, children }) {
@@ -59,14 +59,9 @@ export default function InputPanelV2({ inputs, citySlug, setCitySlug, onChange }
 
   const handleBackupType = (e) => {
     const type = e.target.value
-    const kwh = BACKUP_DEFAULTS_PER_KWH[type]
-    onChange(prev => ({ ...prev, backupType: type, backupCostPerMWh: kwh * 1000 }))
+    const mwh = BACKUP_DEFAULTS_PER_MWH[type]
+    onChange(prev => ({ ...prev, backupType: type, backupCostPerMWh: mwh }))
   }
-
-  // Engine stores $/MWh; UI shows $/kWh
-  const backupCostPerKwh = inputs.backupCostPerMWh / 1000
-  const setBackupCostPerKwh = (v) =>
-    onChange(prev => ({ ...prev, backupCostPerMWh: v * 1000 }))
 
   return (
     <div className="v2-input-panel" style={{ overflowY: 'auto', height: '100%', padding: '16px 18px 32px' }}>
@@ -287,18 +282,18 @@ export default function InputPanelV2({ inputs, citySlug, setCitySlug, onChange }
             cursor: 'pointer',
           }}
         >
-          {Object.keys(BACKUP_DEFAULTS_PER_KWH).map(t => (
+          {Object.keys(BACKUP_DEFAULTS_PER_MWH).map(t => (
             <option key={t} value={t} style={{ background: '#0f172a', color: '#fff' }}>{t}</option>
           ))}
         </select>
       </div>
       <SliderInput
         label="Backup Power Cost"
-        unit="$/kWh"
-        min={0.05} max={0.50} step={0.01}
-        value={backupCostPerKwh}
-        onChange={setBackupCostPerKwh}
-        tooltip="Cost per kWh of unmet energy during hours where solar + battery fall short of the firm target. Selecting a backup type above sets a sensible default; you can still override manually."
+        unit="$/MWh"
+        min={50} max={500} step={10}
+        value={inputs.backupCostPerMWh}
+        onChange={set('backupCostPerMWh')}
+        tooltip="Cost per MWh of unmet energy during hours where solar + battery fall short of the firm target. Selecting a backup type above sets a sensible default; you can still override manually."
       />
 
       </Section>
@@ -329,8 +324,8 @@ export default function InputPanelV2({ inputs, citySlug, setCitySlug, onChange }
       </div>
       <SliderInput
         label="Conventional Benchmark LCOE"
-        unit="$/kWh"
-        min={0.02} max={0.30} step={0.005}
+        unit="$/MWh"
+        min={20} max={300} step={5}
         value={inputs.benchmarkLcoe}
         onChange={set('benchmarkLcoe')}
         tooltip="Levelized cost of energy for the selected conventional generation source. Used for the comparison badge and projection-chart reference line."

@@ -6,7 +6,7 @@ export const V2_DEFAULTS = {
   // Site & target
   firmCapacityMW: 100,
   firmnessThresholdPct: 95,
-  backupCostPerMWh: 150,
+  backupCostPerMWh: 200,
 
   // Solar
   solarCostPerWdc: 0.5,
@@ -39,8 +39,8 @@ export const V2_DEFAULTS = {
   annualBatteryCostDeclinePct: 4,
 
   // Conventional-plant benchmark (for comparison UI only; not fed to engine)
-  benchmarkSource: 'Gas CCGT – Local',
-  benchmarkLcoe: 0.08, // $/kWh
+  benchmarkSource: 'Gas CCGT – LNG',
+  benchmarkLcoe: 140, // $/MWh
   benchmarkEscalationPct: 0, // %/yr applied to benchmark LCOE in projection chart
 
   // Solver

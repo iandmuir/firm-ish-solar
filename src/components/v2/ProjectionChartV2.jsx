@@ -2,23 +2,23 @@ import React from 'react'
 import { LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, CartesianGrid } from 'recharts'
 
 export default function ProjectionChartV2({ curve, benchmarkLcoe, benchmarkSource, benchmarkEscalationPct = 0 }) {
-  // Engine reports $/MWh; chart displays $/kWh (÷1000).
+  // Engine reports $/MWh; benchmark is already $/MWh. Chart renders $/MWh directly.
   const escalation = (benchmarkEscalationPct ?? 0) / 100
   const data = curve.map(p => ({
     projectionYear: p.projectionYear,
-    systemLcoeKwh: p.systemLcoePerMWh != null ? p.systemLcoePerMWh / 1000 : null,
-    blendedLcoeKwh: p.blendedLcoePerMWh != null ? p.blendedLcoePerMWh / 1000 : null,
-    benchmarkKwh: benchmarkLcoe != null ? benchmarkLcoe * Math.pow(1 + escalation, p.projectionYear) : null,
+    systemLcoeMWh: p.systemLcoePerMWh ?? null,
+    blendedLcoeMWh: p.blendedLcoePerMWh ?? null,
+    benchmarkMWh: benchmarkLcoe != null ? benchmarkLcoe * Math.pow(1 + escalation, p.projectionYear) : null,
   }))
 
-  const benchmarkKwh = benchmarkLcoe != null ? benchmarkLcoe : null // year-0 $/kWh
-  const benchmarkMax = benchmarkKwh != null ? Math.max(...data.map(p => p.benchmarkKwh ?? 0)) : 0
-  const systemMax = Math.max(...data.map(p => p.blendedLcoeKwh ?? 0))
-  const rawMax = benchmarkKwh != null ? Math.max(systemMax, benchmarkMax) * 1.1 : systemMax * 1.1
-  // Round up to nearest $0.01
-  const yMax = Math.ceil(rawMax * 100) / 100
+  const benchmarkMWh = benchmarkLcoe != null ? benchmarkLcoe : null // year-0 $/MWh
+  const benchmarkMax = benchmarkMWh != null ? Math.max(...data.map(p => p.benchmarkMWh ?? 0)) : 0
+  const systemMax = Math.max(...data.map(p => p.blendedLcoeMWh ?? 0))
+  const rawMax = benchmarkMWh != null ? Math.max(systemMax, benchmarkMax) * 1.1 : systemMax * 1.1
+  // Round up to nearest $10/MWh for a tidy axis.
+  const yMax = Math.ceil(rawMax / 10) * 10
 
-  const fmt = (v) => `$${v.toFixed(3)}/kWh`
+  const fmt = (v) => `$${v.toFixed(0)}/MWh`
 
   return (
     <div style={{ width: '100%', height: 260 }}>
@@ -32,8 +32,8 @@ export default function ProjectionChartV2({ curve, benchmarkLcoe, benchmarkSourc
           />
           <YAxis
             domain={[0, yMax]}
-            tickFormatter={(v) => `$${v.toFixed(2)}`}
-            label={{ value: '$/kWh', angle: -90, position: 'insideLeft', fill: 'rgba(255,255,255,0.6)' }}
+            tickFormatter={(v) => `$${v.toFixed(0)}`}
+            label={{ value: '$/MWh', angle: -90, position: 'insideLeft', fill: 'rgba(255,255,255,0.6)' }}
             tick={{ fill: 'rgba(255,255,255,0.6)' }}
           />
           <Tooltip formatter={(v) => fmt(v)} />
@@ -53,12 +53,12 @@ export default function ProjectionChartV2({ curve, benchmarkLcoe, benchmarkSourc
               borderRadius: 4,
             }}
           />
-          <Line type="monotone" dataKey="systemLcoeKwh" name="RE-System LCOE" stroke="#7dd3fc" strokeWidth={2} dot={false} isAnimationActive={false} />
-          <Line type="monotone" dataKey="blendedLcoeKwh" name="Blended LCOE" stroke="#fbbf24" strokeWidth={2} dot={false} isAnimationActive={false} />
-          {benchmarkKwh != null && (
+          <Line type="monotone" dataKey="systemLcoeMWh" name="RE-System LCOE" stroke="#7dd3fc" strokeWidth={2} dot={false} isAnimationActive={false} />
+          <Line type="monotone" dataKey="blendedLcoeMWh" name="Blended LCOE" stroke="#fbbf24" strokeWidth={2} dot={false} isAnimationActive={false} />
+          {benchmarkMWh != null && (
             <Line
               type="monotone"
-              dataKey="benchmarkKwh"
+              dataKey="benchmarkMWh"
               name={benchmarkSource ?? 'Benchmark'}
               stroke="#ef4444"
               strokeWidth={2}

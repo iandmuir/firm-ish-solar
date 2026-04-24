@@ -1,8 +1,8 @@
 {
-  "Gas CCGT – Local": 0.08,
-  "Gas CCGT – LNG": 0.13,
-  "Coal": 0.085,
-  "Nuclear": 0.115,
-  "Diesel": 0.40,
-  "Custom": 0.07
+  "Gas CCGT – Local": 80,
+  "Gas CCGT – LNG": 140,
+  "Coal": 85,
+  "Nuclear": 115,
+  "Diesel": 400,
+  "Custom": 70
 }

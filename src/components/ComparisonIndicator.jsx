@@ -1,10 +1,10 @@
 import React from 'react'
 
-export default function ComparisonIndicator({ lcoeKwh, benchmarkLcoe, benchmarkSource }) {
-  if (lcoeKwh == null) return null
+export default function ComparisonIndicator({ lcoeMWh, benchmarkLcoe, benchmarkSource }) {
+  if (lcoeMWh == null) return null
 
-  const ratio = lcoeKwh / benchmarkLcoe
-  const pctDiff = ((lcoeKwh - benchmarkLcoe) / benchmarkLcoe) * 100
+  const ratio = lcoeMWh / benchmarkLcoe
+  const pctDiff = ((lcoeMWh - benchmarkLcoe) / benchmarkLcoe) * 100
 
   let status, color, bg, label
   if (ratio <= 1) {
@@ -49,7 +49,7 @@ export default function ComparisonIndicator({ lcoeKwh, benchmarkLcoe, benchmarkS
           fontFamily: '"DM Sans", sans-serif',
           fontWeight: 500,
         }}>
-          {label} @ ${benchmarkLcoe.toFixed(3)}/kWh
+          {label} @ ${benchmarkLcoe.toFixed(0)}/MWh
         </span>
       </div>
     </div>

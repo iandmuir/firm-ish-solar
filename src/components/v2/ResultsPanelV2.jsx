@@ -70,14 +70,16 @@ export default function ResultsPanelV2({ cityData, cityLoading, cityError, resul
         firmnessByYear={current.dispatch.firmnessByYear}
         startYear={cityData.startYear}
       />
+      <div className="results-cost-row">
+        <Card title="Initial CAPEX Breakdown">
+          <InitialCapexBreakdown initialCapex={current.costs.initialCapex} />
+        </Card>
+        <Card title="LCOE Breakdown">
+          <CostBreakdownV2 breakdown={current.costs.costBreakdownPerKWh} />
+        </Card>
+      </div>
       <Card title="Daily Solar Resource — Typical Year">
         <SolarResourceChart cityData={cityData} />
-      </Card>
-      <Card title="Initial CAPEX Breakdown">
-        <InitialCapexBreakdown initialCapex={current.costs.initialCapex} />
-      </Card>
-      <Card title="LCOE Breakdown">
-        <CostBreakdownV2 breakdown={current.costs.costBreakdownPerKWh} />
       </Card>
       <Card>
         <AugmentationTimeline
@@ -153,12 +155,20 @@ function ScenarioStrip({ location, firmMW, firmnessAchieved, allInPerWdc, batter
 }
 
 function Card({ title, children }) {
+  // Flex column with height:100% lets cards stretch to match a taller
+  // neighbor (grid's default align-items: stretch). Children that want to
+  // pin something to the bottom of the card can use margin-top: auto or
+  // flex: 1 on an intermediate container.
   return (
     <div style={{
       background: 'rgba(255,255,255,0.03)',
       border: '1px solid rgba(255,255,255,0.07)',
       borderRadius: 8,
       padding: '12px 14px',
+      display: 'flex',
+      flexDirection: 'column',
+      height: '100%',
+      minWidth: 0,
     }}>
       {title && (
         <div style={{
@@ -169,11 +179,14 @@ function Card({ title, children }) {
           textTransform: 'uppercase',
           letterSpacing: '0.06em',
           marginBottom: 10,
+          flex: '0 0 auto',
         }}>
           {title}
         </div>
       )}
-      {children}
+      <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
+        {children}
+      </div>
     </div>
   )
 }

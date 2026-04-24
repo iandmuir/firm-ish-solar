@@ -242,6 +242,24 @@ select {
   transition: all 300ms ease;
 }
 
+/* Two-up cost cards: LCOE breakdown (2/3) + Initial CAPEX thermometer (1/3).
+ * align-items: stretch lets the thermometer column match the LCOE card's
+ * height, which is what makes the vertical fill-bar metaphor read. */
+.results-cost-row {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 12px;
+  align-items: stretch;
+}
+.results-cost-row > * {
+  min-width: 0;
+}
+@media (max-width: 900px) {
+  .results-cost-row {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Scenario strip — compact live-status bar at top of results panel */
 .scenario-strip {
   display: flex;

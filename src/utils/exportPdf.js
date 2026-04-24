@@ -201,11 +201,11 @@ function buildAssumptionRows({ inputs, city }) {
 
   section('Backup Power')
   if (inputs.backupType) row('Backup Type', inputs.backupType)
-  row('Backup Power Cost', `$${(inputs.backupCostPerMWh / 1000).toFixed(2)}/kWh`)
+  row('Backup Power Cost', `$${inputs.backupCostPerMWh.toFixed(0)}/MWh`)
 
   section('Traditional-Plant Benchmark')
   row('Benchmark Source', inputs.benchmarkSource ?? '—')
-  row('Benchmark LCOE', `$${inputs.benchmarkLcoe.toFixed(3)}/kWh`)
+  row('Benchmark LCOE', `$${inputs.benchmarkLcoe.toFixed(0)}/MWh`)
   row('Traditional Plant LCOE Trend', `${inputs.benchmarkEscalationPct.toFixed(1)}%/yr`)
 
   return rows
