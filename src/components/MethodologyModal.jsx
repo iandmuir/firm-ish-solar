@@ -177,7 +177,7 @@ export default function MethodologyModal({ open, onClose }) {
           The default inputs here lean toward best-case or near-best-case
           assumptions, particularly on installed costs, reflecting what's
           achievable in the most mature, low-friction markets. In
-          higher-friction contexts (higher labor costs, significant risk
+          higher-friction contexts (higher labor and land costs, significant risk
           premia, permitting and interconnection delays, supply-chain premiums,
           etc.), real-world numbers can land meaningfully above these defaults
           and LCOE will be higher. This tool is designed for users

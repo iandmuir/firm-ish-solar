@@ -95,11 +95,15 @@ export default function ResultsPanelV2({ cityData, cityLoading, cityError, resul
         display: 'flex',
         justifyContent: 'flex-end',
         alignItems: 'center',
+        gap: 14,
         fontSize: 11,
         color: '#64748b',
         fontFamily: '"JetBrains Mono", monospace',
         padding: '4px 2px 0',
+        flexWrap: 'wrap',
       }}>
+        <span>Site GHI map · NASA POWER annual climatology</span>
+        <span aria-hidden="true">|</span>
         <span>PVGIS hourly irradiance · 2005–2023 · EU JRC</span>
       </div>
     </div>
