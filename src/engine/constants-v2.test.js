@@ -5,7 +5,7 @@ describe('V2_DEFAULTS', () => {
   it('has firm target, threshold, and backup cost', () => {
     expect(V2_DEFAULTS.firmCapacityMW).toBe(100)
     expect(V2_DEFAULTS.firmnessThresholdPct).toBe(95)
-    expect(V2_DEFAULTS.backupCostPerMWh).toBe(150)
+    expect(V2_DEFAULTS.backupCostPerMWh).toBe(200)
   })
 
   it('has solar, storage, grid and inverter costs per Ember', () => {

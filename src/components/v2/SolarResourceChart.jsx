@@ -1,6 +1,13 @@
 import React, { useMemo } from 'react'
-import { ComposedChart, Area, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, CartesianGrid } from 'recharts'
+import { ComposedChart, Area, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, CartesianGrid, ReferenceArea } from 'recharts'
 import { computeDailyResourceCurve } from '../../engine/solar-resource.js'
+
+// Format a non-leap day-of-year as e.g. "Mar 14"
+function fmtDoy(doy) {
+  const d = new Date(2001, 0, 1) // 2001 is non-leap
+  d.setDate(d.getDate() + doy)
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+}
 
 const MONTH_LABELS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 const DAYS_IN_MONTH = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
@@ -9,7 +16,7 @@ const MONTH_STARTS = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334]
 // Mid-month positions for label placement
 const MONTH_MIDS = MONTH_STARTS.map((s, i) => s + Math.floor(DAYS_IN_MONTH[i] / 2))
 
-export default function SolarResourceChart({ cityData }) {
+export default function SolarResourceChart({ cityData, hotspots }) {
   const curve = useMemo(() => {
     if (!cityData) return []
     return computeDailyResourceCurve(cityData)
@@ -27,6 +34,8 @@ export default function SolarResourceChart({ cityData }) {
   const rawMax = Math.max(...curve.map(r => r.p90))
   const yMax = Math.ceil(rawMax / 1100) * 1100
   const fmt = (v) => Math.round(v).toLocaleString('en-US')
+
+  const hotspotWindows = hotspots?.windows ?? []
 
   return (
     <div style={{ width: '100%', height: 155 }}>
@@ -54,10 +63,13 @@ export default function SolarResourceChart({ cityData }) {
           />
           <Tooltip
             labelFormatter={(doy) => {
-              // doy 0-indexed non-leap → calendar label
-              const d = new Date(2001, 0, 1) // 2001 is non-leap
-              d.setDate(d.getDate() + doy)
-              return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+              const base = fmtDoy(doy)
+              // If the hovered day falls inside a hotspot window, append a
+              // window callout so the user understands why the band is red.
+              const hit = hotspotWindows.find(w => doy >= w.startDoy && doy <= w.endDoy)
+              if (!hit) return base
+              const idx = hotspotWindows.indexOf(hit) + 1
+              return `${base}  ·  Hotspot ${idx}: ${fmtDoy(hit.startDoy)}–${fmtDoy(hit.endDoy)} (${hit.paretoPct.toFixed(0)}% of unmet hours)`
             }}
             formatter={(value, name) => {
               if (Array.isArray(value)) {
@@ -67,6 +79,29 @@ export default function SolarResourceChart({ cityData }) {
             }}
             contentStyle={{ background: '#0f172a', border: '1px solid rgba(255,255,255,0.1)' }}
           />
+          {/* Shortfall hotspot bands — semi-transparent red verticals at the
+              calendar weeks where this design's firmness most often falls
+              short across all weather years. Numbered ① ② ③ in calendar order
+              (left-to-right), not severity. Suppressed entirely when there's
+              no shortfall to flag. */}
+          {hotspotWindows.map((w, i) => (
+            <ReferenceArea
+              key={`hs-${w.startDoy}`}
+              x1={w.startDoy}
+              x2={w.endDoy}
+              fill="rgba(239,68,68,0.13)"
+              stroke="none"
+              ifOverflow="visible"
+              label={{
+                value: ['\u2460', '\u2461', '\u2462', '\u2463', '\u2464'][i] ?? `${i + 1}`,
+                position: 'insideTop',
+                fill: '#ef4444',
+                fontSize: 13,
+                fontWeight: 700,
+                offset: 4,
+              }}
+            />
+          ))}
           <Legend
             align="left"
             verticalAlign="top"

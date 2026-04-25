@@ -28,6 +28,11 @@ export function simulateDispatch({
   const excessByYear = new Array(years).fill(0)
   const metHoursByYear = new Array(years).fill(0)
   const unmetByMonth = new Array(12).fill(0)
+  // Per-day-of-year unmet-hour counter, summed across all weather years. Used by
+  // the shortfall-hotspots overlay on the Daily Solar Resource chart. Indexed by
+  // non-leap day-of-year [0..364]; Feb 29 hours skip the bucket (matching the
+  // pattern in solar-resource.js) but still feed unmetByYear/unmetByMonth.
+  const unmetHoursByDoy = new Array(365).fill(0)
   let metHours = 0
 
   let soc = 0
@@ -43,7 +48,8 @@ export function simulateDispatch({
     if (y === 0) soc = usableBatteryWh
 
     const hoursThisYear = hoursPerYear[y]
-    const table = hoursThisYear === 8784 ? MONTH_START_366 : MONTH_START_365
+    const isLeap = hoursThisYear === 8784
+    const table = isLeap ? MONTH_START_366 : MONTH_START_365
     let currentMonth = 0
     for (let h = 0; h < hoursThisYear; h++) {
       while (currentMonth < 11 && h >= table[currentMonth + 1]) currentMonth++
@@ -86,6 +92,16 @@ export function simulateDispatch({
       if (deliveredAc >= firmW - FIRM_MET_EPS_W) {
         metHours++
         metHoursByYear[y]++
+      } else {
+        // Non-leap day-of-year mapping: Feb 29 (calendarDay === 59 in a leap
+        // year) skips the bucket so the 365-element array stays aligned with
+        // calendar days the same way solar-resource.js does it.
+        const calendarDay = (h / 24) | 0
+        if (!isLeap) {
+          unmetHoursByDoy[calendarDay]++
+        } else if (calendarDay !== 59) {
+          unmetHoursByDoy[calendarDay > 59 ? calendarDay - 1 : calendarDay]++
+        }
       }
 
       hourCursor++
@@ -109,6 +125,7 @@ export function simulateDispatch({
     unmetByYear,
     excessByYear,
     unmetByMonth,
+    unmetHoursByDoy,
     metHours,
     metHoursByYear,
     firmnessByYear,

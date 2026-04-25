@@ -5,6 +5,7 @@ import CostBreakdownV2 from './CostBreakdownV2.jsx'
 import ProjectionChartV2 from './ProjectionChartV2.jsx'
 import SolarResourceChart from './SolarResourceChart.jsx'
 import AugmentationTimeline from '../AugmentationTimeline.jsx'
+import { findHotspots } from '../../engine/hotspots.js'
 
 function skippedYears(cycle, lifetime, buffer = 3) {
   const skipped = []
@@ -44,6 +45,15 @@ export default function ResultsPanelV2({ cityData, cityLoading, cityError, resul
   const nonStorageCapex = current.costs.initialCapex.solar + current.costs.initialCapex.inverter + current.costs.initialCapex.grid
   const allInPerWdc = nonStorageCapex / (current.solarMW * 1e6)
   const batteryPerKwh = current.costs.initialCapex.battery / (current.batteryMWh * 1000)
+
+  // Shortfall hotspots: top-3 7-day windows where firmness most often falls
+  // short across all weather years. Anchor for the chart overlay + subtitle.
+  // Hidden entirely when totalUnmetHours is below the noise floor (~12h).
+  const hotspots = findHotspots(current.dispatch.unmetHoursByDoy, { n: 5 })
+  const showHotspots = hotspots.totalUnmetHours >= 12 && hotspots.windows.length > 0
+  const resourceSubtitle = showHotspots
+    ? `${hotspots.windows.length} worst week${hotspots.windows.length === 1 ? '' : 's'} · ${Math.round(hotspots.paretoPct)}% of unmet hours`
+    : null
   return (
     <div ref={exportRef} className="v2-results" style={{ padding: 16, overflowY: 'auto', overflowX: 'hidden', opacity: calculating ? 0.6 : 1, transition: 'opacity 150ms', display: 'flex', flexDirection: 'column', gap: 12 }}>
       <ScenarioStrip
@@ -78,8 +88,8 @@ export default function ResultsPanelV2({ cityData, cityLoading, cityError, resul
           <CostBreakdownV2 breakdown={current.costs.costBreakdownPerKWh} />
         </Card>
       </div>
-      <Card title="Daily Solar Resource — Typical Year">
-        <SolarResourceChart cityData={cityData} />
+      <Card title="Daily Solar Resource — Typical Year" subtitle={resourceSubtitle}>
+        <SolarResourceChart cityData={cityData} hotspots={showHotspots ? hotspots : null} />
       </Card>
       <Card>
         <AugmentationTimeline
@@ -154,7 +164,7 @@ function ScenarioStrip({ location, firmMW, firmnessAchieved, allInPerWdc, batter
   )
 }
 
-function Card({ title, children }) {
+function Card({ title, subtitle, children }) {
   // Flex column with height:100% lets cards stretch to match a taller
   // neighbor (grid's default align-items: stretch). Children that want to
   // pin something to the bottom of the card can use margin-top: auto or
@@ -172,16 +182,32 @@ function Card({ title, children }) {
     }}>
       {title && (
         <div style={{
-          fontFamily: '"Space Grotesk", sans-serif',
-          fontSize: 11,
-          fontWeight: 600,
-          color: '#94a3b8',
-          textTransform: 'uppercase',
-          letterSpacing: '0.06em',
           marginBottom: 10,
           flex: '0 0 auto',
         }}>
-          {title}
+          <div style={{
+            fontFamily: '"Space Grotesk", sans-serif',
+            fontSize: 11,
+            fontWeight: 600,
+            color: '#94a3b8',
+            textTransform: 'uppercase',
+            letterSpacing: '0.06em',
+          }}>
+            {title}
+          </div>
+          {subtitle && (
+            // Quiet pull-quote: low-contrast, no caps, no letter-spacing.
+            // Surfaces output-linked context (e.g. shortfall hotspot summary)
+            // without competing with the eyebrow above or the chart below.
+            <div style={{
+              fontFamily: '"DM Sans", sans-serif',
+              fontSize: 13,
+              color: 'rgba(255,255,255,0.55)',
+              marginTop: 2,
+            }}>
+              {subtitle}
+            </div>
+          )}
         </div>
       )}
       <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
