@@ -134,6 +134,7 @@ export default function AppV2() {
             countryName={activeCity?.country}
             cityName={activeCity?.city}
             exportRef={resultsRef}
+            inputs={inputs}
           />
         </div>
       </div>

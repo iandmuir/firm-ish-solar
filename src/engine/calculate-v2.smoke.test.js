@@ -52,7 +52,7 @@ describe.skipIf(!available)('calculateV2 smoke test with real PVGIS data', () =>
     console.log(`sizing: solar=${r.current.solarMW.toFixed(0)} MW, battery=${r.current.batteryMWh.toFixed(0)} MWh`)
     console.log(`firmness achieved: ${(r.current.dispatch.firmnessAchieved * 100).toFixed(2)}%`)
 
-    expect(r.sweep.length).toBe(8)
+    expect(r.sweep.length).toBe(9)
     expect(r.current).toBeDefined()
     expect(r.current.costs.systemLcoePerMWh).toBeGreaterThan(50)
     expect(r.current.costs.systemLcoePerMWh).toBeLessThan(600)

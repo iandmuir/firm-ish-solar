@@ -6,6 +6,7 @@ export default function LcoeHeadline({
   benchmarkLcoe, benchmarkSource,
   firmnessRequested, firmnessAchieved,
   firmnessByYear, startYear,
+  blendedCrossoverYears,
 }) {
   // Engine reports $/MWh — display directly, no unit conversion.
   const short = firmnessRequested != null && firmnessAchieved != null
@@ -108,6 +109,14 @@ export default function LcoeHeadline({
             benchmarkLcoe={benchmarkLcoe}
             benchmarkSource={benchmarkSource}
           />
+        )}
+        {/* Future-parity callout: shown when blended LCOE is above benchmark
+            today but crosses below within the projection window. The down
+            arrow reinforces "drops below" without relying on color alone. */}
+        {blendedCrossoverYears != null && benchmarkSource && (
+          <div className="hr-crossover">
+            ↓ Beats {benchmarkSource} in {blendedCrossoverYears.toFixed(1)} yr
+          </div>
         )}
       </div>
 
@@ -220,6 +229,12 @@ export default function LcoeHeadline({
         .fg-extreme-value { font-size: 12px; font-weight: 600; font-family: "JetBrains Mono", monospace; }
         .fg-extreme-value.best { color: #4ade80; }
         .fg-extreme-value.worst { color: #f87171; }
+        .hr-crossover {
+          margin-top: 6px;
+          font-size: 12px;
+          color: #4ade80;
+          font-weight: 500;
+        }
         @media (max-width: 900px) {
           .headline-row { grid-template-columns: 1fr; }
         }

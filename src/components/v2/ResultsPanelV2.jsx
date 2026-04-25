@@ -5,9 +5,13 @@ import CostBreakdownV2 from './CostBreakdownV2.jsx'
 import ProjectionChartV2 from './ProjectionChartV2.jsx'
 import SolarResourceChart from './SolarResourceChart.jsx'
 import OpexReplacementChart from './OpexReplacementChart.jsx'
+import TornadoChart from './TornadoChart.jsx'
+import FirmnessVsLcoeChart from './FirmnessVsLcoeChart.jsx'
 import { findHotspots } from '../../engine/hotspots.js'
+import { findBenchmarkCrossovers } from '../../engine/crossover.js'
+import { runSensitivityAnalysis } from '../../engine/sensitivity.js'
 
-export default function ResultsPanelV2({ cityData, cityLoading, cityError, results, calculating, calcError, firmMW, threshold, benchmarkLcoe, benchmarkSource, benchmarkEscalationPct, projectLifetime, opexEscalationPct, waccPct, backupType, backupCostPerMWh, countryName, cityName, exportRef }) {
+export default function ResultsPanelV2({ cityData, cityLoading, cityError, results, calculating, calcError, firmMW, threshold, benchmarkLcoe, benchmarkSource, benchmarkEscalationPct, projectLifetime, opexEscalationPct, waccPct, backupType, backupCostPerMWh, countryName, cityName, exportRef, inputs }) {
   if (cityError) {
     return <Placeholder error>Couldn't load city: {String(cityError.message ?? cityError)}</Placeholder>
   }
@@ -37,6 +41,22 @@ export default function ResultsPanelV2({ cityData, cityLoading, cityError, resul
   const nonStorageCapex = current.costs.initialCapex.solar + current.costs.initialCapex.inverter + current.costs.initialCapex.grid
   const allInPerWdc = nonStorageCapex / (current.solarMW * 1e6)
   const batteryPerKwh = current.costs.initialCapex.battery / (current.batteryMWh * 1000)
+
+  // Benchmark crossovers: year (if any) when each LCOE projection line dips
+  // below the (escalating) benchmark within the 10-year window. Lines that
+  // already start below the benchmark return null — the green status frame
+  // already conveys "winning today".
+  const crossovers = findBenchmarkCrossovers(projectionCurve, benchmarkLcoe, benchmarkEscalationPct)
+
+  // Parameter sensitivity (tornado): perturb each input across its curated
+  // range while holding sizing fixed at the baseline-recommended design.
+  // Total cost is <100ms — runs synchronously alongside the main calc result.
+  // Pass cityData via inputs.cityData to match calculateV2's contract.
+  const sensitivity = runSensitivityAnalysis({
+    baseInputs: { ...inputs, cityData },
+    baseResult: results,
+    cityData,
+  })
 
   // Shortfall hotspots: top-3 7-day windows where firmness most often falls
   // short across all weather years. Anchor for the chart overlay + subtitle.
@@ -71,7 +91,16 @@ export default function ResultsPanelV2({ cityData, cityLoading, cityError, resul
         firmnessAchieved={thresholdAchieved}
         firmnessByYear={current.dispatch.firmnessByYear}
         startYear={cityData.startYear}
+        blendedCrossoverYears={crossovers.blended?.yearsFromNow ?? null}
       />
+      <Card title="Firmness vs LCOE" subtitle="How LCOE scales with firmness target · sizing optimized for each point">
+        <FirmnessVsLcoeChart
+          sweep={results.sweep}
+          benchmarkLcoe={benchmarkLcoe}
+          benchmarkSource={benchmarkSource}
+          currentThresholdPct={threshold}
+        />
+      </Card>
       <div className="results-cost-row">
         <Card title="Initial CAPEX Breakdown">
           <InitialCapexBreakdown initialCapex={current.costs.initialCapex} />
@@ -93,7 +122,10 @@ export default function ResultsPanelV2({ cityData, cityLoading, cityError, resul
         />
       </Card>
       <Card title="Forward LCOE Projection (10-year)">
-        <ProjectionChartV2 curve={projectionCurve} benchmarkLcoe={benchmarkLcoe} benchmarkSource={benchmarkSource} benchmarkEscalationPct={benchmarkEscalationPct} />
+        <ProjectionChartV2 curve={projectionCurve} benchmarkLcoe={benchmarkLcoe} benchmarkSource={benchmarkSource} benchmarkEscalationPct={benchmarkEscalationPct} crossovers={crossovers} />
+      </Card>
+      <Card title="Parameter Sensitivity" subtitle="Blended LCOE swing across plausible parameter ranges · sizing held fixed at baseline">
+        <TornadoChart sensitivity={sensitivity} />
       </Card>
       <div style={{
         display: 'flex',

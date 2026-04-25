@@ -30,7 +30,7 @@ describe('V2_DEFAULTS', () => {
     expect(V2_DEFAULTS.opexEscalationPct).toBe(2.5)
   })
 
-  it('threshold sweep points span 70-99%', () => {
-    expect(V2_DEFAULTS.thresholdSweepPoints).toEqual([70, 80, 85, 90, 95, 97, 98, 99])
+  it('threshold sweep points span 70-99.5% with high-end density', () => {
+    expect(V2_DEFAULTS.thresholdSweepPoints).toEqual([70, 80, 90, 95, 97, 98, 98.5, 99, 99.5])
   })
 })

@@ -43,6 +43,10 @@ export const V2_DEFAULTS = {
   benchmarkLcoe: 140, // $/MWh
   benchmarkEscalationPct: 0, // %/yr applied to benchmark LCOE in projection chart
 
-  // Solver
-  thresholdSweepPoints: [70, 80, 85, 90, 95, 97, 98, 99],
+  // Solver — drives both the firmness-threshold slider and the
+  // Firmness vs LCOE chart. Density is intentionally heavy at the high end
+  // (98–99.5%) where the LCOE curve typically knees and benchmark crossovers
+  // happen. 85% was dropped in favour of 98.5% / 99.5% — the gap between 80
+  // and 90 is rarely interesting; the gap between 99 and 99.5 frequently is.
+  thresholdSweepPoints: [70, 80, 90, 95, 97, 98, 98.5, 99, 99.5],
 }
