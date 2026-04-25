@@ -4,18 +4,10 @@ import InitialCapexBreakdown from './InitialCapexBreakdown.jsx'
 import CostBreakdownV2 from './CostBreakdownV2.jsx'
 import ProjectionChartV2 from './ProjectionChartV2.jsx'
 import SolarResourceChart from './SolarResourceChart.jsx'
-import AugmentationTimeline from '../AugmentationTimeline.jsx'
+import OpexReplacementChart from './OpexReplacementChart.jsx'
 import { findHotspots } from '../../engine/hotspots.js'
 
-function skippedYears(cycle, lifetime, buffer = 3) {
-  const skipped = []
-  for (let y = cycle; y < lifetime; y += cycle) {
-    if ((lifetime - y) < buffer) skipped.push(y)
-  }
-  return skipped
-}
-
-export default function ResultsPanelV2({ cityData, cityLoading, cityError, results, calculating, calcError, firmMW, threshold, benchmarkLcoe, benchmarkSource, benchmarkEscalationPct, projectLifetime, inverterReplacementCycle, batteryAugCycle, waccPct, backupType, backupCostPerMWh, countryName, cityName, exportRef }) {
+export default function ResultsPanelV2({ cityData, cityLoading, cityError, results, calculating, calcError, firmMW, threshold, benchmarkLcoe, benchmarkSource, benchmarkEscalationPct, projectLifetime, opexEscalationPct, waccPct, backupType, backupCostPerMWh, countryName, cityName, exportRef }) {
   if (cityError) {
     return <Placeholder error>Couldn't load city: {String(cityError.message ?? cityError)}</Placeholder>
   }
@@ -91,13 +83,13 @@ export default function ResultsPanelV2({ cityData, cityLoading, cityError, resul
       <Card title="Daily Solar Resource — Typical Year" subtitle={resourceSubtitle}>
         <SolarResourceChart cityData={cityData} hotspots={showHotspots ? hotspots : null} />
       </Card>
-      <Card>
-        <AugmentationTimeline
-          inverterReplacementEvents={current.costs.inverterReplacementEvents}
-          batteryAugEvents={current.costs.batteryAugEvents}
-          inverterSkipped={skippedYears(inverterReplacementCycle, projectLifetime)}
-          batterySkipped={skippedYears(batteryAugCycle, projectLifetime)}
+      <Card title="OPEX & Replacement" subtitle="Annual nominal spend over project life">
+        <OpexReplacementChart
           projectLifetime={projectLifetime}
+          costs={current.costs}
+          unmetByYear={current.dispatch.unmetByYear}
+          backupCostPerMWh={backupCostPerMWh}
+          opexEscalationPct={opexEscalationPct}
         />
       </Card>
       <Card title="Forward LCOE Projection (10-year)">

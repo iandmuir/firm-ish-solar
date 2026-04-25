@@ -9,19 +9,22 @@ const GROUPS = {
   reinvest: { label: 'Reinvest', color: '#60a5fa' }, // blues  — mid-life replacements
 }
 
-// All CAPEX items: shades of green.
-// All OPEX items: shades of amber/yellow.
-// All REINVEST items: shades of blue.
+// CAPEX: shades of green (group identity).
+// OPEX: distinct warm hues — amber (solar O&M), orange (battery O&M), red
+//   (backup power, matching the shortfall-hotspot bands). Hue separation
+//   within the warm family makes the three rows readable at a glance even
+//   when stacked together; group identity still reads as "warm".
+// REINVEST: distinct cool hues — blue (inverter), violet (battery aug).
 const ITEMS = [
   { key: 'solarCapex',          label: 'Solar CAPEX',          group: 'capex',    color: '#10b981' }, // emerald-500
   { key: 'batteryCapex',        label: 'Battery CAPEX',        group: 'capex',    color: '#34d399' }, // emerald-400
   { key: 'gridCapex',           label: 'Grid',                 group: 'capex',    color: '#6ee7b7' }, // emerald-300
   { key: 'invCapex',            label: 'Inverter',             group: 'capex',    color: '#059669' }, // emerald-600
   { key: 'solarOm',             label: 'Solar O&M',            group: 'opex',     color: '#fbbf24' }, // amber-400
-  { key: 'batteryOm',           label: 'Battery O&M',          group: 'opex',     color: '#f59e0b' }, // amber-500
-  { key: 'backup',              label: 'Backup power',         group: 'opex',     color: '#fcd34d' }, // amber-300
+  { key: 'batteryOm',           label: 'Battery O&M',          group: 'opex',     color: '#fb923c' }, // orange-400
+  { key: 'backup',              label: 'Backup power',         group: 'opex',     color: '#f87171' }, // red-400
   { key: 'inverterReplacement', label: 'Inverter replacement', group: 'reinvest', color: '#60a5fa' }, // blue-400
-  { key: 'batteryAug',          label: 'Battery augment.',     group: 'reinvest', color: '#3b82f6' }, // blue-500
+  { key: 'batteryAug',          label: 'Battery augment.',     group: 'reinvest', color: '#a78bfa' }, // violet-400
 ]
 
 function fmtUsd(v) {

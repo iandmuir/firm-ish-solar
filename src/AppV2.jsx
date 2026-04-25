@@ -127,8 +127,7 @@ export default function AppV2() {
             benchmarkSource={inputs.benchmarkSource}
             benchmarkEscalationPct={inputs.benchmarkEscalationPct}
             projectLifetime={inputs.projectLifetime}
-            inverterReplacementCycle={inputs.inverterReplacementCycle}
-            batteryAugCycle={inputs.batteryAugCycle}
+            opexEscalationPct={inputs.opexEscalationPct}
             waccPct={inputs.waccPct}
             backupType={inputs.backupType}
             backupCostPerMWh={inputs.backupCostPerMWh}
