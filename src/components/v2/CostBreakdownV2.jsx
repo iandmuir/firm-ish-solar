@@ -102,7 +102,11 @@ export default function CostBreakdownV2({ breakdown }) {
           columns so it reads as a sum of the stack above. */}
       <div className="lcoe-total">
         <div className="lcoe-total-label">Total LCOE</div>
-        <div className="lcoe-total-val">{fmtUsd(total)}/MWh</div>
+        <div className="lcoe-total-row">
+          <span className="lcoe-total-val">{fmtUsd(total)}/MWh</span>
+          <span className="lcoe-total-sep">·</span>
+          <span className="lcoe-total-secondary">${(total / 1000).toFixed(3)}/kWh</span>
+        </div>
       </div>
 
       <style>{`
@@ -224,11 +228,25 @@ export default function CostBreakdownV2({ breakdown }) {
           text-transform: uppercase;
           letter-spacing: 0.06em;
         }
+        .lcoe-total-row {
+          display: inline-flex;
+          align-items: baseline;
+          gap: 8px;
+        }
         .lcoe-total-val {
           font-family: "Space Grotesk", sans-serif;
           font-size: 16px;
           font-weight: 700;
           color: #7dd3fc;
+        }
+        .lcoe-total-sep {
+          color: rgba(255,255,255,0.25);
+          font-size: 12px;
+        }
+        .lcoe-total-secondary {
+          font-family: "JetBrains Mono", monospace;
+          font-size: 11px;
+          color: rgba(125,211,252,0.65);
         }
 
         @media (max-width: 520px) {
